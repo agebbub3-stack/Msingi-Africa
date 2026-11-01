@@ -25,7 +25,7 @@ Revista digital e grupo independente de pesquisa sobre pessoas, ideias e mercado
    npm run dev
    ```
 
-`db:generate` requer uma variável `DATABASE_URL`, mas não liga ao servidor. `db:migrate` e `db:seed` precisam de acesso real ao PostgreSQL. Em produção, use `DATABASE_CA_CERT` se o fornecedor exigir uma autoridade certificadora própria.
+`db:generate` requer uma variável `DATABASE_URL`, mas não liga ao servidor. `db:migrate` e `db:seed` precisam de acesso real ao PostgreSQL. Se a ligação falhar com `SELF_SIGNED_CERT_IN_CHAIN` (comum em bases Aiven), obtenha o certificado CA do serviço PostgreSQL no painel do fornecedor e configure-o em `DATABASE_CA_CERT`, incluindo as linhas `BEGIN CERTIFICATE` e `END CERTIFICATE`. A aplicação mantém a validação TLS ativa; não desative `rejectUnauthorized` para contornar erros de certificado.
 
 Sem `DATABASE_URL`, as páginas públicas podem apresentar conteúdo de demonstração; autenticação, propostas, pagamentos e operações editoriais precisam de PostgreSQL. Erros de ligação a uma base de dados configurada são apresentados, não ocultados por conteúdo fictício.
 
@@ -58,7 +58,7 @@ npm run db:migrate
 
 ### Vercel
 
-Importe o repositório com o preset Next.js. Configure `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_EDITORIAL_EMAIL` e, conforme os recursos ativados, as variáveis `RESEND_*`, `FLW_*` e `ADMIN_EMAIL`. Aplique migrações ao banco antes de direcionar tráfego para a versão nova. A URL pública deve usar HTTPS e corresponder aos domínios permitidos para autenticação.
+Importe o repositório com o preset Next.js. Configure `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_EDITORIAL_EMAIL` e, conforme os recursos ativados, as variáveis `RESEND_*`, `FLW_*` e `ADMIN_EMAIL`. Em caso de erro PostgreSQL `SELF_SIGNED_CERT_IN_CHAIN`, adicione `DATABASE_CA_CERT` com o certificado PEM CA obtido do painel da Aiven (ou do fornecedor usado), mantendo as linhas PEM completas. No Vercel, aplique as variáveis aos ambientes que usam esse banco e faça um novo deploy para as alterações terem efeito. A validação TLS permanece ativa. Aplique migrações ao banco antes de direcionar tráfego para a versão nova. A URL pública deve usar HTTPS e corresponder aos domínios permitidos para autenticação.
 
 ### Docker
 
