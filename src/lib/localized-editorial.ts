@@ -3,12 +3,31 @@ import type { Locale } from "@/lib/i18n";
 
 type ArticleCopy = Pick<Article, "title" | "standfirst" | "imageAlt"> & {
   markdown?: string;
+  personRole?: string | null;
+  seoTitle?: string | null;
+  seoDescription?: string | null;
+  seoKeywords?: string[];
 };
 type BiographyCopy = Pick<Biography, "role" | "summary" | "spotlight"> & {
   portraitAlt?: string;
 };
 
 const englishArticles: Record<string, ArticleCopy> = {
+  "softedge-ia-angolana-akira": {
+    title: "SoftEdge Corporation and AKIRA: artificial intelligence built in Angola",
+    standfirst: "From software engineering to the AKIRA assistant, the Luanda-based company presents digital products focused on Portuguese. Here is what official sources say — and what still needs to be assessed.",
+    imageAlt: "Team collaborating on a technology solution",
+    seoKeywords: ["SoftEdge Corporation", "AKIRA AI", "artificial intelligence in Angola", "Angolan AI", "Isaac Quarenta", "technology in Angola"],
+  },
+  "isaac-nascimento-quarenta": {
+    title: "Isaac Nascimento Quarenta",
+    standfirst: "A profile of the Angolan technology entrepreneur behind SoftEdge Corporation and the AKIRA AI assistant, based on public company and personal sources.",
+    imageAlt: "SoftEdge Corporation logo, shown as a disclosed partner mark",
+    personRole: "Technology entrepreneur and founder of SoftEdge Corporation",
+    seoTitle: "Who is Isaac Quarenta? Biography, SoftEdge and AKIRA AI",
+    seoDescription: "Meet Isaac Nascimento Quarenta, the Angolan entrepreneur behind SoftEdge Corporation and AKIRA, based on official company and public profiles.",
+    seoKeywords: ["Isaac Quarenta", "Isaac Nascimento Quarenta", "SoftEdge Corporation", "AKIRA AI", "Angolan entrepreneur", "Who is Isaac Quarenta"],
+  },
   "inclusao-digital-africa-uso-internet-movel": {
     title: "Africa's next digital frontier is turning coverage into usage",
     standfirst: "The GSMA estimates that nearly one billion people in Africa still do not use mobile internet. Device prices, digital skills and relevant content remain barriers between network coverage and meaningful access.",
@@ -192,9 +211,55 @@ Technical training matters, but it is not enough. Strong teams need management e
 An empirical Brookings analysis measures digitalisation across five dimensions, including skills, infrastructure, finance and digital platforms. The study also compares gaps between countries instead of treating the continent as a uniform market. Those contextual differences matter to governments and employers alike.
 
 When companies invest in local talent, the benefits can cross sectors: more capable suppliers, new services and a greater accumulation of knowledge. Measuring these effects helps move beyond counting advertised vacancies. The findings cited are from the Brookings analysis and its authors, not original research by Kioo Africa.`,
+  "softedge-ia-angolana-akira": `SoftEdge Corporation presents itself as an Angolan technology company, founded in Luanda in 2023, working in software development, digital products and artificial intelligence. One of the projects it highlights is AKIRA, an assistant created by the company. Product descriptions in this article are attributed to official pages; this is not an independent technical assessment.
+
+## What is SoftEdge Corporation?
+
+According to its company page, SoftEdge develops web and mobile applications, business systems, integrations and artificial intelligence solutions. Its website identifies Isaac Nascimento Quarenta as founder and CEO. The company also publishes its own timeline of activity since 2023; promotional figures on the site are not repeated here because they could not be independently confirmed.
+
+## What is AKIRA AI?
+
+SoftEdge describes AKIRA as an artificial intelligence assistant created in Angola. Its public product description highlights conversations in Portuguese and an understanding of local context. The product page also lists document and image analysis, image generation, web search, and task organisation with conversation history. These are features advertised by the provider, not results tested by the newsroom.
+
+## Why a Portuguese-language experience matters
+
+A Portuguese-language interface may make an initial interaction with AI tools easier for people who work, study or run a business in that language. That alone does not guarantee accuracy or suitability for every African context: languages, connectivity, devices, costs and needs vary across communities and countries. A tool's usefulness depends on the real experience of the people using it.
+
+## What should people assess before using an AI assistant?
+
+Businesses and users should check what data is sent, how it is stored, who can access it and what controls are available to delete it. It is also sensible to confirm important answers against independent sources and avoid sending confidential documents without understanding the service terms. These are general recommendations for AI tools, not claims about AKIRA's specific practices.
+
+## What is known about the Kioo–SoftEdge partnership?
+
+Kioo Africa says SoftEdge collaborated on software development for the group under a complimentary plan. This profile is therefore identified as a partnership feature. The publication does not present the collaboration as a purchase of a premium package or assign it a monetary value.`,
+  "isaac-nascimento-quarenta": `## Who is Isaac Quarenta?
+
+Isaac Nascimento Quarenta, professionally known as Isaac Quarenta, is an Angolan technology entrepreneur and the founder of SoftEdge Corporation. The company's website, based in Luanda, identifies him as founder and CEO. On his public GitHub profile, he describes himself as a full-stack developer and Computer Science student in Angola.
+
+## Background and education
+
+Biographical information supplied by Isaac to the newsroom states that he was born in Luanda, Angola, on 21 March 2007. No independent public source confirming this date was located. His GitHub profile describes his education as Computer Science studies and his work as building modern, scalable and maintainable applications.
+
+## SoftEdge Corporation
+
+SoftEdge describes itself as an Angolan technology company founded in Luanda in 2023, working in software, digital products and artificial intelligence. Its company pages list web and mobile development, business systems, integrations and digital consultancy. The timeline and metrics on the site are company statements; this profile does not treat them as independently verified indicators.
+
+## AKIRA and artificial intelligence in Portuguese
+
+Among the projects associated with Isaac, SoftEdge highlights AKIRA, an artificial intelligence assistant created in Angola. The product page advertises conversations in Portuguese, document and image analysis, image generation, web search, and task organisation with conversation history. These capabilities are described by the company and the AKIRA website, without an independent technical assessment from the newsroom.
+
+## Public presence and professional journey
+
+Isaac maintains a GitHub profile with information about his development work and an X profile associated with SoftEdge. His public journey brings together software development, business leadership and the creation of an AI product. As this is an evolving career, this profile distinguishes autobiographical information, company statements and advertised product features from claims that would require independent confirmation.`,
 };
 
 const englishSourceLabels: Record<string, string> = {
+  "Quem somos — SoftEdge Corporation": "About us — SoftEdge Corporation",
+  "AKIRA: a IA oficial da SoftEdge": "AKIRA: SoftEdge's official AI",
+  "AKIRA — assistente de inteligência artificial": "AKIRA — artificial intelligence assistant",
+  "Quem somos — Isaac Nascimento Quarenta": "About us — Isaac Nascimento Quarenta",
+  "Perfil e descrição profissional de Isaac Quarenta": "Isaac Quarenta's profile and professional description",
+  "Isaac Quarenta no X": "Isaac Quarenta on X",
   "Agência Internacional de Energia": "International Energy Agency",
   "Organização Mundial da Saúde": "World Health Organization",
   "Banco Mundial": "World Bank",
@@ -204,6 +269,11 @@ const englishSourceLabels: Record<string, string> = {
 };
 
 const englishBiographies: Record<string, BiographyCopy> = {
+  "isaac-nascimento-quarenta": {
+    role: "Technology entrepreneur and founder of SoftEdge Corporation",
+    summary: "Angolan developer and founder of SoftEdge Corporation, Isaac Quarenta works on software development and AKIRA, an artificial intelligence assistant created in Angola.",
+    spotlight: "He founded SoftEdge Corporation in Luanda and leads the company behind AKIRA, an artificial intelligence assistant in Portuguese.",
+  },
   "nelly-cheboi": {
     role: "Founder of TechLit Africa",
     summary: "The Kenyan software engineer founded an initiative that brings refurbished computers and digital skills classes to rural schools.",
@@ -276,6 +346,12 @@ export function localizeArticle(article: Article, locale: Locale): Article {
     ...article,
     ...copy,
     ...(englishArticleBodies[article.slug] ? { markdown: englishArticleBodies[article.slug] } : {}),
+    ...(article.partnerName
+      ? {
+          sponsorDisclosure:
+            "Partnership disclosed: according to Kioo Africa, SoftEdge contributed to software development for the group under its complimentary plan. This is not presented as a paid premium package.",
+        }
+      : {}),
     ...(article.sources
       ? {
           sources: article.sources.map((source) => ({

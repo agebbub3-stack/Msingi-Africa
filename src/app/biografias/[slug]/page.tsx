@@ -13,6 +13,7 @@ import { getStorySeo } from "@/lib/story-seo";
 import { articles as editorialArticles, biographies as editorialBiographies } from "@/lib/content";
 import { getLocale } from "@/lib/locale.server";
 import { localizeCategory } from "@/lib/i18n";
+import { hasEnglishArticleCopy, localizeArticle } from "@/lib/localized-editorial";
 import { getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-dynamic";
@@ -20,10 +21,11 @@ type Props = { params: Promise<{ slug: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const profile = await getPublishedArticle(slug, "biography");
+  const [profile, locale] = await Promise.all([getPublishedArticle(slug, "biography"), getLocale()]);
   if (!profile) return { title: "Perfil não encontrado", robots: { index: false, follow: false } };
   const siteUrl = getSiteUrl();
-  const seo = getStorySeo(profile);
+  const localizedProfile = localizeArticle(profile, locale);
+  const seo = getStorySeo(locale === "en" && hasEnglishArticleCopy(slug) ? localizedProfile : profile);
   const canonical = profile.canonicalUrl?.trim() || `/biografias/${profile.slug}`;
   return {
     title: seo.title,
@@ -35,9 +37,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: seo.title,
       description: seo.description,
       url: new URL(canonical, siteUrl).toString(),
-      images: [{ url: profile.image, alt: profile.imageAlt }],
+      images: [{ url: localizedProfile.image, alt: localizedProfile.imageAlt }],
     },
-    twitter: { card: "summary_large_image", title: seo.title, description: seo.description, images: [profile.image] },
+    twitter: { card: "summary_large_image", title: seo.title, description: seo.description, images: [localizedProfile.image] },
   };
 }
 
@@ -50,6 +52,7 @@ export default async function BiographyPage({ params }: Props) {
   ]);
   if (!profile) notFound();
   const en = locale === "en";
+  const localizedProfile = localizeArticle(profile, locale);
 
   const siteUrl = getSiteUrl();
   const pageUrl = new URL(`/biografias/${slug}`, siteUrl).toString();
@@ -58,7 +61,7 @@ export default async function BiographyPage({ params }: Props) {
   const relatedArticleSlugs = new Set(editorialProfile?.relatedArticleSlugs ?? []);
   const relatedArticles = editorialArticles.filter((item) => relatedArticleSlugs.has(item.slug));
   const portrait = editorialProfile?.portrait;
-  const seo = getStorySeo(profile);
+  const seo = getStorySeo(en && hasEnglishArticleCopy(slug) ? localizedProfile : profile);
   const initialComments = profile.id
     ? await getApprovedArticleComments(profile.id)
     : { comments: [], totalCount: 0 };
@@ -68,7 +71,7 @@ export default async function BiographyPage({ params }: Props) {
       <JsonLd data={{
         "@context": "https://schema.org",
         "@type": "ProfilePage",
-        name: profile.title,
+        name: localizedProfile.title,
         description: seo.description,
         keywords: seo.keywords,
         url: pageUrl,
@@ -76,12 +79,14 @@ export default async function BiographyPage({ params }: Props) {
         dateModified: profile.modifiedAt ?? undefined,
         mainEntity: {
           "@type": "Person",
-          name: profile.title,
+          name: localizedProfile.title,
+          ...(editorialProfile?.alternateName ? { alternateName: editorialProfile.alternateName } : {}),
           description: seo.description,
-          jobTitle: profile.personRole ?? undefined,
+          jobTitle: localizedProfile.personRole ?? undefined,
           knowsAbout: profile.personField ?? profile.category,
           url: pageUrl,
-          ...(profile.image ? { image: profile.image } : {}),
+          ...(editorialProfile?.sameAs?.length ? { sameAs: editorialProfile.sameAs } : {}),
+          ...(portrait?.src ? { image: new URL(portrait.src, siteUrl).toString() } : {}),
           homeLocation: profile.personCountry ? { "@type": "Place", name: profile.personCountry } : undefined,
           ...(editorialProfile?.organization ? {
             worksFor: {
@@ -99,7 +104,7 @@ export default async function BiographyPage({ params }: Props) {
         itemListElement: [
           { "@type": "ListItem", position: 1, name: en ? "Home" : "Início", item: siteUrl.origin },
           { "@type": "ListItem", position: 2, name: en ? "Biographies" : "Biografias", item: new URL("/biografias", siteUrl).toString() },
-          { "@type": "ListItem", position: 3, name: profile.title, item: pageUrl },
+          { "@type": "ListItem", position: 3, name: localizedProfile.title, item: pageUrl },
         ],
       }} />
       <div className="story-breadcrumb"><Link href="/biografias"><ArrowLeft size={14} /> {en ? "All biographies" : "Todas as biografias"}</Link><span> / </span><span>{en ? "Profiles" : "Retratos"}</span></div>
@@ -117,25 +122,39 @@ export default async function BiographyPage({ params }: Props) {
             </figcaption>
           </figure>
         ) : (
-          <div className="person-art profile-sage"><span className="profile-orbit orbit-one" /><span className="profile-orbit orbit-two" /><span className="person-monogram">{profile.title.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase()}</span><span className="profile-art-caption">{en ? "PEOPLE · IDEAS · IMPACT" : "PESSOAS · IDEIAS · IMPACTO"}</span><span className="person-portrait-index">KIOO / PROFILE</span></div>
+          <div className={`person-art profile-${editorialProfile?.accent ?? "sage"}`}>
+            <span className="profile-orbit orbit-one" />
+            <span className="profile-orbit orbit-two" />
+            <span className="person-monogram">
+              {editorialProfile?.monogram ?? profile.title.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase()}
+            </span>
+            {profile.partnerName && profile.partnerLogoUrl && (
+              <span className="profile-partner-mark">
+                <Image src={profile.partnerLogoUrl} alt="" width={24} height={24} />
+                <span>{en ? "PARTNERSHIP" : "PARCERIA"} · {profile.partnerName}</span>
+              </span>
+            )}
+            <span className="profile-art-caption">{en ? "PEOPLE · IDEAS · IMPACT" : "PESSOAS · IDEIAS · IMPACTO"}</span>
+            <span className="person-portrait-index">{en ? "KIOO / PROFILE" : "KIOO / PERFIL"}</span>
+          </div>
         )}
         <div className="person-intro">
           <span className="section-kicker">{en ? "ONE JOURNEY, MANY POSSIBILITIES" : "UM PERCURSO, MUITAS POSSIBILIDADES"}</span>
-          <h1>{profile.title}</h1>
-          <p className="person-role">{profile.personRole ?? (en ? "A story in perspective" : "Uma história em perspetiva")}</p>
-          <p className="person-summary">{profile.standfirst}</p>
-          <div className="person-tags"><span><MapPin size={14} /> {profile.personCountry ?? (en ? "Africa" : "África")}</span><span>{localizeCategory(profile.personField ?? profile.category, locale)}</span></div>
+          <h1>{localizedProfile.title}</h1>
+          <p className="person-role">{localizedProfile.personRole ?? (en ? "A story in perspective" : "Uma história em perspetiva")}</p>
+          <p className="person-summary">{localizedProfile.standfirst}</p>
+          <div className="person-tags"><span><MapPin size={14} /> {localizedProfile.personCountry ?? (en ? "Africa" : "África")}</span><span>{localizeCategory(localizedProfile.personField ?? localizedProfile.category, locale)}</span></div>
           <div className="person-quote"><span>“</span><p>{en ? "A story that invites us to look again at what is possible." : "Uma história que nos ajuda a olhar de novo para o que é possível."}</p></div>
         </div>
       </section>
       <section className="person-story">
         <aside><span>{en ? "THE JOURNEY" : "O PERCURSO"}</span><span>{en ? <>A BIOGRAPHY<br />KIOO / JOURNAL</> : <>UMA BIOGRAFIA<br />KIOO / JOURNAL</>}</span><Link href="/publicar">{en ? "Suggest another story" : "Sugira outra história"} <ArrowUpRight size={14} /></Link></aside>
         <div className="person-body">
-          <ArticleMarkdown content={profile.markdown ?? ""} />
-          {profile.sources && profile.sources.length > 0 && (
+          <ArticleMarkdown content={localizedProfile.markdown ?? ""} />
+          {localizedProfile.sources && localizedProfile.sources.length > 0 && (
             <section className="article-sources">
               <h2>{en ? "Sources and references" : "Fontes e referências"}</h2>
-              <ol>{profile.sources.map((source) => (
+              <ol>{localizedProfile.sources.map((source) => (
                 <li key={`${source.url}-${source.title}`}>
                   <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a>
                   {source.publisher && <span> · {source.publisher}</span>}
@@ -143,9 +162,11 @@ export default async function BiographyPage({ params }: Props) {
               ))}</ol>
             </section>
           )}
-          <div className="story-disclosure"><span>✳</span><p>{en
-            ? "This profile has been reviewed by the newsroom. Biographical coverage is not for sale. "
-            : "Este perfil foi revisto pela redação. A publicação biográfica não está à venda. "}
+          <div className={`story-disclosure${profile.isSponsored ? " disclosure-sponsored" : ""}`}><span>✳</span><p>{profile.isSponsored
+            ? localizedProfile.sponsorDisclosure ?? (en ? "This profile contains a disclosed partnership." : "Este perfil identifica uma parceria.")
+            : en
+              ? "This profile has been reviewed by the newsroom. Biographical coverage is not for sale. "
+              : "Este perfil foi revisto pela redação. A publicação biográfica não está à venda. "}
             <Link href="/sobre#principios">{en ? "Read our principles." : "Conheça os nossos princípios."}</Link>
           </p></div>
         </div>
@@ -153,7 +174,7 @@ export default async function BiographyPage({ params }: Props) {
       <div className="section-pad">
         <ArticleInteractions
           articleId={profile.id}
-          title={profile.title}
+          title={localizedProfile.title}
           shareUrl={pageUrl}
           returnPath={`/biografias/${profile.slug}`}
           initialComments={initialComments.comments}

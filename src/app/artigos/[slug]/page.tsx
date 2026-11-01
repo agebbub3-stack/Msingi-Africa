@@ -129,6 +129,9 @@ export default async function ArticlePage({ params }: Props) {
       url: siteUrl.origin,
       logo: { "@type": "ImageObject", url: new URL("/brand-mark.svg", siteUrl).toString() },
     },
+    ...(article.partnerName ? {
+      sponsor: { "@type": "Organization", name: article.partnerName },
+    } : {}),
     ...(article.publishedAt ? { datePublished: article.publishedAt } : {}),
     ...(article.modifiedAt ? { dateModified: article.modifiedAt } : {}),
   };
@@ -147,7 +150,11 @@ export default async function ArticlePage({ params }: Props) {
       }} />
       <div className="story-breadcrumb"><Link href="/artigos"><ArrowLeft size={14} /> {en ? "All articles" : "Todos os artigos"}</Link><span> / </span><span>{localizeCategory(article.category, locale)}</span></div>
       <header className="story-header">
-        <span className="category-label">{article.isSponsored ? (en ? "Sponsored" : "Patrocinado") : localizeCategory(article.category, locale)}</span>
+        <span className="category-label">{article.isSponsored
+          ? article.partnerName
+            ? (en ? "Disclosed partnership" : "Parceria divulgada")
+            : (en ? "Sponsored" : "Patrocinado")
+          : localizeCategory(article.category, locale)}</span>
         <h1>{displayArticle.title}</h1>
         <p className="story-standfirst">{displayArticle.standfirst}</p>
         <div className="story-byline">
@@ -157,7 +164,9 @@ export default async function ArticlePage({ params }: Props) {
             <span>{article.kind === "biography"
               ? (en ? "Biographical profile" : "Perfil biográfico")
               : article.isSponsored
-                ? (en ? "Disclosed partnership" : "Parceria identificada")
+              ? (en
+                ? `Disclosed partnership${article.partnerName ? ` · ${article.partnerName}` : ""}`
+                : `Parceria divulgada${article.partnerName ? ` · ${article.partnerName}` : ""}`)
                 : (en ? "Kioo Africa Editorial" : "Redação Kioo Africa")}</span>
           </div>
           <span className="byline-divider" />
@@ -167,7 +176,18 @@ export default async function ArticlePage({ params }: Props) {
       </header>
       <figure className="story-cover">
         <Image src={article.image} alt={displayArticle.imageAlt} fill priority sizes="100vw" unoptimized={Boolean(article.id)} />
-        <figcaption>{displayArticle.imageAlt} · {en ? "Illustrative image." : "Imagem ilustrativa."}</figcaption>
+        {article.partnerName && article.partnerLogoUrl && (
+          <div className="story-partner-mark">
+            <Image src={article.partnerLogoUrl} alt="" width={38} height={38} />
+            <span>
+              <small>{en ? "DISCLOSED PARTNERSHIP" : "PARCERIA IDENTIFICADA"}</small>
+              <strong>{article.partnerName}</strong>
+            </span>
+          </div>
+        )}
+        <figcaption>{displayArticle.imageAlt} · {article.partnerName
+          ? (en ? "Illustrative image; the partner logo is identified separately." : "Imagem ilustrativa; o logótipo da parceira é identificado separadamente.")
+          : (en ? "Illustrative image." : "Imagem ilustrativa.")}</figcaption>
       </figure>
       <div className="story-body-layout">
         <aside className="story-aside"><span>KIOO / JOURNAL</span><span>{en ? <>READING<br />WITH CONTEXT.</> : <>UMA LEITURA<br />COM CONTEXTO.</>}</span><Link href="/sobre">{en ? "Our principles" : "Os nossos princípios"} <ArrowUpRight size={14} /></Link></aside>

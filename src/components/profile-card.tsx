@@ -29,11 +29,22 @@ export function ProfileCard({ profile, locale = "en" }: { profile: Biography; lo
             <span className="profile-monogram">{localizedProfile.monogram}</span>
           </>
         )}
+        {localizedProfile.partnerName && localizedProfile.partnerLogoUrl && (
+          <span className="profile-partner-mark">
+            <Image src={localizedProfile.partnerLogoUrl} alt="" width={24} height={24} />
+            <span>{locale === "en" ? "PARTNERSHIP" : "PARCERIA"} · {localizedProfile.partnerName}</span>
+          </span>
+        )}
         <span className="profile-art-caption">{locale === "en" ? "PEOPLE · IDEAS · IMPACT" : "PESSOAS · IDEIAS · IMPACTO"}</span>
         <span className="profile-art-country">{localizeCountry(localizedProfile.country, locale)}</span>
         <span className="profile-art-arrow"><ArrowUpRight size={17} /></span>
       </Link>
       <div className="profile-card-copy">
+        {localizedProfile.isSponsored && (
+          <p className="profile-partnership-label">
+            {locale === "en" ? "DISCLOSED PARTNERSHIP" : "PARCERIA IDENTIFICADA"}
+          </p>
+        )}
         {localizedProfile.portrait && (
           <p className="portrait-credit">
             {translate(locale, "photoCredit")} <a href={localizedProfile.portrait.sourceUrl} target="_blank" rel="noopener noreferrer">{localizedProfile.portrait.credit}</a>

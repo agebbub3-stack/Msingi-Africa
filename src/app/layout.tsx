@@ -31,6 +31,13 @@ export async function generateMetadata(): Promise<Metadata> {
   const description = locale === "en"
     ? "Independent journalism, biographies and market analysis to understand what is changing across Africa."
     : "Jornalismo independente, biografias e análise de mercados para compreender o que está a mudar em África.";
+  const verification: NonNullable<Metadata["verification"]> = {};
+  if (process.env.GOOGLE_SITE_VERIFICATION) {
+    verification.google = process.env.GOOGLE_SITE_VERIFICATION;
+  }
+  if (process.env.BING_SITE_VERIFICATION) {
+    verification.other = { "msvalidate.01": process.env.BING_SITE_VERIFICATION };
+  }
   return {
     ...createPageMetadata({
       locale,
@@ -46,9 +53,7 @@ export async function generateMetadata(): Promise<Metadata> {
     keywords: locale === "en"
       ? ["African journalism", "African markets", "business in Africa", "African innovation", "African biographies"]
       : ["jornalismo africano", "mercados africanos", "negócios em África", "inovação africana", "biografias africanas"],
-    ...(process.env.GOOGLE_SITE_VERIFICATION
-      ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
-      : {}),
+    ...(Object.keys(verification).length > 0 ? { verification } : {}),
     icons: { icon: [{ url: "/brand-mark.svg", type: "image/svg+xml" }] },
   };
 }

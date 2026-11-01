@@ -80,7 +80,9 @@ async function seed() {
         bodyMarkdown,
         category: article.category,
         authorId: editorId,
-        isFeatured: index === 0,
+        isFeatured: article.isFeatured ?? index === 0,
+        isSponsored: article.isSponsored ?? false,
+        sponsorDisclosure: article.sponsorDisclosure ?? null,
         coverImageUrl: article.image,
         readingMinutes: readingMinutes(bodyMarkdown),
         seoTitle: article.seoTitle ?? null,
@@ -88,7 +90,7 @@ async function seed() {
         seoKeywords: article.seoKeywords ?? [],
         publishedAt: new Date(),
         noIndex: false,
-        submittedWithPlan: "editorial",
+        submittedWithPlan: article.isSponsored ? "free" : "editorial",
       };
     });
   const seedBiographies = [
@@ -108,10 +110,13 @@ async function seed() {
         personField: profile.field,
         personRole: profile.role,
         authorId: editorId,
-        coverImageUrl: profile.portrait?.src ?? imageForCategory.Tecnologia,
+        isFeatured: profile.isFeatured ?? false,
+        isSponsored: profile.isSponsored ?? false,
+        sponsorDisclosure: profile.sponsorDisclosure ?? null,
+        coverImageUrl: profile.portrait?.src ?? profile.partnerLogoUrl ?? imageForCategory.Tecnologia,
         readingMinutes: readingMinutes(bodyMarkdown),
-        seoTitle: `${profile.name}: ${profile.role}`,
-        seoDescription: profile.summary,
+        seoTitle: profile.seoTitle ?? `${profile.name}: ${profile.role}`.slice(0, 70),
+        seoDescription: profile.seoDescription ?? profile.summary.slice(0, 180),
         seoKeywords: profile.seoKeywords ?? [
           profile.name,
           profile.role,
@@ -122,7 +127,7 @@ async function seed() {
         ],
         publishedAt: new Date(),
         noIndex: false,
-        submittedWithPlan: "editorial",
+        submittedWithPlan: profile.isSponsored ? "free" : "editorial",
       };
     });
 
@@ -203,6 +208,26 @@ async function seed() {
       websiteUrl: "https://sunculture.io/",
       isVerified: true,
     },
+    {
+      slug: "softedge-corporation",
+      type: "company" as const,
+      name: "SoftEdge Corporation",
+      description: "Empresa angolana de tecnologia focada em desenvolvimento de software, produtos digitais e soluções de inteligência artificial.",
+      countryCode: "AO",
+      websiteUrl: "https://softedge-corporation.up.railway.app/",
+      imageUrl: "/images/partners/softedge-logo.jpeg",
+      isVerified: true,
+    },
+    {
+      slug: "akira",
+      type: "product" as const,
+      name: "AKIRA",
+      description: "Assistente de inteligência artificial apresentada pela SoftEdge Corporation como criada em Angola e focada em português.",
+      countryCode: "AO",
+      websiteUrl: "https://akira-ia.onrender.com/",
+      imageUrl: "/images/partners/akira-web.png",
+      isVerified: true,
+    },
   ];
   for (const entity of entityRows) {
     await db.insert(schema.entities).values(entity).onConflictDoUpdate({
@@ -233,6 +258,9 @@ async function seed() {
     { entitySlug: "flutterwave", storySlug: "iyinoluwa-aboyeji", role: "subject" },
     { entitySlug: "sunculture", storySlug: "energia-solar-irrigacao-agricultura-africa", role: "subject" },
     { entitySlug: "sunculture", storySlug: "samir-ibrahim", role: "subject" },
+    { entitySlug: "softedge-corporation", storySlug: "softedge-ia-angolana-akira", role: "partner" },
+    { entitySlug: "softedge-corporation", storySlug: "isaac-nascimento-quarenta", role: "partner" },
+    { entitySlug: "akira", storySlug: "softedge-ia-angolana-akira", role: "subject" },
   ];
   for (const relation of entityStoryRelations) {
     const [entity] = await db.select({ id: schema.entities.id }).from(schema.entities)

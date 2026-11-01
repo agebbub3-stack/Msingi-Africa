@@ -15,10 +15,13 @@ export function ArticleCard({
   locale?: Locale;
 }) {
   const localizedArticle = localizeArticle(article, locale);
+  const storyPath = localizedArticle.kind === "biography"
+    ? `/biografias/${localizedArticle.slug}`
+    : `/artigos/${localizedArticle.slug}`;
   return (
     <article className={`article-card${featured ? " article-card-featured" : ""}`}>
       <Link
-        href={`/artigos/${localizedArticle.slug}`}
+        href={storyPath}
         className="article-image-link"
         aria-label={locale === "en" ? `Read: ${localizedArticle.title}` : `Ler: ${localizedArticle.title}`}
       >
@@ -27,10 +30,19 @@ export function ArticleCard({
             src={localizedArticle.image}
             alt={localizedArticle.imageAlt}
             fill
+            loading={localizedArticle.isFeatured ? "eager" : "lazy"}
             sizes={featured ? "(max-width: 760px) 100vw, 58vw" : "(max-width: 760px) 100vw, 33vw"}
           />
           <span className="article-image-category">{localizeCategory(localizedArticle.category, locale)}</span>
-          {localizedArticle.isSponsored && <span className="article-image-sponsored">{locale === "en" ? "Sponsored" : "Patrocinado"}</span>}
+          {localizedArticle.isSponsored && <span className="article-image-sponsored">{localizedArticle.partnerName
+            ? (locale === "en" ? "Partnership" : "Parceria")
+            : (locale === "en" ? "Sponsored" : "Patrocinado")}</span>}
+          {localizedArticle.partnerName && localizedArticle.partnerLogoUrl && (
+            <span className="article-image-partner">
+              <Image src={localizedArticle.partnerLogoUrl} alt="" width={24} height={24} />
+              <span>{locale === "en" ? "PARTNERSHIP FEATURE" : "DESTAQUE DE PARCERIA"} · {localizedArticle.partnerName}</span>
+            </span>
+          )}
           <span className="image-arrow" aria-hidden="true">
             <ArrowUpRight size={18} />
           </span>
@@ -42,7 +54,7 @@ export function ArticleCard({
           {localizedArticle.kind === "biography" && <span className="article-kind-label">{translate(locale, "biographyLabel")}</span>}
         </div>
         <h3>
-          <Link href={`/artigos/${localizedArticle.slug}`}>{localizedArticle.title}</Link>
+          <Link href={storyPath}>{localizedArticle.title}</Link>
         </h3>
         <p className="article-card-standfirst">{localizedArticle.standfirst}</p>
         <div className="article-card-byline">

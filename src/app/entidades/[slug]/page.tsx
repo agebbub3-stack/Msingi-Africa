@@ -20,6 +20,26 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const locale = await getLocale();
   const localizedEntity = localizeEntity(entity, locale);
   const siteUrl = getSiteUrl();
+  const isEnglish = locale === "en";
+  const seoTitle = entity.slug === "softedge-corporation"
+    ? isEnglish ? "SoftEdge Corporation: AI and software in Angola" : "SoftEdge Corporation: IA e software em Angola"
+    : entity.slug === "akira"
+      ? isEnglish ? "AKIRA AI by SoftEdge: Portuguese-language assistant" : "AKIRA IA da SoftEdge: assistente em português"
+      : localizedEntity.name;
+  const seoDescription = entity.slug === "softedge-corporation"
+    ? isEnglish
+      ? "Meet SoftEdge Corporation, an Angolan software and AI company. Read sourced coverage of founder Isaac Quarenta and its AKIRA assistant."
+      : "Conheça a SoftEdge Corporation, empresa angolana de software e IA, e as fontes sobre Isaac Quarenta e a assistente AKIRA."
+    : entity.slug === "akira"
+      ? isEnglish
+        ? "Learn about AKIRA, the artificial intelligence assistant SoftEdge describes as developed in Angola and focused on Portuguese."
+        : "Conheça a AKIRA IA, assistente da SoftEdge descrita como criada em Angola e focada na língua portuguesa."
+      : localizedEntity.description;
+  const seoKeywords = entity.slug === "softedge-corporation"
+    ? ["SoftEdge Corporation", "SoftEdge Corporation Angola", "SoftEdge Angola", "Isaac Quarenta", "AKIRA IA", "software angolano"]
+    : entity.slug === "akira"
+      ? ["AKIRA IA", "AKIRA AI", "AKIRA SoftEdge", "inteligência artificial em Angola", "assistente de IA em português"]
+      : [localizedEntity.name];
   const fallbackImage = createSocialPreviewUrl({
     locale,
     kind: entity.type === "product" ? "product" : "entities",
@@ -31,22 +51,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   });
   const image = entity.imageUrl ?? fallbackImage;
   return {
-    title: localizedEntity.name,
-    description: localizedEntity.description,
+    title: seoTitle,
+    description: seoDescription,
+    keywords: seoKeywords,
     alternates: { canonical: new URL(`/entidades/${slug}`, siteUrl).toString() },
     openGraph: {
       type: "website",
       siteName: "Kioo Africa",
       locale: locale === "en" ? "en_GB" : "pt_AO",
-      title: localizedEntity.name,
-      description: localizedEntity.description,
+      title: seoTitle,
+      description: seoDescription,
       url: new URL(`/entidades/${slug}`, siteUrl).toString(),
       images: [image],
     },
     twitter: {
       card: "summary_large_image",
-      title: localizedEntity.name,
-      description: localizedEntity.description,
+      title: seoTitle,
+      description: seoDescription,
       images: [image],
     },
   };
@@ -65,7 +86,7 @@ export default async function EntityPage({ params }: Props) {
   const schemaType = entity.type === "person"
     ? "Person"
     : entity.type === "product"
-      ? "Product"
+      ? entity.slug === "akira" ? "SoftwareApplication" : "Product"
       : entity.type === "market"
         ? "Place"
         : "Organization";
@@ -93,9 +114,13 @@ export default async function EntityPage({ params }: Props) {
         name: localizedEntity.name,
         description: localizedEntity.description,
         url: entityUrl,
-        ...(entity.imageUrl ? { image: entity.imageUrl } : {}),
+        ...(entity.imageUrl ? { image: new URL(entity.imageUrl, siteUrl).toString() } : {}),
         ...(entity.countryCode ? { areaServed: { "@type": "Country", identifier: entity.countryCode } } : {}),
-        ...(entity.websiteUrl ? { sameAs: entity.websiteUrl } : {}),
+        ...(entity.websiteUrl ? { sameAs: [entity.websiteUrl] } : {}),
+        ...(schemaType === "SoftwareApplication" ? {
+          applicationCategory: "AI assistant",
+          operatingSystem: "Web browser",
+        } : {}),
         ...(productOffer ? { offers: productOffer } : {}),
         ...(entity.verified ? { additionalProperty: { "@type": "PropertyValue", name: en ? "Verified by the newsroom" : "Verificado pela redação", value: true } } : {}),
       }} />

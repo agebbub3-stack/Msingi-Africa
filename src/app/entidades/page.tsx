@@ -36,7 +36,7 @@ export default async function EntitiesPage() {
     getLocale(),
   ]);
   const en = locale === "en";
-  const featuredPeople = publishedBiographies.filter((person) => person.spotlight);
+  const featuredPeople = publishedBiographies.filter((person) => person.spotlight && !person.isSponsored);
   const siteUrl = getSiteUrl();
   return (
     <section className="archive-content section-pad entities-page">

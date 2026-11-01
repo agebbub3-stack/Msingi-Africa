@@ -28,9 +28,16 @@ function legacyBiographyAsArticle(slug: string): Article | undefined {
     image: profile.portrait?.src ?? imageForCategory.Tecnologia,
     imageAlt: profile.portrait?.alt ?? `${profile.name}, perfil biográfico`,
     kind: "biography",
+    isFeatured: profile.isFeatured,
+    isSponsored: profile.isSponsored,
+    sponsorDisclosure: profile.sponsorDisclosure,
+    partnerName: profile.partnerName,
+    partnerLogoUrl: profile.partnerLogoUrl,
     personCountry: profile.country,
     personField: profile.field,
     personRole: profile.role,
+    seoTitle: profile.seoTitle,
+    seoDescription: profile.seoDescription,
     seoKeywords: profile.seoKeywords,
     markdown: profile.body.map((paragraph) => paragraph).join("\n\n"),
     sources: profile.sources ?? [],
@@ -48,7 +55,7 @@ function legacyArticle(slug: string): Article | undefined {
 
 async function getFromDatabase(slug?: string, kind?: "article" | "biography", search?: string) {
   const { db } = await import("@/lib/db");
-  const { articles, articleSources, creatorProfiles, user } = await import("@/lib/db/schema");
+  const { articles, articleEntities, articleSources, creatorProfiles, entities, user } = await import("@/lib/db/schema");
 
   const searchPattern = search?.replace(/[\\%_]/g, "\\$&");
   const filters = [
@@ -80,6 +87,7 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
       bodyMarkdown: articles.bodyMarkdown,
       authorName: user.name,
       authorSlug: creatorProfiles.slug,
+      isFeatured: articles.isFeatured,
       isSponsored: articles.isSponsored,
       sponsorDisclosure: articles.sponsorDisclosure,
       seoTitle: articles.seoTitle,
@@ -95,8 +103,24 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
     .innerJoin(user, eq(articles.authorId, user.id))
     .leftJoin(creatorProfiles, eq(creatorProfiles.userId, user.id))
     .where(and(...filters))
-    .orderBy(desc(articles.publishedAt))
+    .orderBy(desc(articles.isFeatured), desc(articles.publishedAt))
     .limit(slug ? 1 : search ? 50 : 100);
+
+  const partnerRows = rows.length > 0
+    ? await db
+      .select({
+        articleId: articleEntities.articleId,
+        name: entities.name,
+        imageUrl: entities.imageUrl,
+      })
+      .from(articleEntities)
+      .innerJoin(entities, eq(articleEntities.entityId, entities.id))
+      .where(and(
+        inArray(articleEntities.articleId, rows.map((row) => row.id)),
+        eq(articleEntities.role, "partner"),
+      ))
+    : [];
+  const partnersByArticle = new Map(partnerRows.map((partner) => [partner.articleId, partner]));
 
   const sourceRows = rows.length > 0
     ? await db
@@ -119,6 +143,11 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
 
   return rows.map((row): Article => {
     const biography = row.kind === "biography" ? biographies.find((item) => item.slug === row.slug) : undefined;
+    const partner = partnersByArticle.get(row.id) ?? (
+      biography?.partnerName
+        ? { name: biography.partnerName, imageUrl: biography.partnerLogoUrl ?? null }
+        : undefined
+    );
     return {
       id: row.id,
       slug: row.slug,
@@ -131,15 +160,22 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
       personRole: row.personRole,
       author: row.authorName,
       authorSlug: row.authorSlug,
+      isFeatured: row.isFeatured,
       date: formatPublishedDate(row.publishedAt),
       publishedAt: row.publishedAt?.toISOString() ?? null,
       modifiedAt: row.modifiedAt.toISOString(),
       readingTime: `${row.readingMinutes} min de leitura`,
       image: biography?.portrait?.src ?? row.coverImageUrl ?? imageForCategory[row.category] ?? imageForCategory.Mercados,
-      imageAlt: biography?.portrait?.alt ?? row.title,
+      imageAlt: biography?.portrait?.alt ?? (
+        row.kind === "biography" && partner
+          ? `Logótipo da ${partner.name}, organização parceira deste perfil`
+          : row.title
+      ),
       markdown: row.bodyMarkdown,
       isSponsored: row.isSponsored,
       sponsorDisclosure: row.sponsorDisclosure,
+      partnerName: partner?.name ?? null,
+      partnerLogoUrl: partner?.imageUrl ?? null,
       seoTitle: row.seoTitle,
       seoDescription: row.seoDescription,
       seoKeywords: row.seoKeywords,
@@ -223,11 +259,14 @@ export async function getPublishedBiographies() {
       country: articles.personCountry,
       role: articles.personRole,
       bodyMarkdown: articles.bodyMarkdown,
+      isFeatured: articles.isFeatured,
+      isSponsored: articles.isSponsored,
+      sponsorDisclosure: articles.sponsorDisclosure,
     })
     .from(articles)
     .innerJoin(user, eq(articles.authorId, user.id))
     .where(and(eq(articles.kind, "biography"), eq(articles.status, "published"), eq(articles.noIndex, false)))
-    .orderBy(desc(articles.publishedAt))
+    .orderBy(desc(articles.isFeatured), desc(articles.publishedAt))
     .limit(100);
   return rows.map((row): Biography => {
     const editorialProfile = biographies.find((profile) => profile.slug === row.slug);
@@ -239,6 +278,11 @@ export async function getPublishedBiographies() {
       field: row.field,
       country: row.country ?? "África",
       role: row.role ?? "Perfil publicado pela comunidade",
+      isFeatured: row.isFeatured,
+      isSponsored: row.isSponsored,
+      sponsorDisclosure: row.sponsorDisclosure,
+      partnerName: editorialProfile?.partnerName,
+      partnerLogoUrl: editorialProfile?.partnerLogoUrl,
       monogram: row.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase(),
       accent: editorialProfile?.accent ?? "sage",
       body: row.bodyMarkdown.split(/\n{2,}/).filter(Boolean),
@@ -334,6 +378,26 @@ const sampleEntities: PublicEntity[] = [
     imageUrl: null,
     verified: true,
   },
+  {
+    slug: "softedge-corporation",
+    type: "company",
+    name: "SoftEdge Corporation",
+    description: "Empresa angolana de tecnologia focada em desenvolvimento de software, produtos digitais e soluções de inteligência artificial.",
+    countryCode: "AO",
+    websiteUrl: "https://softedge-corporation.up.railway.app/",
+    imageUrl: "/images/partners/softedge-logo.jpeg",
+    verified: true,
+  },
+  {
+    slug: "akira",
+    type: "product",
+    name: "AKIRA",
+    description: "Assistente de inteligência artificial apresentada pela SoftEdge Corporation como criada em Angola e focada em português.",
+    countryCode: "AO",
+    websiteUrl: "https://akira-ia.onrender.com/",
+    imageUrl: "/images/partners/akira-web.png",
+    verified: true,
+  },
 ];
 
 export async function getPublicEntities(): Promise<PublicEntity[]> {
@@ -371,6 +435,8 @@ export async function getArticlesForEntity(slug: string) {
       andela: ["iyinoluwa-aboyeji"],
       flutterwave: ["iyinoluwa-aboyeji"],
       sunculture: ["energia-solar-irrigacao-agricultura-africa", "samir-ibrahim"],
+      "softedge-corporation": ["softedge-ia-angolana-akira", "isaac-nascimento-quarenta"],
+      akira: ["softedge-ia-angolana-akira"],
     };
     const stories = relatedSlugs[slug];
     if (!stories) return sampleArticles.slice(0, 3);
@@ -393,7 +459,12 @@ export async function getArticlesForEntity(slug: string) {
     .limit(30);
   if (linkedRows.length === 0) return [];
   const articleIds = new Set(linkedRows.map((row) => row.id));
-  return (await getPublishedArticles()).filter((article) => article.id && articleIds.has(article.id));
+  const [publishedArticles, publishedBiographies] = await Promise.all([
+    getPublishedArticles(),
+    getFromDatabase(undefined, "biography"),
+  ]);
+  return [...publishedArticles, ...publishedBiographies]
+    .filter((article) => article.id && articleIds.has(article.id));
 }
 
 export type PublicAuthor = {

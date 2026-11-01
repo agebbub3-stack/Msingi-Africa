@@ -5,7 +5,11 @@ export default function robots(): MetadataRoute.Robots {
   const siteUrl = getSiteUrl().origin;
   return {
     rules: [
-      { userAgent: "*", allow: "/", disallow: ["/api/", "/painel", "/redacao", "/entrar", "/registar", "/pagamento/"] },
+      {
+        userAgent: "*",
+        allow: ["/", "/api/social-preview"],
+        disallow: ["/api/", "/painel", "/redacao", "/entrar", "/registar", "/pagamento/"],
+      },
     ],
     sitemap: new URL("/sitemap.xml", siteUrl).toString(),
   };

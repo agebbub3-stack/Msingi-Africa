@@ -37,7 +37,9 @@ export default async function HomePage() {
         description: localizedArticle.standfirst,
         image: article.image,
         imageAlt: localizedArticle.imageAlt,
-        label: localizeCategory(article.category, locale),
+        label: article.partnerName
+          ? `${locale === "en" ? "PARTNERSHIP FEATURE" : "PARCERIA DIVULGADA"} · ${localizeCategory(article.category, locale)}`
+          : localizeCategory(article.category, locale),
         byline: localizedArticle.author,
         date: localizedArticle.date,
         isOriginalLanguage: locale === "en" && !hasEnglishArticleCopy(article.slug),
@@ -51,7 +53,9 @@ export default async function HomePage() {
         description: localizedProfile.summary,
         image: profile.portrait?.src ?? imageForCategory[profile.field] ?? imageForCategory.Tecnologia,
         imageAlt: localizedProfile.portrait?.alt ?? `${profile.name}, ${locale === "en" ? "biographical profile" : "perfil biográfico"}`,
-        label: locale === "en" ? `${localizeCountry(localizedProfile.country, locale)} · ${localizeCategory(profile.field, locale)}` : `${profile.country} · ${profile.field}`,
+        label: profile.partnerName
+          ? `${locale === "en" ? "PARTNERSHIP PROFILE" : "PERFIL EM PARCERIA"} · ${localizeCountry(localizedProfile.country, locale)}`
+          : locale === "en" ? `${localizeCountry(localizedProfile.country, locale)} · ${localizeCategory(profile.field, locale)}` : `${profile.country} · ${profile.field}`,
         byline: locale === "en" ? "Kioo Africa Editorial" : "Redação Kioo Africa",
         date: "",
         isOriginalLanguage: locale === "en" && !hasEnglishBiographyCopy(profile.slug),
@@ -91,7 +95,11 @@ export default async function HomePage() {
       >
         <div className="section-heading">
           <div>
-            <span className="section-kicker">{translate(locale, "editorsPick")} <span>✳</span></span>
+            <span className="section-kicker">
+              {lead?.partnerName
+                ? (locale === "en" ? "PARTNERSHIP HIGHLIGHT" : "DESTAQUE DE PARCERIA")
+                : translate(locale, "editorsPick")} <span>✳</span>
+            </span>
             <h2>{locale === "en" ? <>The continent<br className="mobile-break" /> in <em>context.</em></> : <>O continente<br className="mobile-break" /> em <em>contexto.</em></>}</h2>
           </div>
           <Link className="text-link heading-link" href="/artigos">{translate(locale, "allStories")} <ArrowRight size={15} /></Link>

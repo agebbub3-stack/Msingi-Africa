@@ -12,8 +12,11 @@ export type Article = {
   markdown?: string;
   id?: string;
   kind?: "article" | "biography" | "sponsored";
+  isFeatured?: boolean;
   isSponsored?: boolean;
   sponsorDisclosure?: string | null;
+  partnerName?: string | null;
+  partnerLogoUrl?: string | null;
   authorSlug?: string | null;
   publishedAt?: string | null;
   modifiedAt?: string | null;
@@ -360,7 +363,89 @@ export const researchArticles: Article[] = [
   },
 ];
 
+const softedgePartnershipDisclosure =
+  "Parceria identificada: segundo o Kioo, a SoftEdge colaborou no desenvolvimento de software no âmbito do plano gratuito; não se declara compra de pacote premium.";
+
+const softedgeFeature: Article = {
+  slug: "softedge-ia-angolana-akira",
+  title: "SoftEdge Corporation e AKIRA: inteligência artificial criada em Angola",
+  standfirst:
+    "Da engenharia de software à assistente AKIRA, a empresa de Luanda apresenta produtos digitais com foco no português. Conheça o que as fontes oficiais dizem — e o que ainda deve ser avaliado.",
+  category: "Tecnologia",
+  author: "Redação Kioo",
+  date: "1 nov. 2026",
+  readingTime: "7 min de leitura",
+  image: "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1400&q=85",
+  imageAlt: "Equipa a colaborar numa solução tecnológica",
+  kind: "article",
+  isFeatured: true,
+  isSponsored: true,
+  sponsorDisclosure: softedgePartnershipDisclosure,
+  partnerName: "SoftEdge Corporation",
+  partnerLogoUrl: "/images/partners/softedge-logo.jpeg",
+  seoTitle: "SoftEdge Corporation e AKIRA IA: tecnologia angolana",
+  seoDescription:
+    "Conheça Isaac Quarenta, a SoftEdge Corporation e a AKIRA IA, assistente angolana descrita nas fontes oficiais como focada no português.",
+  seoKeywords: [
+    "SoftEdge Corporation",
+    "SoftEdge Corporation Angola",
+    "AKIRA IA",
+    "inteligência artificial em Angola",
+    "IA angolana",
+    "Isaac Quarenta",
+    "Isaac Nascimento Quarenta SoftEdge",
+    "tecnologia angolana",
+    "software em Angola",
+    "assistente de inteligência artificial em português",
+    "inovação tecnológica africana",
+    "o que é a AKIRA IA",
+  ],
+  sources: [
+    {
+      title: "Quem somos — SoftEdge Corporation",
+      publisher: "SoftEdge Corporation",
+      url: "https://softedge-corporation.up.railway.app/sobre",
+    },
+    {
+      title: "AKIRA: a IA oficial da SoftEdge",
+      publisher: "SoftEdge Corporation",
+      url: "https://softedge-corporation.up.railway.app/projetos",
+    },
+    {
+      title: "AKIRA — assistente de inteligência artificial",
+      publisher: "AKIRA",
+      url: "https://akira-ia.onrender.com/",
+    },
+  ],
+  body: [
+    {
+      text: "A SoftEdge Corporation apresenta-se como uma empresa angolana de tecnologia, fundada em Luanda em 2023, com atividade em desenvolvimento de software, produtos digitais e inteligência artificial. Entre os projetos que destaca está a AKIRA, uma assistente criada pela empresa. As descrições de serviços e produto neste artigo são atribuídas às páginas oficiais; não constituem uma avaliação técnica independente.",
+    },
+    {
+      heading: "O que é a SoftEdge Corporation?",
+      text: "Segundo a sua página institucional, a SoftEdge desenvolve aplicações web e móveis, sistemas empresariais, integrações e soluções de inteligência artificial. O site identifica Isaac Nascimento Quarenta como fundador e CEO. A empresa também apresenta uma cronologia própria de atividade desde 2023; indicadores promocionais publicados no site não são reproduzidos aqui porque não foi possível confirmá-los de forma independente.",
+    },
+    {
+      heading: "O que é a AKIRA IA?",
+      text: "A AKIRA é apresentada pela própria empresa como uma assistente de inteligência artificial criada em Angola. Na descrição pública do produto, a SoftEdge destaca conversação em português e compreensão do contexto local. A página do produto lista ainda análise de documentos e imagens, geração de imagens, pesquisa na web e organização de tarefas com histórico de conversas. Estas são funcionalidades anunciadas pelo fornecedor, não resultados testados pela redação.",
+    },
+    {
+      heading: "Porque importa a experiência em português",
+      text: "Uma interface em português pode facilitar o primeiro contacto com ferramentas de IA para quem trabalha, estuda ou gere um negócio nesse idioma. Isso, por si só, não garante precisão nem adequação a todos os contextos africanos: idiomas, conectividade, dispositivos, custos e necessidades variam entre comunidades e países. A utilidade de uma ferramenta depende da experiência real de quem a utiliza.",
+    },
+    {
+      heading: "O que avaliar antes de usar uma assistente de IA",
+      text: "Empresas e utilizadores devem verificar que dados são enviados, como são armazenados, quem pode aceder-lhes e que controlos existem para os apagar. Também é prudente confirmar respostas importantes em fontes independentes e não enviar documentos confidenciais sem compreender as condições do serviço. Estas são recomendações gerais para ferramentas de IA; não são afirmações sobre práticas específicas da AKIRA.",
+    },
+    {
+      heading: "O que se sabe sobre a parceria entre a SoftEdge e o Kioo?",
+      text: "O Kioo Africa informa que a SoftEdge colaborou no desenvolvimento de software para o grupo no âmbito de um plano gratuito. Por transparência, este perfil é identificado como conteúdo de parceria. A publicação não apresenta essa colaboração como compra do pacote premium nem atribui um valor monetário ao acordo.",
+    },
+  ],
+};
+
 export const articles: Article[] = [
+  softedgeFeature,
   ...researchArticles,
   {
     slug: "capital-africano-novas-rotas",
@@ -524,6 +609,7 @@ export const articles: Article[] = [
 export type Biography = {
   slug: string;
   name: string;
+  alternateName?: string;
   monogram: string;
   country: string;
   field: string;
@@ -534,8 +620,16 @@ export type Biography = {
   organizationUrl?: string;
   contactUrl?: string;
   spotlight?: string;
+  isFeatured?: boolean;
+  isSponsored?: boolean;
+  sponsorDisclosure?: string | null;
+  partnerName?: string | null;
+  partnerLogoUrl?: string | null;
   relatedArticleSlugs?: string[];
+  seoTitle?: string;
+  seoDescription?: string;
   seoKeywords?: string[];
+  sameAs?: string[];
   body: string[];
   sources?: { title: string; publisher: string | null; url: string }[];
   portrait?: {
@@ -549,6 +643,77 @@ export type Biography = {
 };
 
 export const biographies: Biography[] = [
+  {
+    slug: "isaac-nascimento-quarenta",
+    name: "Isaac Nascimento Quarenta",
+    alternateName: "Isaac Quarenta",
+    monogram: "IQ",
+    country: "Angola",
+    field: "Tecnologia",
+    role: "Empreendedor tecnológico e fundador da SoftEdge Corporation",
+    summary:
+      "Programador angolano e fundador da SoftEdge Corporation, Isaac Quarenta acompanha o desenvolvimento de software e da AKIRA, assistente de inteligência artificial criada em Angola.",
+    accent: "gold",
+    organization: "SoftEdge Corporation",
+    organizationUrl: "https://softedge-corporation.up.railway.app/",
+    spotlight:
+      "Fundou a SoftEdge Corporation em Luanda e lidera a empresa que apresenta a AKIRA, uma assistente de inteligência artificial em português.",
+    isFeatured: true,
+    isSponsored: true,
+    sponsorDisclosure: softedgePartnershipDisclosure,
+    partnerName: "SoftEdge Corporation",
+    partnerLogoUrl: "/images/partners/softedge-logo.jpeg",
+    relatedArticleSlugs: ["softedge-ia-angolana-akira"],
+    seoTitle: "Isaac Quarenta: SoftEdge Corporation e AKIRA IA",
+    seoDescription:
+      "Quem é Isaac Nascimento Quarenta? Perfil do empreendedor angolano associado à SoftEdge Corporation e à AKIRA IA, baseado em fontes públicas.",
+    seoKeywords: [
+      "Isaac Quarenta",
+      "Isaac Nascimento Quarenta",
+      "biografia de Isaac Quarenta",
+      "quem é Isaac Quarenta",
+      "SoftEdge Corporation",
+      "SoftEdge Corporation Angola",
+      "fundador da SoftEdge Corporation",
+      "AKIRA IA",
+      "empreendedor angolano",
+      "programador angolano",
+      "inteligência artificial em Angola",
+    ],
+    sameAs: [
+      "https://github.com/isaac-quarenta",
+      "https://x.com/IQuarenta98960",
+    ],
+    body: [
+      "## Quem é Isaac Quarenta?\n\nIsaac Nascimento Quarenta, conhecido profissionalmente como Isaac Quarenta, é um empreendedor tecnológico angolano e fundador da SoftEdge Corporation. O site da empresa, sediada em Luanda, identifica-o como fundador e CEO. No seu perfil público do GitHub, apresenta-se como programador full-stack e estudante de Ciência da Computação em Angola.",
+      "## Origem e formação\n\nSegundo informação biográfica fornecida pelo próprio Isaac à redação, nasceu em Luanda, Angola, a 21 de março de 2007. Não foi localizada uma fonte pública independente que confirme essa data. O perfil do GitHub descreve a sua formação como estudante de Ciência da Computação e o seu trabalho como desenvolvimento de aplicações modernas, escaláveis e de fácil manutenção.",
+      "## SoftEdge Corporation\n\nA SoftEdge descreve-se como uma empresa angolana de tecnologia fundada em Luanda em 2023, com atividade em software, produtos digitais e soluções de inteligência artificial. Nas páginas institucionais, apresenta serviços de desenvolvimento web e móvel, sistemas empresariais, integrações e consultoria digital. A cronologia e as métricas divulgadas no site são declarações da própria empresa; este perfil não as trata como indicadores verificados por terceiros.",
+      "## AKIRA e inteligência artificial em português\n\nEntre os projetos associados a Isaac, a SoftEdge destaca a AKIRA, uma assistente de inteligência artificial criada em Angola. A página do produto anuncia conversação em português, análise de documentos e imagens, geração de imagens, pesquisa na web e organização de tarefas com histórico de conversas. Estas capacidades são descritas pela empresa e pelo site da AKIRA, sem uma avaliação técnica independente da redação.",
+      "## Presença pública e percurso\n\nIsaac mantém um perfil no GitHub com informação sobre o seu trabalho de programação e um perfil no X identificado com a SoftEdge. A sua trajetória pública liga desenvolvimento de software, liderança empresarial e criação de um produto de IA. Como se trata de um percurso em desenvolvimento, este retrato distingue informação autobiográfica, declarações da empresa e funcionalidades anunciadas do que ainda exigiria confirmação independente.",
+    ],
+    sources: [
+      {
+        title: "Quem somos — Isaac Nascimento Quarenta",
+        publisher: "SoftEdge Corporation",
+        url: "https://softedge-corporation.up.railway.app/sobre",
+      },
+      {
+        title: "Perfil e descrição profissional de Isaac Quarenta",
+        publisher: "GitHub",
+        url: "https://github.com/isaac-quarenta",
+      },
+      {
+        title: "Isaac Quarenta no X",
+        publisher: "X",
+        url: "https://x.com/IQuarenta98960",
+      },
+      {
+        title: "AKIRA — assistente de inteligência artificial",
+        publisher: "AKIRA",
+        url: "https://akira-ia.onrender.com/",
+      },
+    ],
+  },
   {
     slug: "nelly-cheboi",
     name: "Nelly Cheboi",

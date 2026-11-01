@@ -4,7 +4,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { getStaffSession } from "@/lib/staff";
 import { articles, articleRevisions, articleSources, moderationEvents, user } from "@/lib/db/schema";
+import { submitIndexNow } from "@/lib/indexnow";
 import { slugify } from "@/lib/slug";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const runtime = "nodejs";
 
@@ -46,6 +48,16 @@ const createArticleSchema = z.object({
 
 function calculateReadingMinutes(markdown: string) {
   return Math.max(1, Math.ceil(markdown.trim().split(/\s+/).length / 220));
+}
+
+async function notifyIndexing(path: string) {
+  try {
+    return await submitIndexNow([path], getSiteUrl());
+  } catch (error) {
+    const message = error instanceof Error ? error.message : "Unknown IndexNow error.";
+    console.error("Content was published, but IndexNow notification failed.", message);
+    return { status: "failed" as const, submittedCount: 0, message };
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -123,7 +135,9 @@ export async function POST(request: NextRequest) {
     return created;
   });
 
-  return NextResponse.json({ article }, { status: 201 });
+  const collectionPath = article.kind === "biography" ? "biografias" : "artigos";
+  const indexNow = await notifyIndexing(`/${collectionPath}/${article.slug}`);
+  return NextResponse.json({ article, indexNow }, { status: 201 });
 }
 
 export async function GET() {
@@ -227,10 +241,20 @@ export async function PATCH(request: NextRequest) {
       note: parsed.data.note,
     });
 
-    return { invalid: false as const, id: article.id, status: nextStatus };
+    return {
+      invalid: false as const,
+      id: article.id,
+      slug: article.slug,
+      kind: article.kind,
+      status: nextStatus,
+    };
   });
 
   if (!outcome) return NextResponse.json({ error: "Este artigo já foi revisto ou não existe." }, { status: 404 });
   if (outcome.invalid) return NextResponse.json({ error: "Indique pelo menos um campo para editar." }, { status: 400 });
-  return NextResponse.json({ article: { id: outcome.id, status: outcome.status } });
+  const collectionPath = outcome.kind === "biography" ? "biografias" : "artigos";
+  const indexNow = outcome.status === "published"
+    ? await notifyIndexing(`/${collectionPath}/${outcome.slug}`)
+    : null;
+  return NextResponse.json({ article: { id: outcome.id, status: outcome.status }, indexNow });
 }
