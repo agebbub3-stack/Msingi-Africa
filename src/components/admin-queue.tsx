@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState, type FormEvent } from "react";
+import { AdminArticleForm } from "@/components/admin-article-form";
 
 type QueueItem = {
   id: string;
@@ -271,6 +272,7 @@ export function AdminQueue() {
   return (
     <div className="admin-queue">
       <p className="form-notice" role="status" aria-live="polite">{notice}</p>
+      {role === "admin" && <AdminArticleForm />}
       <section className="workspace-section">
         <div className="workspace-heading"><span className="section-kicker">REVISÃO DE CONTEÚDO</span><h2>Artigos à espera</h2></div>
         {loading ? <p className="workspace-empty">A carregar a fila…</p> : queue.length === 0 ? <p className="workspace-empty">A fila de artigos está limpa.</p> : (

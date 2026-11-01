@@ -6,6 +6,7 @@ import { SiteHeader } from "@/components/site-header";
 import { JsonLd } from "@/components/json-ld";
 import { translate } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale.server";
+import { createPageMetadata } from "@/lib/page-metadata";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -20,36 +21,35 @@ const dmSerifDisplay = DM_Serif_Display({
   variable: "--font-dm-serif",
 });
 
-export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"),
-  applicationName: "Kioo Africa",
-  title: {
-    default: "Kioo Africa — Mercados, inovação e perfis africanos",
-    template: "%s — Kioo Africa",
-  },
-  description:
-    "Kioo: jornalismo independente, biografias e análise de mercados africanos para compreender as raízes e antecipar o que vem a seguir.",
-  keywords: ["jornalismo africano", "mercados africanos", "negócios em África", "inovação africana", "biografias africanas"],
-  ...(process.env.GOOGLE_SITE_VERIFICATION
-    ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
-    : {}),
-  icons: { icon: [{ url: "/brand-mark.svg", type: "image/svg+xml" }] },
-  openGraph: {
-    title: "Kioo Africa — Mercados, inovação e perfis africanos",
-    description:
-      "Artigos, biografias e análise independente sobre o futuro dos mercados africanos.",
-    siteName: "Kioo Africa",
-    locale: "pt_PT",
-    type: "website",
-    images: [{ url: "/social-card.png", width: 1200, height: 630, alt: "Kioo Africa — histórias africanas com contexto" }],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Kioo Africa — Mercados, inovação e perfis africanos",
-    description: "Artigos, biografias e análise independente sobre o futuro dos mercados africanos.",
-    images: ["/social-card-twitter.png"],
-  },
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const title = locale === "en"
+    ? "Kioo Africa — African markets, ideas and people"
+    : "Kioo Africa — Mercados, inovação e perfis africanos";
+  const description = locale === "en"
+    ? "Independent journalism, biographies and market analysis to understand what is changing across Africa."
+    : "Jornalismo independente, biografias e análise de mercados para compreender o que está a mudar em África.";
+  return {
+    ...createPageMetadata({
+      locale,
+      kind: "home",
+      title,
+      description,
+      path: "/",
+      eyebrow: locale === "en" ? "PEOPLE · IDEAS · MARKETS" : "PESSOAS · IDEIAS · MERCADOS",
+    }),
+    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"),
+    applicationName: "Kioo Africa",
+    title: { default: title, template: "%s — Kioo Africa" },
+    keywords: locale === "en"
+      ? ["African journalism", "African markets", "business in Africa", "African innovation", "African biographies"]
+      : ["jornalismo africano", "mercados africanos", "negócios em África", "inovação africana", "biografias africanas"],
+    ...(process.env.GOOGLE_SITE_VERIFICATION
+      ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
+      : {}),
+    icons: { icon: [{ url: "/brand-mark.svg", type: "image/svg+xml" }] },
+  };
+}
 
 export default async function RootLayout({
   children,
@@ -72,7 +72,9 @@ export default async function RootLayout({
           slogan: "Pessoas, ideias e mercados africanos.",
           url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa",
           logo: new URL("/brand-mark.svg", process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa").toString(),
-          description: "Grupo editorial e de pesquisa independente dedicado a pessoas, ideias e mercados africanos.",
+          description: locale === "en"
+            ? "Independent editorial and research group focused on African people, ideas and markets."
+            : "Grupo editorial e de pesquisa independente dedicado a pessoas, ideias e mercados africanos.",
           publishingPrinciples: new URL("/sobre#principios", process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa").toString(),
           areaServed: { "@type": "Continent", name: "África" },
         }} />
@@ -83,7 +85,7 @@ export default async function RootLayout({
           name: "Kioo Africa",
           alternateName: "Kioo",
           url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa",
-          inLanguage: ["pt-AO", "pt-PT"],
+          inLanguage: locale === "en" ? "en" : ["pt-AO", "pt-PT"],
           publisher: { "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"}#organization` },
           potentialAction: {
             "@type": "SearchAction",
@@ -101,6 +103,11 @@ export default async function RootLayout({
           </div>
         </div>
         <SiteHeader locale={locale} />
+        {locale === "en" && (
+          <p className="locale-content-notice" role="note">
+            English interface · Editorial stories remain in their original language.
+          </p>
+        )}
         <main>{children}</main>
         <SiteFooter locale={locale} />
       </body>

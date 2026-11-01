@@ -70,10 +70,6 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
-      {locale === "en" && (
-        <p className="locale-content-notice" role="note">{translate(locale, "englishContentNotice")}</p>
-      )}
-
       <ScrollReveal
         className="featured-section section-pad"
         id="destaque"
@@ -87,7 +83,7 @@ export default async function HomePage() {
           <Link className="text-link heading-link" href="/artigos">{translate(locale, "allStories")} <ArrowRight size={15} /></Link>
         </div>
         <div className="featured-layout">
-          {lead ? <div className="lead-article"><ArticleCard article={lead} featured /></div> : <div className="lead-article workspace-empty"><p>A próxima história está a ser preparada pela redação.</p></div>}
+          {lead ? <div className="lead-article"><ArticleCard article={lead} featured locale={locale} /></div> : <div className="lead-article workspace-empty"><p>{locale === "en" ? "The newsroom is preparing the next story." : "A próxima história está a ser preparada pela redação."}</p></div>}
           <aside className="briefing">
             <div className="briefing-top">
               <span className="briefing-overline">{translate(locale, "startingPoint")}</span>
@@ -125,7 +121,7 @@ export default async function HomePage() {
             </article>
             <article className="market-metric">
               <span className="metric-index">02 / {translate(locale, "economy")}</span>
-              <strong>US$ 240 mil milhões</strong>
+              <strong>{locale === "en" ? "US$ 240 billion" : "US$ 240 mil milhões"}</strong>
               <p>{translate(locale, "mobileEconomyContribution")}</p>
             </article>
             <article className="market-metric market-metric-highlight">
@@ -155,7 +151,7 @@ export default async function HomePage() {
           <Link className="text-link heading-link" href="/artigos">{translate(locale, "allArticles")} <ArrowRight size={15} /></Link>
         </div>
         <div className="article-grid">
-          {latestArticles.map((article) => <ArticleCard key={article.slug} article={article} />)}
+          {latestArticles.map((article) => <ArticleCard key={article.slug} article={article} locale={locale} />)}
         </div>
         <div className="latest-bottom"><span>{translate(locale, "readingWithPerspective")}</span><Link href="/artigos">{translate(locale, "moreStories")} <ArrowUpRight size={14} /></Link></div>
       </ScrollReveal>
@@ -172,7 +168,7 @@ export default async function HomePage() {
           <Link className="text-link heading-link" href="/biografias">{translate(locale, "allBiographies")} <ArrowRight size={15} /></Link>
         </div>
         <div className="profile-grid">
-          {biographies.map((profile) => <ProfileCard key={profile.slug} profile={profile} />)}
+          {biographies.map((profile) => <ProfileCard key={profile.slug} profile={profile} locale={locale} />)}
         </div>
       </ScrollReveal>
 

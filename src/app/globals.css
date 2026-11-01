@@ -958,6 +958,7 @@ html[data-theme="dark"] .search-page,
 html[data-theme="dark"] .search-profile-results,
 html[data-theme="dark"] .search-article-results { background: var(--paper); }
 html[data-theme="dark"] .lead-article,
+html[data-theme="dark"] .profile-card,
 html[data-theme="dark"] .plan-card,
 html[data-theme="dark"] .sponsored-plan-card,
 html[data-theme="dark"] .account-card,
@@ -991,6 +992,12 @@ html[data-theme="dark"] .briefing h3,
 html[data-theme="dark"] .briefing-link,
 html[data-theme="dark"] .text-link,
 html[data-theme="dark"] .profile-card-link { color: #c4d5c6; }
+html[data-theme="dark"] .profile-card-copy h3 a { color: #e8eee8; }
+html[data-theme="dark"] .profile-card-copy .profile-role { color: #e5b28f; }
+html[data-theme="dark"] .profile-card-copy .profile-summary,
+html[data-theme="dark"] .profile-card-copy .profile-location { color: #bdc9be; }
+html[data-theme="dark"] .profile-card-copy .portrait-credit { color: #aab6ab; }
+html[data-theme="dark"] .profile-card-copy .portrait-credit a { color: #d3c4a8; }
 html[data-theme="dark"] .market-lens { color: var(--ink); background: #1b241e; }
 html[data-theme="dark"] .market-lens .section-kicker,
 html[data-theme="dark"] .market-lens-heading p,
@@ -1130,6 +1137,13 @@ html[data-theme="dark"] .about-masthead { background: radial-gradient(ellipse at
 .workspace-form .form-textarea { resize: vertical; }
 .biography-fields { display: grid; gap: 12px; margin: 4px 0; padding: 17px; border: 1px solid var(--line); }
 .biography-fields legend { padding: 0 7px; color: #69756e; font-size: 10px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
+.admin-publish-form { gap: 16px; }
+.admin-publish-form .form-notice { margin: 0; }
+.admin-publish-form .form-notice a { margin-left: 5px; color: #a96542; font-weight: 650; text-decoration: underline; text-underline-offset: 3px; }
+.admin-source-fields > .form-privacy { margin: 0; }
+.admin-source-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .7fr) minmax(0, 1.2fr) auto; align-items: end; gap: 10px; padding: 12px 0; border-top: 1px solid var(--line); }
+.admin-source-remove { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-height: 38px; padding: 0 9px; color: #8c4d3e; background: transparent; border: 1px solid var(--line); border-radius: 8px; font: inherit; font-size: 10px; cursor: pointer; }
+.admin-source-remove:hover { background: rgba(165, 93, 66, .08); }
 .sources-editor { display: grid; gap: 10px; margin: 16px 0; padding: 17px; border: 1px solid var(--line); border-radius: 15px; }
 .sources-editor legend { padding: 0 7px; color: #69756e; font-size: 10px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
 .sources-editor:disabled { opacity: .68; }
@@ -1317,6 +1331,8 @@ html[data-theme="dark"] .about-masthead { background: radial-gradient(ellipse at
   .workspace-plan .button { width: 100%; }
   .workspace-section { padding: 19px 15px; }
   .workspace-form .form-inline-fields { grid-template-columns: 1fr; gap: 12px; }
+  .admin-source-row { grid-template-columns: 1fr; }
+  .admin-source-remove { justify-self: start; }
   .submission-item { grid-template-columns: 1fr; }
   .submission-item > a { grid-column: 1; }
   .moderation-card { padding: 15px; }
@@ -1880,6 +1896,10 @@ main { overflow: clip; }
   letter-spacing: .08em;
 }
 .profile-card-copy { display: flex; flex-direction: column; align-items: flex-start; }
+.profile-card-copy h3 a { color: #293a30; }
+.profile-card-copy .profile-role { color: #875236; }
+.profile-card-copy .profile-summary { color: #626d63; }
+.profile-card-copy .profile-location { color: #5f6b61; }
 .profile-card-link {
   margin-top: 13px;
   padding-top: 11px;
@@ -1974,6 +1994,7 @@ html[data-theme="dark"] .profile-summary,
 html[data-theme="dark"] .story-body p,
 html[data-theme="dark"] .person-body > p { color: #b2bdb3; }
 html[data-theme="dark"] .lead-article,
+html[data-theme="dark"] .profile-card,
 html[data-theme="dark"] .account-card,
 html[data-theme="dark"] .workspace-section,
 html[data-theme="dark"] .moderation-card,
@@ -2006,6 +2027,13 @@ html[data-theme="dark"] .newsletter-email-row input {
 html[data-theme="dark"] .form-input::placeholder,
 html[data-theme="dark"] .form-textarea::placeholder,
 html[data-theme="dark"] .search-page-form input::placeholder { color: #87958a; }
+html[data-theme="dark"] .admin-publish-form .field-label { color: #c3cdc4; }
+html[data-theme="dark"] .admin-publish-form .form-notice { color: #a9c5ad; }
+html[data-theme="dark"] .admin-publish-form .form-notice a { color: #e1a47d; }
+html[data-theme="dark"] .admin-publish-form .biography-fields { border-color: #39463d; }
+html[data-theme="dark"] .admin-publish-form .biography-fields legend { color: #b2bdb3; }
+html[data-theme="dark"] .admin-publish-form .form-privacy { color: #a1ada3; }
+html[data-theme="dark"] .admin-source-remove { color: #e2a18c; border-color: #455349; }
 html[data-theme="dark"] .locale-content-notice {
   color: #b2bdb3;
   background: #1b241e;

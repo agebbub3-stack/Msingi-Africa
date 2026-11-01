@@ -3,6 +3,7 @@
 import { Bell, CheckCheck, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import type { Locale } from "@/lib/i18n";
 
 type Notification = {
   id: string;
@@ -16,25 +17,25 @@ type Notification = {
   actorName: string | null;
 };
 
-async function getNotifications(signal?: AbortSignal) {
+async function getNotifications(locale: Locale, signal?: AbortSignal) {
   const response = await fetch("/api/notifications", { signal, cache: "no-store" });
-  const result = await response.json() as { error?: string; notifications?: Notification[]; unreadCount?: number };
-  if (!response.ok) throw new Error(result.error ?? "Não foi possível carregar as notificações.");
+  const result = await response.json() as { notifications?: Notification[]; unreadCount?: number };
+  if (!response.ok) throw new Error(locale === "en" ? "Could not load notifications." : "Não foi possível carregar as notificações.");
   return result;
 }
 
-function notificationMessage(notification: Notification) {
+function notificationMessage(notification: Notification, en: boolean) {
   switch (notification.kind) {
     case "article_like":
-      return `${notification.actorName ?? "Um leitor"} gostou do seu artigo.`;
+      return en ? `${notification.actorName ?? "A reader"} liked your story.` : `${notification.actorName ?? "Um leitor"} gostou do seu artigo.`;
     case "comment_approved":
-      return "A redação aprovou o seu comentário.";
+      return en ? "The newsroom approved your comment." : "A redação aprovou o seu comentário.";
     case "comment_rejected":
-      return "A redação não publicou o seu comentário. Reveja as regras da comunidade.";
+      return en ? "The newsroom did not publish your comment. Please review the community guidelines." : "A redação não publicou o seu comentário. Reveja as regras da comunidade.";
     case "article_comment":
-      return `${notification.actorName ?? "Um leitor"} comentou no seu artigo.`;
+      return en ? `${notification.actorName ?? "A reader"} commented on your story.` : `${notification.actorName ?? "Um leitor"} comentou no seu artigo.`;
     case "comment_reply":
-      return `${notification.actorName ?? "Um leitor"} respondeu a um comentário nesta história.`;
+      return en ? `${notification.actorName ?? "A reader"} replied to a comment on this story.` : `${notification.actorName ?? "Um leitor"} respondeu a um comentário nesta história.`;
   }
 }
 
@@ -43,7 +44,8 @@ function articlePath(notification: Notification) {
   return `${prefix}/${notification.articleSlug}${notification.commentId ? `#comentario-${notification.commentId}` : "#comentarios"}`;
 }
 
-export function NotificationInbox() {
+export function NotificationInbox({ locale = "en" }: { locale?: Locale }) {
+  const en = locale === "en";
   const [notifications, setNotifications] = useState<Notification[]>([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -54,7 +56,7 @@ export function NotificationInbox() {
 
   useEffect(() => {
     const controller = new AbortController();
-    void getNotifications(controller.signal)
+    void getNotifications(locale, controller.signal)
       .then((result) => {
         setNotifications(result.notifications ?? []);
         setUnreadCount(result.unreadCount ?? 0);
@@ -64,24 +66,24 @@ export function NotificationInbox() {
       .catch((error: unknown) => {
         if (error instanceof DOMException && error.name === "AbortError") return;
         console.error("Could not load user notifications.", error);
-        setNotice("Não foi possível carregar as notificações. Tente novamente.");
+        setNotice(en ? "Could not load notifications. Please try again." : "Não foi possível carregar as notificações. Tente novamente.");
         setLoadFailed(true);
       })
       .finally(() => setLoading(false));
     return () => controller.abort();
-  }, []);
+  }, [en, locale]);
 
   async function retryLoading() {
     setLoading(true);
     setNotice("");
     try {
-      const result = await getNotifications();
+      const result = await getNotifications(locale);
       setNotifications(result.notifications ?? []);
       setUnreadCount(result.unreadCount ?? 0);
       setLoadFailed(false);
     } catch (error) {
       console.error("Could not reload user notifications.", error);
-      setNotice("Não foi possível carregar as notificações. Tente novamente.");
+      setNotice(en ? "Could not load notifications. Please try again." : "Não foi possível carregar as notificações. Tente novamente.");
       setLoadFailed(true);
     } finally {
       setLoading(false);
@@ -98,7 +100,7 @@ export function NotificationInbox() {
         body: JSON.stringify(notificationId ? { notificationId } : { markAll: true }),
       });
       const result = await response.json() as { error?: string; updatedCount?: number };
-      if (!response.ok) throw new Error(result.error ?? "Não foi possível atualizar as notificações.");
+      if (!response.ok) throw new Error(result.error ?? (en ? "Could not update notifications." : "Não foi possível atualizar as notificações."));
       const readAt = new Date().toISOString();
       if (notificationId) {
         setNotifications((current) => current.map((item) => item.id === notificationId ? { ...item, readAt } : item));
@@ -109,7 +111,7 @@ export function NotificationInbox() {
       return true;
     } catch (error) {
       console.error("Could not mark notifications as read.", error);
-      setNotice("Não foi possível atualizar as notificações.");
+      setNotice(en ? "Could not update notifications." : "Não foi possível atualizar as notificações.");
       return false;
     } finally {
       setUpdating(false);
@@ -125,24 +127,24 @@ export function NotificationInbox() {
     <section className="notification-inbox" aria-labelledby="notification-inbox-title">
       <header className="notification-inbox-heading">
         <div>
-          <span className="section-kicker"><Bell size={13} /> CENTRO DE NOTIFICAÇÕES</span>
-          <h2 id="notification-inbox-title">A sua comunidade</h2>
-          <p>Reações, comentários, respostas e decisões editoriais sobre a sua participação.</p>
+          <span className="section-kicker"><Bell size={13} /> {en ? "NOTIFICATION CENTER" : "CENTRO DE NOTIFICAÇÕES"}</span>
+          <h2 id="notification-inbox-title">{en ? "Your community" : "A sua comunidade"}</h2>
+          <p>{en ? "Reactions, comments, replies and editorial decisions about your contributions." : "Reações, comentários, respostas e decisões editoriais sobre a sua participação."}</p>
         </div>
         {unreadCount > 0 && (
           <button type="button" className="notification-mark-all" onClick={() => void markAsRead()} disabled={updating}>
-            <CheckCheck size={15} /> Marcar tudo como lido
+            <CheckCheck size={15} /> {en ? "Mark all as read" : "Marcar tudo como lido"}
           </button>
         )}
       </header>
       {notice && (
         <p className="form-notice" role="status">
-          {notice} {loadFailed && <button type="button" className="inline-button" onClick={() => void retryLoading()}>Tentar novamente</button>}
+          {notice} {loadFailed && <button type="button" className="inline-button" onClick={() => void retryLoading()}>{en ? "Try again" : "Tentar novamente"}</button>}
         </p>
       )}
-      {loading ? <p className="workspace-empty">A carregar notificações…</p>
+      {loading ? <p className="workspace-empty">{en ? "Loading notifications…" : "A carregar notificações…"}</p>
         : notifications.length === 0 ? (
-          <p className="workspace-empty">Ainda não há notificações. Avisaremos quando alguém reagir ou comentar os seus artigos, responder à sua conversa ou a redação rever um comentário.</p>
+          <p className="workspace-empty">{en ? "No notifications yet. We will let you know when someone reacts to or comments on your stories, replies to your conversation, or the newsroom reviews a comment." : "Ainda não há notificações. Avisaremos quando alguém reagir ou comentar os seus artigos, responder à sua conversa ou a redação rever um comentário."}</p>
         ) : (
           <ul className="notification-list">
             {notifications.map((notification) => (
@@ -155,10 +157,10 @@ export function NotificationInbox() {
                 >
                   <span className="notification-indicator" aria-hidden="true" />
                   <span className="notification-copy">
-                    <span className="notification-message">{notificationMessage(notification)}</span>
+                    <span className="notification-message">{notificationMessage(notification, en)}</span>
                     <strong>{notification.articleTitle}</strong>
                     <time dateTime={notification.createdAt}>
-                      {new Intl.DateTimeFormat("pt-PT", { dateStyle: "medium", timeZone: "UTC" }).format(new Date(notification.createdAt))}
+                      {new Intl.DateTimeFormat(en ? "en-GB" : "pt-PT", { dateStyle: "medium", timeZone: "UTC" }).format(new Date(notification.createdAt))}
                     </time>
                   </span>
                   <ChevronRight size={17} aria-hidden="true" />

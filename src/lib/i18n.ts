@@ -105,6 +105,21 @@ const translations = {
     techStartups: "Startups & Inovação",
     creativeBusiness: "Cultura & Negócios",
     readingMinutes: "min de leitura",
+    categoryCulture: "Cultura",
+    categoryBusiness: "Cultura & Negócios",
+    categoryClimate: "Energia e clima",
+    categoryMarkets: "Mercados",
+    categoryStartups: "Startups & Inovação",
+    categoryTechnology: "Tecnologia",
+    biographyLabel: "Perfil biográfico",
+    readBiography: "Ler biografia",
+    photoCredit: "Foto:",
+    allTopics: "Todos",
+    searchPlaceholder: "Pesquisar...",
+    emptyArticleSearch: "Nenhuma história com esse filtro.",
+    tryAnotherSearch: "Experimente outra pesquisa ou explore todos os temas.",
+    publishedArticle: "artigo publicado",
+    publishedArticles: "artigos publicados",
   },
   en: {
     tagline: "INDEPENDENT JOURNALISM · ROOTED IN AFRICA",
@@ -210,6 +225,21 @@ const translations = {
     techStartups: "Startups & Innovation",
     creativeBusiness: "Culture & Business",
     readingMinutes: "min read",
+    categoryCulture: "Culture",
+    categoryBusiness: "Culture & Business",
+    categoryClimate: "Energy & climate",
+    categoryMarkets: "Markets",
+    categoryStartups: "Startups & Innovation",
+    categoryTechnology: "Technology",
+    biographyLabel: "Biographical profile",
+    readBiography: "Read biography",
+    photoCredit: "Photo:",
+    allTopics: "All",
+    searchPlaceholder: "Search...",
+    emptyArticleSearch: "No stories match these filters.",
+    tryAnotherSearch: "Try another search or explore all topics.",
+    publishedArticle: "published article",
+    publishedArticles: "published articles",
   },
 } as const;
 
@@ -225,10 +255,29 @@ export function localizeCategory(category: string, locale: Locale) {
     Angola: "Angola",
     Cultura: "Culture",
     "Cultura & Negócios": "Culture & Business",
+    "Educação e tecnologia": "Education & technology",
     "Energia e clima": "Energy & climate",
+    "Energia limpa e agricultura": "Clean energy & agriculture",
+    "Economia criativa": "Creative economy",
+    "Media & cultura": "Media & culture",
+    "Saúde e logística": "Healthcare & logistics",
+    "Tecnologia e pagamentos": "Technology & payments",
     Mercados: "Markets",
     "Startups & Inovação": "Startups & Innovation",
     Tecnologia: "Technology",
   };
   return categories[category] ?? category;
+}
+
+export function localizeCountry(country: string, locale: Locale) {
+  if (locale === "pt") return country;
+  const countries: Record<string, string> = {
+    "África do Sul": "South Africa",
+    "Camarões": "Cameroon",
+    "Etiópia": "Ethiopia",
+    "Quénia": "Kenya",
+    "Nigéria": "Nigeria",
+    "Uganda": "Uganda",
+  };
+  return countries[country] ?? country;
 }

@@ -1,8 +1,10 @@
+import { randomUUID } from "node:crypto";
 import { and, desc, eq } from "drizzle-orm";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { getStaffSession } from "@/lib/staff";
-import { articles, articleRevisions, moderationEvents, user } from "@/lib/db/schema";
+import { articles, articleRevisions, articleSources, moderationEvents, user } from "@/lib/db/schema";
+import { slugify } from "@/lib/slug";
 
 export const runtime = "nodejs";
 
@@ -18,6 +20,111 @@ const moderationSchema = z.object({
   seoDescription: z.string().trim().max(180).optional(),
   seoKeywords: z.array(z.string().trim().min(2).max(60)).max(12).optional(),
 });
+
+const createArticleSchema = z.object({
+  kind: z.enum(["article", "biography"]),
+  title: z.string().trim().min(8).max(180),
+  standfirst: z.string().trim().min(30).max(360),
+  category: z.string().trim().min(2).max(64),
+  bodyMarkdown: z.string().trim().min(300).max(50_000),
+  coverImageUrl: z.union([
+    z.literal(""),
+    z.url().max(2048).refine((value) => new URL(value).protocol === "https:", "Use uma imagem HTTPS."),
+  ]).optional(),
+  personCountry: z.string().trim().max(100).optional(),
+  personField: z.string().trim().max(100).optional(),
+  personRole: z.string().trim().max(160).optional(),
+  seoTitle: z.string().trim().max(70).optional(),
+  seoDescription: z.string().trim().max(180).optional(),
+  seoKeywords: z.array(z.string().trim().min(2).max(60)).max(12).default([]),
+  sources: z.array(z.object({
+    title: z.string().trim().min(2).max(180),
+    publisher: z.string().trim().max(120).optional(),
+    url: z.url().max(2048).refine((value) => new URL(value).protocol === "https:", "Use ligações HTTPS."),
+  })).max(20).default([]),
+});
+
+function calculateReadingMinutes(markdown: string) {
+  return Math.max(1, Math.ceil(markdown.trim().split(/\s+/).length / 220));
+}
+
+export async function POST(request: NextRequest) {
+  const { session, role } = await getStaffSession();
+  if (!session) return NextResponse.json({ error: "Inicie sessão para aceder à redação." }, { status: 401 });
+  if (role !== "admin") return NextResponse.json({ error: "Só a administração pode publicar diretamente." }, { status: 403 });
+
+  const { db } = await import("@/lib/db");
+  const [account] = await db
+    .select({ banned: user.banned, emailVerified: user.emailVerified })
+    .from(user)
+    .where(eq(user.id, session.user.id))
+    .limit(1);
+  if (!account || account.banned || !account.emailVerified) {
+    return NextResponse.json({ error: "Esta conta não pode publicar conteúdo editorial." }, { status: 403 });
+  }
+
+  let payload: unknown;
+  try {
+    payload = await request.json();
+  } catch {
+    return NextResponse.json({ error: "O artigo enviado não é um JSON válido." }, { status: 400 });
+  }
+  const parsed = createArticleSchema.safeParse(payload);
+  if (!parsed.success) {
+    return NextResponse.json({ error: "Revise os campos do artigo.", details: z.flattenError(parsed.error).fieldErrors }, { status: 400 });
+  }
+  const draft = parsed.data;
+  if (draft.kind === "biography" && (!draft.personCountry || !draft.personRole)) {
+    return NextResponse.json({ error: "Informe o país e o percurso da pessoa biografada." }, { status: 400 });
+  }
+
+  const articleId = randomUUID();
+  const slug = `${slugify(draft.title).slice(0, 150)}-${articleId.slice(0, 8)}`;
+  const publishedAt = new Date();
+  const article = await db.transaction(async (tx) => {
+    const [created] = await tx.insert(articles).values({
+      id: articleId,
+      slug,
+      kind: draft.kind,
+      status: "published",
+      title: draft.title,
+      standfirst: draft.standfirst,
+      bodyMarkdown: draft.bodyMarkdown,
+      category: draft.category,
+      authorId: session.user.id,
+      coverImageUrl: draft.coverImageUrl || null,
+      readingMinutes: calculateReadingMinutes(draft.bodyMarkdown),
+      personCountry: draft.kind === "biography" ? draft.personCountry : null,
+      personField: draft.kind === "biography" ? draft.personField ?? draft.category : null,
+      personRole: draft.kind === "biography" ? draft.personRole : null,
+      seoTitle: draft.seoTitle || null,
+      seoDescription: draft.seoDescription || null,
+      seoKeywords: draft.seoKeywords,
+      publishedAt,
+      noIndex: false,
+    }).returning({ id: articles.id, slug: articles.slug, kind: articles.kind, status: articles.status });
+
+    if (draft.sources.length > 0) {
+      await tx.insert(articleSources).values(draft.sources.map((source, position) => ({
+        articleId: created.id,
+        title: source.title,
+        publisher: source.publisher || null,
+        url: source.url,
+        position,
+      })));
+    }
+
+    await tx.insert(moderationEvents).values({
+      articleId: created.id,
+      moderatorId: session.user.id,
+      action: "admin_create_publish",
+      note: "Artigo criado e publicado diretamente pela administração.",
+    });
+    return created;
+  });
+
+  return NextResponse.json({ article }, { status: 201 });
+}
 
 export async function GET() {
   const { session, role } = await getStaffSession();

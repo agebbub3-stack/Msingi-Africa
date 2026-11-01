@@ -3,6 +3,7 @@
 import { Copy, Heart, MessageCircle, Send, Share2 } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState, type FormEvent } from "react";
+import type { Locale } from "@/lib/i18n";
 
 type Comment = {
   id: string;
@@ -20,6 +21,7 @@ type ArticleInteractionsProps = {
   returnPath: string;
   initialComments: Comment[];
   initialCommentCount: number;
+  locale?: Locale;
 };
 
 function socialShareUrl(baseUrl: string, title: string, url: string) {
@@ -37,7 +39,9 @@ export function ArticleInteractions({
   returnPath,
   initialComments,
   initialCommentCount,
+  locale = "en",
 }: ArticleInteractionsProps) {
+  const en = locale === "en";
   const [liked, setLiked] = useState(false);
   const [likeCount, setLikeCount] = useState(0);
   const [comments, setComments] = useState(initialComments);
@@ -85,10 +89,12 @@ export function ArticleInteractions({
     }).catch((error: unknown) => {
       if (error instanceof DOMException && error.name === "AbortError") return;
       console.error("Could not load article interactions.", error);
-      setNotice("Não foi possível atualizar as interações. Os comentários publicados continuam disponíveis.");
+      setNotice(en
+        ? "Could not refresh interactions. Published comments are still available."
+        : "Não foi possível atualizar as interações. Os comentários publicados continuam disponíveis.");
     });
     return () => controller.abort();
-  }, [articleId]);
+  }, [articleId, en]);
 
   async function toggleLike() {
     if (!articleId || isReacting) return;
@@ -98,14 +104,14 @@ export function ArticleInteractions({
       const response = await fetch(`/api/articles/${articleId}/like`, { method: "POST" });
       const result = await response.json() as { error?: string; liked?: boolean; count?: number };
       if (!response.ok) {
-        setNotice(result.error ?? "Inicie sessão para reagir a este artigo.");
+        setNotice(result.error ?? (en ? "Sign in to react to this article." : "Inicie sessão para reagir a este artigo."));
         return;
       }
       setLiked(Boolean(result.liked));
       setLikeCount(result.count ?? likeCount);
     } catch (error) {
       console.error("Could not update article reaction.", error);
-      setNotice("Não foi possível guardar a reação.");
+      setNotice(en ? "Could not save your reaction." : "Não foi possível guardar a reação.");
     } finally {
       setIsReacting(false);
     }
@@ -125,7 +131,7 @@ export function ArticleInteractions({
       });
       const result = await response.json() as { error?: string; message?: string };
       if (!response.ok) {
-        setNotice(result.error ?? "Não foi possível enviar o comentário.");
+        setNotice(result.error ?? (en ? "Could not submit your comment." : "Não foi possível enviar o comentário."));
         return;
       }
       if (parentId) {
@@ -134,10 +140,10 @@ export function ArticleInteractions({
       } else {
         setComment("");
       }
-      setNotice(result.message ?? "Comentário enviado para revisão editorial.");
+      setNotice(result.message ?? (en ? "Comment submitted for editorial review." : "Comentário enviado para revisão editorial."));
     } catch (error) {
       console.error("Could not submit article comment.", error);
-      setNotice("Não foi possível enviar o comentário.");
+      setNotice(en ? "Could not submit your comment." : "Não foi possível enviar o comentário.");
     } finally {
       setIsLoading(false);
     }
@@ -146,10 +152,12 @@ export function ArticleInteractions({
   async function copyArticleLink() {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      setNotice("Ligação copiada.");
+      setNotice(en ? "Link copied." : "Ligação copiada.");
     } catch (error) {
       console.error("Could not copy article link.", error);
-      setNotice("Não foi possível copiar a ligação. Use uma das opções de partilha.");
+      setNotice(en
+        ? "Could not copy the link. Use one of the sharing options."
+        : "Não foi possível copiar a ligação. Use uma das opções de partilha.");
     }
   }
 
@@ -163,7 +171,7 @@ export function ArticleInteractions({
     } catch (error) {
       if (error instanceof DOMException && error.name === "AbortError") return;
       console.error("Could not share article.", error);
-      setNotice("Não foi possível abrir a partilha do dispositivo.");
+      setNotice(en ? "Could not open your device's sharing options." : "Não foi possível abrir a partilha do dispositivo.");
     }
   }
 
@@ -174,7 +182,7 @@ export function ArticleInteractions({
         <div className="comment-byline">
           <strong>{item.authorSlug ? <Link href={`/autores/${item.authorSlug}`}>{item.author}</Link> : item.author}</strong>
           <time dateTime={item.createdAt}>
-            {new Intl.DateTimeFormat("pt-PT", { dateStyle: "medium", timeZone: "UTC" }).format(new Date(item.createdAt))}
+            {new Intl.DateTimeFormat(en ? "en-GB" : "pt-PT", { dateStyle: "medium", timeZone: "UTC" }).format(new Date(item.createdAt))}
           </time>
         </div>
         <p>{item.body}</p>
@@ -190,12 +198,12 @@ export function ArticleInteractions({
               setNotice("");
             }}
           >
-            Responder
+            {en ? "Reply" : "Responder"}
           </button>
         )}
         {replyTo === item.id && (
           <form id={`responder-${item.id}`} className="comment-form comment-reply-form" onSubmit={(event) => submitComment(event, item.id)}>
-            <label className="field-label" htmlFor={`resposta-${item.id}`}>A sua resposta</label>
+            <label className="field-label" htmlFor={`resposta-${item.id}`}>{en ? "Your reply" : "A sua resposta"}</label>
             <textarea
               id={`resposta-${item.id}`}
               className="form-input form-textarea"
@@ -205,13 +213,13 @@ export function ArticleInteractions({
               maxLength={2000}
               rows={3}
               required
-              placeholder="Acrescente contexto à conversa."
+              placeholder={en ? "Add context to the conversation." : "Acrescente contexto à conversa."}
             />
             <div className="comment-reply-actions">
               <button type="submit" className="button button-dark" disabled={isLoading}>
-                <Send size={14} /> {isLoading ? "A enviar…" : "Enviar resposta"}
+                <Send size={14} /> {isLoading ? (en ? "Sending…" : "A enviar…") : (en ? "Send reply" : "Enviar resposta")}
               </button>
-              <Link href={signInHref}>Inicie sessão para participar</Link>
+              <Link href={signInHref}>{en ? "Sign in to participate" : "Inicie sessão para participar"}</Link>
             </div>
           </form>
         )}
@@ -221,7 +229,7 @@ export function ArticleInteractions({
   }
 
   return (
-    <section className="article-community" aria-label="Partilhar e comentar">
+    <section className="article-community" aria-label={en ? "Share and comment" : "Partilhar e comentar"}>
       <div className="community-actions">
         <button
           type="button"
@@ -230,20 +238,20 @@ export function ArticleInteractions({
           disabled={!articleId || isReacting}
           aria-pressed={liked}
         >
-          <Heart size={16} fill={liked ? "currentColor" : "none"} /> {likeCount} Gostos
+          <Heart size={16} fill={liked ? "currentColor" : "none"} /> {likeCount} {en ? "Likes" : "Gostos"}
         </button>
         <a className="community-button" href="#comentarios">
-          <MessageCircle size={16} /> {commentCount} Comentários
+          <MessageCircle size={16} /> {commentCount} {en ? "Comments" : "Comentários"}
         </a>
         <button type="button" className="community-button" onClick={shareArticle}>
-          <Share2 size={16} /> Partilhar
+          <Share2 size={16} /> {en ? "Share" : "Partilhar"}
         </button>
         <button type="button" className="community-button" onClick={copyArticleLink}>
-          <Copy size={15} /> Copiar ligação
+          <Copy size={15} /> {en ? "Copy link" : "Copiar ligação"}
         </button>
       </div>
-      <nav className="community-networks" aria-label="Partilhar nas redes sociais">
-        <span>Partilhar em</span>
+      <nav className="community-networks" aria-label={en ? "Share on social media" : "Partilhar nas redes sociais"}>
+        <span>{en ? "Share on" : "Partilhar em"}</span>
         <a href={socialShareUrl("https://wa.me/", title, shareUrl)} target="_blank" rel="noopener noreferrer">WhatsApp</a>
         <a href={socialShareUrl("https://www.linkedin.com/sharing/share-offsite/", title, shareUrl)} target="_blank" rel="noopener noreferrer">LinkedIn</a>
         <a href={socialShareUrl("https://www.facebook.com/sharer/sharer.php", title, shareUrl)} target="_blank" rel="noopener noreferrer">Facebook</a>
@@ -252,18 +260,18 @@ export function ArticleInteractions({
       {notice && <p className="form-notice" role="status" aria-live="polite">{notice}</p>}
       <div id="comentarios" className="comments-panel">
         <div className="workspace-heading">
-          <span className="section-kicker">CONVERSA COM CONTEXTO</span>
-          <h2>Comentários <span className="comment-total">({commentCount})</span></h2>
+          <span className="section-kicker">{en ? "A CONVERSATION WITH CONTEXT" : "CONVERSA COM CONTEXTO"}</span>
+          <h2>{en ? "Comments" : "Comentários"} <span className="comment-total">({commentCount})</span></h2>
         </div>
         {comments.length === 0
-          ? <p className="workspace-empty">Ainda não há comentários aprovados. Seja a primeira pessoa a contribuir.</p>
+          ? <p className="workspace-empty">{en ? "No comments have been approved yet. Be the first to contribute." : "Ainda não há comentários aprovados. Seja a primeira pessoa a contribuir."}</p>
           : <div className="comment-list">{topLevelComments.map(renderComment)}</div>}
         {commentCount > comments.length && (
-          <p className="comment-list-note">Estão visíveis os primeiros {comments.length} comentários aprovados.</p>
+          <p className="comment-list-note">{en ? `Showing the first ${comments.length} approved comments.` : `Estão visíveis os primeiros ${comments.length} comentários aprovados.`}</p>
         )}
         {articleId ? (
           <form className="comment-form" onSubmit={(event) => submitComment(event)}>
-            <label className="field-label" htmlFor="article-comment">A sua perspetiva</label>
+            <label className="field-label" htmlFor="article-comment">{en ? "Your perspective" : "A sua perspetiva"}</label>
             <textarea
               id="article-comment"
               className="form-input form-textarea"
@@ -273,16 +281,20 @@ export function ArticleInteractions({
               maxLength={2000}
               rows={4}
               required
-              placeholder="Partilhe uma ideia, pergunta ou contexto adicional."
+              placeholder={en ? "Share an idea, question or additional context." : "Partilhe uma ideia, pergunta ou contexto adicional."}
             />
             <p className="comment-guidance">
-              Os comentários são revistos antes de serem publicados. <Link href={signInHref}>Inicie sessão</Link> e confirme o seu e-mail para participar.
+              {en ? "Comments are reviewed before publication. " : "Os comentários são revistos antes de serem publicados. "}
+              <Link href={signInHref}>{en ? "Sign in" : "Inicie sessão"}</Link>
+              {en ? " and verify your email to participate." : " e confirme o seu e-mail para participar."}
             </p>
             <button type="submit" className="button button-dark" disabled={isLoading}>
-              <Send size={14} /> {isLoading ? "A enviar…" : "Enviar para revisão"}
+              <Send size={14} /> {isLoading ? (en ? "Sending…" : "A enviar…") : (en ? "Submit for review" : "Enviar para revisão")}
             </button>
           </form>
-        ) : <p className="form-privacy">Os comentários estarão disponíveis quando o artigo for publicado na edição ligada à comunidade.</p>}
+        ) : <p className="form-privacy">{en
+          ? "Comments will be available when this article is published in the community edition."
+          : "Os comentários estarão disponíveis quando o artigo for publicado na edição ligada à comunidade."}</p>}
       </div>
     </section>
   );

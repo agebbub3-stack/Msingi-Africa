@@ -9,6 +9,8 @@ import { ArticleCard } from "@/components/article-card";
 import { JsonLd } from "@/components/json-ld";
 import { getApprovedArticleComments, getPublishedArticle, getPublishedArticles } from "@/lib/public-content";
 import { getStorySeo } from "@/lib/story-seo";
+import { getLocale } from "@/lib/locale.server";
+import { localizeCategory } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
 type Props = { params: Promise<{ slug: string }> };
@@ -17,6 +19,27 @@ function getArticleContent(article: NonNullable<Awaited<ReturnType<typeof getPub
   return article.markdown
     ?? article.body?.map((block) => `${block.heading ? `## ${block.heading}\n\n` : ""}${block.text}`).join("\n\n")
     ?? "";
+}
+
+function formatStoryDate(
+  article: NonNullable<Awaited<ReturnType<typeof getPublishedArticle>>>,
+  locale: "pt" | "en",
+) {
+  if (article.publishedAt) {
+    return new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "pt-PT", {
+      day: "numeric",
+      month: "short",
+      year: "numeric",
+      timeZone: "UTC",
+    }).format(new Date(article.publishedAt));
+  }
+  if (locale === "pt") return article.date;
+  const monthNames: Record<string, string> = {
+    "jan.": "Jan", "fev.": "Feb", "mar.": "Mar", "abr.": "Apr",
+    "mai.": "May", "jun.": "Jun", "jul.": "Jul", "ago.": "Aug",
+    "set.": "Sep", "out.": "Oct", "nov.": "Nov", "dez.": "Dec",
+  };
+  return article.date.replace(/\b(?:jan\.|fev\.|mar\.|abr\.|mai\.|jun\.|jul\.|ago\.|set\.|out\.|nov\.|dez\.)/i, (month) => monthNames[month.toLowerCase()] ?? month);
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
@@ -49,7 +72,8 @@ export default async function ArticlePage({ params }: Props) {
   const article = await getPublishedArticle(slug);
   if (!article) notFound();
 
-  const [allArticles] = await Promise.all([getPublishedArticles()]);
+  const [allArticles, locale] = await Promise.all([getPublishedArticles(), getLocale()]);
+  const en = locale === "en";
   const relatedArticles = allArticles.filter((item) => item.slug !== slug).slice(0, 3);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
   const articleUrl = new URL(article.canonicalUrl?.trim() || `/artigos/${article.slug}`, siteUrl).toString();
@@ -91,38 +115,42 @@ export default async function ArticlePage({ params }: Props) {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Início", item: siteUrl },
-          { "@type": "ListItem", position: 2, name: "Artigos", item: new URL("/artigos", siteUrl).toString() },
+          { "@type": "ListItem", position: 1, name: en ? "Home" : "Início", item: siteUrl },
+          { "@type": "ListItem", position: 2, name: en ? "Articles" : "Artigos", item: new URL("/artigos", siteUrl).toString() },
           { "@type": "ListItem", position: 3, name: article.title, item: articleUrl },
         ],
       }} />
-      <div className="story-breadcrumb"><Link href="/artigos"><ArrowLeft size={14} /> Todos os artigos</Link><span> / </span><span>{article.category}</span></div>
+      <div className="story-breadcrumb"><Link href="/artigos"><ArrowLeft size={14} /> {en ? "All articles" : "Todos os artigos"}</Link><span> / </span><span>{localizeCategory(article.category, locale)}</span></div>
       <header className="story-header">
-        <span className="category-label">{article.isSponsored ? "Patrocinado" : article.category}</span>
+        <span className="category-label">{article.isSponsored ? (en ? "Sponsored" : "Patrocinado") : localizeCategory(article.category, locale)}</span>
         <h1>{article.title}</h1>
         <p className="story-standfirst">{article.standfirst}</p>
         <div className="story-byline">
           <div className="byline-avatar" aria-hidden="true">{article.author.trim().slice(0, 1).toUpperCase()}</div>
           <div>
             <strong>{article.authorSlug ? <Link href={`/autores/${article.authorSlug}`}>{article.author}</Link> : article.author}</strong>
-            <span>{article.kind === "biography" ? "Perfil biográfico" : article.isSponsored ? "Parceria identificada" : "Redação Kioo Africa"}</span>
+            <span>{article.kind === "biography"
+              ? (en ? "Biographical profile" : "Perfil biográfico")
+              : article.isSponsored
+                ? (en ? "Disclosed partnership" : "Parceria identificada")
+                : (en ? "Kioo Africa Editorial" : "Redação Kioo Africa")}</span>
           </div>
           <span className="byline-divider" />
-          <div className="story-date">{article.date}</div>
-          <span className="reading-time"><Clock3 size={14} /> {article.readingTime}</span>
+          <div className="story-date">{formatStoryDate(article, locale)}</div>
+          <span className="reading-time"><Clock3 size={14} /> {article.readingTime.replace(/min de leitura/i, en ? "min read" : "min de leitura")}</span>
         </div>
       </header>
       <figure className="story-cover">
         <Image src={article.image} alt={article.imageAlt} fill priority sizes="100vw" unoptimized={Boolean(article.id)} />
-        <figcaption>{article.imageAlt} · Imagem ilustrativa.</figcaption>
+        <figcaption>{article.imageAlt} · {en ? "Illustrative image." : "Imagem ilustrativa."}</figcaption>
       </figure>
       <div className="story-body-layout">
-        <aside className="story-aside"><span>KIOO / JOURNAL</span><span>UMA LEITURA<br />COM CONTEXTO.</span><Link href="/sobre">Os nossos princípios <ArrowUpRight size={14} /></Link></aside>
+        <aside className="story-aside"><span>KIOO / JOURNAL</span><span>{en ? <>READING<br />WITH CONTEXT.</> : <>UMA LEITURA<br />COM CONTEXTO.</>}</span><Link href="/sobre">{en ? "Our principles" : "Os nossos princípios"} <ArrowUpRight size={14} /></Link></aside>
         <div className="story-body">
           <ArticleMarkdown content={content} />
           {article.sources && article.sources.length > 0 && (
             <section className="article-sources">
-              <h2>Fontes e referências</h2>
+              <h2>{en ? "Sources and references" : "Fontes e referências"}</h2>
               <ol>{article.sources.map((source) => (
                 <li key={`${source.url}-${source.title}`}>
                   <a href={source.url} target="_blank" rel="noopener noreferrer">{source.title}</a>
@@ -134,8 +162,12 @@ export default async function ArticlePage({ params }: Props) {
           <div className={`story-disclosure${article.isSponsored ? " disclosure-sponsored" : ""}`}>
             <span>✳</span>
             <p>{article.isSponsored
-              ? article.sponsorDisclosure ?? "Conteúdo patrocinado. A parceria comercial é identificada e não determina decisões de cobertura editorial."
-              : "Reportagem editorial independente. As decisões de cobertura da Kioo Africa não são influenciadas por anunciantes."}</p>
+                ? article.sponsorDisclosure ?? (en
+                  ? "Sponsored content. This commercial partnership is clearly labelled and does not determine editorial coverage."
+                  : "Conteúdo patrocinado. A parceria comercial é identificada e não determina decisões de cobertura editorial.")
+                : en
+                  ? "Independent editorial reporting. Kioo Africa's coverage decisions are not influenced by advertisers."
+                  : "Reportagem editorial independente. As decisões de cobertura da Kioo Africa não são influenciadas por anunciantes."}</p>
           </div>
         </div>
       </div>
@@ -147,11 +179,12 @@ export default async function ArticlePage({ params }: Props) {
           returnPath={`/artigos/${article.slug}`}
           initialComments={initialComments.comments}
           initialCommentCount={initialComments.totalCount}
+          locale={locale}
         />
       </div>
       <section className="related-stories section-pad">
-        <div className="section-heading"><div><span className="section-kicker">CONTINUE A EXPLORAR</span><h2>Mais histórias,<br />mais <em>perspetivas.</em></h2></div><Link href="/artigos" className="text-link">Todos os artigos <ArrowUpRight size={15} /></Link></div>
-        <div className="article-grid">{relatedArticles.map((item) => <ArticleCard key={item.slug} article={item} />)}</div>
+        <div className="section-heading"><div><span className="section-kicker">{en ? "KEEP EXPLORING" : "CONTINUE A EXPLORAR"}</span><h2>{en ? <>More stories,<br />more <em>perspectives.</em></> : <>Mais histórias,<br />mais <em>perspetivas.</em></>}</h2></div><Link href="/artigos" className="text-link">{en ? "All articles" : "Todos os artigos"} <ArrowUpRight size={15} /></Link></div>
+        <div className="article-grid">{relatedArticles.map((item) => <ArticleCard key={item.slug} article={item} locale={locale} />)}</div>
       </section>
     </article>
   );

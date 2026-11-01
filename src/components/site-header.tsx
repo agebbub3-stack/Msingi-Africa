@@ -79,7 +79,7 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           ref={navigationRef}
           id="primary-navigation"
           className={`primary-navigation${isOpen ? " navigation-open" : ""}`}
-          aria-label="Navegação principal"
+          aria-label={locale === "en" ? "Main navigation" : "Navegação principal"}
         >
           <div className={`nav-explore${isExploreOpen ? " nav-explore-open" : ""}`}>
             <button

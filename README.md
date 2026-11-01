@@ -32,7 +32,7 @@ Sem `DATABASE_URL`, as páginas públicas podem apresentar conteúdo de demonstr
 ## Contas e redação
 
 - O registo cria uma conta de utilizador; verificar o endereço de e-mail é obrigatório. Em desenvolvimento, os links de verificação e recuperação são impressos no terminal se o Resend não estiver configurado. Em produção, configure `RESEND_API_KEY` e `RESEND_FROM_EMAIL`.
-- Criadores editam o perfil e submetem artigos ou biografias em `/painel`. Submissões entram na fila de `/redacao`; somente a redação pode editar, aprovar ou rejeitar.
+- Criadores editam o perfil e submetem artigos ou biografias em `/painel`. As propostas ficam em revisão até a redação aprovar e publicar ou devolver ao autor. Em `/redacao`, editores reveem a fila; administradores também podem criar e publicar artigos e biografias diretamente, com referências e metadados SEO.
 - O plano gratuito não aceita ligações ou fontes nas propostas. Creator Plus permite referências verificáveis enquanto a assinatura estiver ativa.
 - Para criar um administrador: registe e verifique a conta, defina `ADMIN_EMAIL` com o endereço correspondente e execute `npm run db:seed`. O seed atualiza a função da conta existente; não promove automaticamente uma conta ainda não criada. Por omissão, publica apenas os artigos e perfis editoriais com fontes incluídos no projeto, incluindo as respetivas referências e metadados SEO. Para popular também um ambiente local de teste com exemplos demonstrativos, defina `SEED_DEMO_CONTENT=true` antes de executar `npm run db:seed`; o seed bloqueia expressamente esses exemplos em produção.
 - Comentários passam pela fila de moderação. Likes requerem conta; artigos, perfis e entidades publicados têm páginas públicas e metadados estruturados.

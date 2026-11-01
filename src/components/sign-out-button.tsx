@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { authClient } from "@/lib/auth-client";
+import type { Locale } from "@/lib/i18n";
 
-export function SignOutButton() {
+export function SignOutButton({ locale = "en" }: { locale?: Locale }) {
+  const en = locale === "en";
   const [notice, setNotice] = useState("");
   const [isSigningOut, setIsSigningOut] = useState(false);
   const router = useRouter();
@@ -15,14 +17,14 @@ export function SignOutButton() {
     try {
       const result = await authClient.signOut();
       if (result.error) {
-        setNotice(result.error.message ?? "Não foi possível terminar a sessão.");
+        setNotice(result.error.message ?? (en ? "Could not sign out." : "Não foi possível terminar a sessão."));
         return;
       }
       router.replace("/");
       router.refresh();
     } catch (error) {
       console.error("Could not sign out.", error);
-      setNotice("Não foi possível terminar a sessão. Tente novamente.");
+      setNotice(en ? "Could not sign out. Please try again." : "Não foi possível terminar a sessão. Tente novamente.");
     } finally {
       setIsSigningOut(false);
     }
@@ -31,7 +33,7 @@ export function SignOutButton() {
   return (
     <>
       <button className="dashboard-signout" type="button" onClick={signOut} disabled={isSigningOut}>
-        {isSigningOut ? "A terminar…" : "Terminar sessão"}
+        {isSigningOut ? (en ? "Signing out…" : "A terminar…") : (en ? "Sign out" : "Terminar sessão")}
       </button>
       {notice && <span role="alert">{notice}</span>}
     </>

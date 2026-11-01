@@ -4,5 +4,5 @@ import type { Locale } from "@/lib/i18n";
 
 export async function getLocale(): Promise<Locale> {
   const value = (await cookies()).get("kioo-locale")?.value;
-  return value === "en" ? "en" : "pt";
+  return value === "pt" ? "pt" : "en";
 }
