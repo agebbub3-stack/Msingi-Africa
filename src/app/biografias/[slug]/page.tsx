@@ -5,11 +5,12 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleInteractions } from "@/components/article-interactions";
 import { ArticleMarkdown } from "@/components/article-markdown";
+import { ArticleCard } from "@/components/article-card";
 import { JsonLd } from "@/components/json-ld";
 import { ProfileCard } from "@/components/profile-card";
 import { getPublishedArticle, getPublishedBiographies } from "@/lib/public-content";
 import { getStorySeo } from "@/lib/story-seo";
-import { biographies as editorialBiographies } from "@/lib/content";
+import { articles as editorialArticles, biographies as editorialBiographies } from "@/lib/content";
 
 export const dynamic = "force-dynamic";
 type Props = { params: Promise<{ slug: string }> };
@@ -49,6 +50,8 @@ export default async function BiographyPage({ params }: Props) {
   const pageUrl = new URL(`/biografias/${slug}`, siteUrl).toString();
   const relatedProfiles = biographies.filter((item) => item.slug !== slug).slice(0, 3);
   const editorialProfile = editorialBiographies.find((item) => item.slug === slug);
+  const relatedArticleSlugs = new Set(editorialProfile?.relatedArticleSlugs ?? []);
+  const relatedArticles = editorialArticles.filter((item) => relatedArticleSlugs.has(item.slug));
   const portrait = editorialProfile?.portrait;
   const seo = getStorySeo(profile);
 
@@ -136,6 +139,15 @@ export default async function BiographyPage({ params }: Props) {
         </div>
       </section>
       <div className="section-pad"><ArticleInteractions articleId={profile.id} title={profile.title} /></div>
+      {relatedArticles.length > 0 && (
+        <section className="related-stories section-pad">
+          <div className="section-heading">
+            <div><span className="section-kicker">CONTEXTO E LEITURAS</span><h2>Histórias que<br />cruzam este <em>percurso.</em></h2></div>
+            <Link href="/artigos" className="text-link">Todos os artigos <ArrowUpRight size={15} /></Link>
+          </div>
+          <div className="article-grid">{relatedArticles.map((article) => <ArticleCard key={article.slug} article={article} />)}</div>
+        </section>
+      )}
       <section className="people-section section-pad person-related">
         <div className="section-heading"><div><span className="section-kicker">OUTRAS PESSOAS, NOVAS IDEIAS</span><h2>Mais percursos<br />para <em>descobrir.</em></h2></div><Link className="text-link" href="/biografias">Todas as biografias <ArrowUpRight size={15} /></Link></div>
         <div className="profile-grid">{relatedProfiles.map((item) => <ProfileCard key={item.slug} profile={item} />)}</div>

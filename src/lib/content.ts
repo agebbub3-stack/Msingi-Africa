@@ -534,6 +534,7 @@ export type Biography = {
   organizationUrl?: string;
   contactUrl?: string;
   spotlight?: string;
+  relatedArticleSlugs?: string[];
   seoKeywords?: string[];
   body: string[];
   sources?: { title: string; publisher: string | null; url: string }[];
@@ -562,6 +563,7 @@ export const biographies: Biography[] = [
     organizationUrl: "https://techlitafrica.org/",
     spotlight:
       "Fundou uma iniciativa que equipa escolas rurais com laboratórios de informática, aulas digitais regulares e professores locais.",
+    relatedArticleSlugs: ["inclusao-digital-africa-uso-internet-movel", "talento-economia-digital"],
     portrait: {
       src: "/images/profiles/nelly-cheboi.jpg",
       alt: "Nelly Cheboi no palco após receber o prémio CNN Hero of the Year",
@@ -609,6 +611,7 @@ export const biographies: Biography[] = [
     contactUrl: "https://appstech.com/en/#contact",
     spotlight:
       "Fundou a AppsTech em 1999. A empresa descreve uma operação internacional de tecnologia empresarial, com clientes em mais de 50 países.",
+    relatedArticleSlugs: ["venture-capital-africa-2025-rondas-contexto", "talento-economia-digital"],
     portrait: {
       src: "/images/profiles/rebecca-enonchong.jpg",
       alt: "Rebecca Enonchong durante um evento da UNCTAD em 2019",
@@ -648,6 +651,7 @@ export const biographies: Biography[] = [
     organization: "soleRebels",
     spotlight:
       "Fundou a soleRebels em 2005, ligando o saber artesanal etíope à criação de uma marca de calçado com ambição internacional.",
+    relatedArticleSlugs: ["criatividade-como-industria"],
     portrait: {
       src: "/images/profiles/bethlehem-tilahun-alemu.png",
       alt: "Bethlehem Tilahun Alemu entrevistada para a NdaniTV",
@@ -687,6 +691,7 @@ export const biographies: Biography[] = [
     organization: "EbonyLife",
     spotlight:
       "Fundou a EbonyLife, uma plataforma de televisão e cinema dedicada à produção e circulação de histórias africanas.",
+    relatedArticleSlugs: ["criatividade-como-industria"],
     portrait: {
       src: "/images/profiles/mo-abudu.jpg",
       alt: "Mo Abudu num retrato de 2010",
@@ -727,6 +732,7 @@ export const biographies: Biography[] = [
     organizationUrl: "https://lifebank.ng/",
     spotlight:
       "Fundou a LifeBank em 2016 para ligar hospitais a produtos essenciais através de uma operação de distribuição que combina tecnologia e logística.",
+    relatedArticleSlugs: ["logistica-saude-acesso-sangue"],
     body: [
       "Temie Giwa-Tubosun é uma empreendedora nigeriana na área da saúde e fundadora da LifeBank. O seu trabalho parte de um problema concreto: produtos essenciais só são úteis quando a rede de abastecimento consegue localizá-los e fazê-los chegar a quem deles precisa.",
       "A TED descreve a LifeBank como uma empresa fundada em 2016 para construir uma cadeia de abastecimento de produtos de saúde, com hospitais na Nigéria e no Quénia. O perfil refere uma operação que recorre a diferentes meios de transporte e funciona em coordenação com as necessidades dos hospitais. Estas informações são apresentadas pela TED a partir do perfil da fundadora e da empresa.",
@@ -765,6 +771,7 @@ export const biographies: Biography[] = [
     organizationUrl: "https://flutterwave.com/",
     spotlight:
       "O perfil da Forbes regista o seu percurso de cofundador de startups e a criação da Flutterwave em 2017, ligando talento tecnológico e pagamentos digitais.",
+    relatedArticleSlugs: ["venture-capital-africa-2025-rondas-contexto", "talento-economia-digital"],
     body: [
       "Iyinoluwa Aboyeji é um empreendedor nigeriano associado a duas etapas marcantes do ecossistema tecnológico africano: a formação de talento para a indústria digital e a construção de infraestrutura de pagamentos.",
       "O perfil da Forbes, publicado em 2018, descreve Aboyeji como cofundador de duas startups africanas antes de lançar a Flutterwave em 2017. O mesmo texto identifica a Andela como um dos projetos anteriores e apresenta números de financiamento e atividade referentes àquele momento. Esses valores são históricos e não devem ser lidos como métricas atuais.",
@@ -793,6 +800,7 @@ export const biographies: Biography[] = [
     organizationUrl: "https://sunculture.io/about-us/",
     spotlight:
       "Cofundou uma empresa que combina energia solar, bombagem de água e soluções de irrigação para explorações agrícolas.",
+    relatedArticleSlugs: ["energia-solar-irrigacao-agricultura-africa", "energia-limpa-africa-acesso-economico"],
     seoKeywords: [
       "Samir Ibrahim",
       "SunCulture",
