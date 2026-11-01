@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#192c29"/>
+      <stop offset="1" stop-color="#142320"/>
+    </linearGradient>
+    <pattern id="grid" width="48" height="48" patternUnits="userSpaceOnUse">
+      <path d="M48 0H0V48" fill="none" stroke="#f7f3e9" stroke-opacity=".035"/>
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="url(#background)"/>
+  <rect width="1200" height="630" fill="url(#grid)"/>
+  <circle cx="1100" cy="96" r="220" fill="none" stroke="#f3bd63" stroke-opacity=".12" stroke-width="2"/>
+  <circle cx="1100" cy="96" r="168" fill="none" stroke="#d58b54" stroke-opacity=".16" stroke-width="2"/>
+  <rect x="84" y="72" width="52" height="52" rx="16" fill="none" stroke="#f3bd63" stroke-width="2"/>
+  <path d="M94 98c5-7 11-10 16-10s11 3 16 10c-5 7-11 10-16 10s-11-3-16-10Z" fill="none" stroke="#f3bd63" stroke-width="2"/>
+  <circle cx="110" cy="98" r="3.5" fill="#d58b54"/>
+  <text x="154" y="108" fill="#f7f3e9" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="4">KIOO AFRICA</text>
+  <text x="84" y="266" fill="#f3bd63" font-family="Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="5">PESSOAS · IDEIAS · MERCADOS</text>
+  <text x="80" y="370" fill="#f7f3e9" font-family="Georgia, serif" font-size="74">Histórias africanas.</text>
+  <text x="80" y="456" fill="#f7f3e9" font-family="Georgia, serif" font-size="74">Contexto para avançar.</text>
+  <text x="84" y="548" fill="#c5d0c5" font-family="Arial, sans-serif" font-size="20">Jornalismo independente, pensado a partir de África.</text>
+</svg>

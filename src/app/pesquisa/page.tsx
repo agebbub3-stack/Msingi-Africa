@@ -10,6 +10,7 @@ export const metadata: Metadata = {
   title: "Pesquisar artigos e mercados",
   description: "Encontre artigos, pessoas, entidades e tendências sobre os mercados africanos.",
   alternates: { canonical: "/pesquisa" },
+  robots: { index: false, follow: true },
 };
 
 type Props = { searchParams: Promise<{ q?: string }> };

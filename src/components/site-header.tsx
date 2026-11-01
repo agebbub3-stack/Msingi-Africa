@@ -15,35 +15,18 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { Brand } from "@/components/brand";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { ThemeToggle } from "@/components/theme-toggle";
+import { translate, type Locale } from "@/lib/i18n";
 
 const discoveryLinks = [
-  {
-    label: "Artigos e análise",
-    description: "Ideias, mercados e tendências africanas.",
-    href: "/artigos",
-    icon: BookOpenText,
-  },
-  {
-    label: "Biografias",
-    description: "Pessoas a transformar o continente.",
-    href: "/biografias",
-    icon: UsersRound,
-  },
-  {
-    label: "Entidades",
-    description: "Empresas e organizações em foco.",
-    href: "/entidades",
-    icon: Landmark,
-  },
-  {
-    label: "Autores",
-    description: "Conheça quem assina as histórias.",
-    href: "/autores",
-    icon: UserRound,
-  },
-];
+  { title: "articles", description: "articlesDescription", href: "/artigos", icon: BookOpenText },
+  { title: "biographies", description: "biographiesDescription", href: "/biografias", icon: UsersRound },
+  { title: "entities", description: "entitiesDescription", href: "/entidades", icon: Landmark },
+  { title: "authors", description: "authorsDescription", href: "/autores", icon: UserRound },
+] as const;
 
-export function SiteHeader() {
+export function SiteHeader({ locale }: { locale: Locale }) {
   const [isOpen, setIsOpen] = useState(false);
   const [isExploreOpen, setIsExploreOpen] = useState(false);
   const pathname = usePathname();
@@ -85,7 +68,7 @@ export function SiteHeader() {
         <button
           className="mobile-menu-button"
           type="button"
-          aria-label={isOpen ? "Fechar menu" : "Abrir menu"}
+          aria-label={translate(locale, isOpen ? "closeMenu" : "openMenu")}
           aria-expanded={isOpen}
           aria-controls="primary-navigation"
           onClick={() => setIsOpen((open) => !open)}
@@ -107,18 +90,19 @@ export function SiteHeader() {
               aria-controls="explore-navigation"
               onClick={() => setIsExploreOpen((open) => !open)}
             >
-              Explorar <ChevronDown size={14} aria-hidden="true" />
+              {translate(locale, "explore")} <ChevronDown size={14} aria-hidden="true" />
             </button>
             <div
               id="explore-navigation"
               className="nav-explore-panel"
-              aria-label="Explorar a Kioo Africa"
+              aria-label={translate(locale, "explore")}
               hidden={!isExploreOpen}
             >
-              <p className="nav-explore-heading">IDEIAS QUE MOVEM ÁFRICA</p>
+              <p className="nav-explore-heading">{translate(locale, "exploreHeading")}</p>
               <div className="nav-explore-links">
-                {discoveryLinks.map(({ description, href, icon: Icon, label }) => {
+                {discoveryLinks.map(({ description, href, icon: Icon, title }) => {
                   const isActive = pathname === href || pathname.startsWith(`${href}/`);
+                  const label = translate(locale, title);
                   return (
                     <Link
                       key={href}
@@ -128,21 +112,21 @@ export function SiteHeader() {
                       onClick={closeNavigation}
                     >
                       <span className="nav-explore-icon"><Icon size={17} aria-hidden="true" /></span>
-                      <span><strong>{label}</strong><small>{description}</small></span>
+                      <span><strong>{label}</strong><small>{translate(locale, description)}</small></span>
                       <ArrowUpRight size={14} className="nav-explore-arrow" aria-hidden="true" />
                     </Link>
                   );
                 })}
               </div>
               <Link className="nav-explore-search" href="/pesquisa" onClick={closeNavigation}>
-                <Search size={14} aria-hidden="true" /> Pesquisar histórias e pessoas
+                <Search size={14} aria-hidden="true" /> {translate(locale, "searchAll")}
                 <ArrowUpRight size={14} aria-hidden="true" />
               </Link>
             </div>
           </div>
           {[
-            { label: "Planos", href: "/planos" },
-            { label: "Sobre nós", href: "/sobre" },
+            { label: translate(locale, "plans"), href: "/planos" },
+            { label: translate(locale, "about"), href: "/sobre" },
           ].map((link) => {
             const isActive = pathname === link.href || pathname.startsWith(`${link.href}/`);
             return (
@@ -160,24 +144,26 @@ export function SiteHeader() {
           <Link
             href="/pesquisa"
             className={`nav-link nav-icon-link${pathname.startsWith("/pesquisa") ? " nav-link-active" : ""}`}
-            aria-label="Pesquisar"
+            aria-label={translate(locale, "search")}
             onClick={closeNavigation}
           >
-            <Search size={16} /><span className="nav-optional-label">Pesquisar</span>
+            <Search size={16} /><span className="nav-optional-label">{translate(locale, "search")}</span>
           </Link>
+          <ThemeToggle locale={locale} />
+          <LanguageSwitcher locale={locale} />
           <Link
             href="/entrar"
             className={`nav-link nav-account-link${pathname.startsWith("/entrar") || pathname.startsWith("/painel") ? " nav-link-active" : ""}`}
             onClick={closeNavigation}
           >
-            <UserRound size={15} /><span>Entrar</span>
+            <UserRound size={15} /><span>{translate(locale, "signIn")}</span>
           </Link>
           <Link
             href="/publicar"
             className="nav-cta"
             onClick={closeNavigation}
           >
-            Partilhar uma história <ArrowUpRight size={15} strokeWidth={1.8} />
+            {translate(locale, "shareStory")} <ArrowUpRight size={15} strokeWidth={1.8} />
           </Link>
         </nav>
       </div>

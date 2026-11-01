@@ -25,17 +25,17 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!article) return { title: "Artigo não encontrado", robots: { index: false, follow: false } };
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
   const seo = getStorySeo(article);
-  const canonical = article.canonicalUrl?.trim() || `/artigos/${article.slug}`;
+  const canonical = new URL(article.canonicalUrl?.trim() || `/artigos/${article.slug}`, siteUrl).toString();
   return {
     title: seo.title,
     description: seo.description,
     keywords: seo.keywords,
-    alternates: { canonical: new URL(canonical, siteUrl).toString() },
+    alternates: { canonical },
     openGraph: {
       type: "article",
       title: seo.title,
       description: seo.description,
-      url: new URL(canonical, siteUrl).toString(),
+      url: canonical,
       images: [{ url: article.image, alt: article.imageAlt }],
       ...(article.publishedAt ? { publishedTime: article.publishedAt } : {}),
       ...(article.modifiedAt ? { modifiedTime: article.modifiedAt } : {}),
@@ -52,7 +52,7 @@ export default async function ArticlePage({ params }: Props) {
   const [allArticles] = await Promise.all([getPublishedArticles()]);
   const relatedArticles = allArticles.filter((item) => item.slug !== slug).slice(0, 3);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
-  const articleUrl = new URL(`/artigos/${article.slug}`, siteUrl).toString();
+  const articleUrl = new URL(article.canonicalUrl?.trim() || `/artigos/${article.slug}`, siteUrl).toString();
   const content = getArticleContent(article);
   const seo = getStorySeo(article);
   const jsonLd: Record<string, unknown> = {
@@ -68,7 +68,9 @@ export default async function ArticlePage({ params }: Props) {
     wordCount: content.trim().split(/\s+/).filter(Boolean).length,
     isAccessibleForFree: true,
     mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
-    author: { "@type": "Person", name: article.author, ...(article.authorSlug ? { url: new URL(`/autores/${article.authorSlug}`, siteUrl).toString() } : {}) },
+    author: article.authorSlug
+      ? { "@type": "Person", name: article.author, url: new URL(`/autores/${article.authorSlug}`, siteUrl).toString() }
+      : { "@id": `${siteUrl}#organization` },
     publisher: {
       "@type": "Organization",
       name: "Kioo Africa",

@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { DM_Sans, DM_Serif_Display } from "next/font/google";
+import Script from "next/script";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { JsonLd } from "@/components/json-ld";
+import { translate } from "@/lib/i18n";
+import { getLocale } from "@/lib/locale.server";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -26,18 +29,7 @@ export const metadata: Metadata = {
   },
   description:
     "Kioo: jornalismo independente, biografias e análise de mercados africanos para compreender as raízes e antecipar o que vem a seguir.",
-  keywords: [
-    "Kioo Africa",
-    "Kioo",
-    "mercados africanos",
-    "Africa forum",
-    "Modern Africa",
-    "Africa future",
-    "African technology",
-    "clean energy Africa",
-    "inovação em África",
-    "negócios em Angola",
-  ],
+  keywords: ["jornalismo africano", "mercados africanos", "negócios em África", "inovação africana", "biografias africanas"],
   ...(process.env.GOOGLE_SITE_VERIFICATION
     ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
     : {}),
@@ -49,25 +41,32 @@ export const metadata: Metadata = {
     siteName: "Kioo Africa",
     locale: "pt_PT",
     type: "website",
+    images: [{ url: "/social-card.png", width: 1200, height: 630, alt: "Kioo Africa — histórias africanas com contexto" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Kioo Africa — Mercados, inovação e perfis africanos",
     description: "Artigos, biografias e análise independente sobre o futuro dos mercados africanos.",
+    images: ["/social-card-twitter.png"],
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
   return (
-    <html lang="pt" className={`${dmSans.variable} ${dmSerifDisplay.variable}`}>
+    <html lang={locale === "en" ? "en" : "pt"} className={`${dmSans.variable} ${dmSerifDisplay.variable}`} suppressHydrationWarning>
       <body>
+        <Script id="kioo-theme-init" strategy="beforeInteractive">
+          {`try { var theme = localStorage.getItem("kioo-theme"); var dark = theme ? theme === "dark" : window.matchMedia("(prefers-color-scheme: dark)").matches; document.documentElement.dataset.theme = dark ? "dark" : "light"; } catch { document.documentElement.dataset.theme = "light"; }`}
+        </Script>
         <JsonLd data={{
           "@context": "https://schema.org",
           "@type": "Organization",
+          "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"}#organization`,
           name: "Kioo Africa",
           alternateName: "Kioo",
           slogan: "Pessoas, ideias e mercados africanos.",
@@ -77,15 +76,33 @@ export default function RootLayout({
           publishingPrinciples: new URL("/sobre#principios", process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa").toString(),
           areaServed: { "@type": "Continent", name: "África" },
         }} />
+        <JsonLd data={{
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"}#website`,
+          name: "Kioo Africa",
+          alternateName: "Kioo",
+          url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa",
+          inLanguage: ["pt-AO", "pt-PT"],
+          publisher: { "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"}#organization` },
+          potentialAction: {
+            "@type": "SearchAction",
+            target: {
+              "@type": "EntryPoint",
+              urlTemplate: new URL("/pesquisa?q={search_term_string}", process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa").toString(),
+            },
+            "query-input": "required name=search_term_string",
+          },
+        }} />
         <div className="topline">
           <div className="topline-inner">
-            <span>JORNALISMO INDEPENDENTE · PENSADO A PARTIR DE ÁFRICA</span>
-            <span className="topline-date">UM CONTINENTE <span>—</span> MUITAS PERSPETIVAS</span>
+            <span>{translate(locale, "tagline")}</span>
+            <span className="topline-date">{translate(locale, "topline")}</span>
           </div>
         </div>
-        <SiteHeader />
+        <SiteHeader locale={locale} />
         <main>{children}</main>
-        <SiteFooter />
+        <SiteFooter locale={locale} />
       </body>
     </html>
   );

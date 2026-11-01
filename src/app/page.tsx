@@ -1,38 +1,47 @@
-import { ArrowDownRight, ArrowRight, ArrowUpRight, Globe2, MoveUpRight } from "lucide-react";
-import Image from "next/image";
+import { ArrowDownRight, ArrowRight, ArrowUpRight, MoveUpRight } from "lucide-react";
 import Link from "next/link";
 import { ArticleCard } from "@/components/article-card";
-import { HomeStoryCarousel } from "@/components/home-story-carousel";
+import { HomeHeroCarousel } from "@/components/home-hero-carousel";
 import { ProfileCard } from "@/components/profile-card";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { imageForCategory } from "@/lib/content";
 import { getPublishedArticles, getPublishedBiographies } from "@/lib/public-content";
+import { localizeCategory, translate } from "@/lib/i18n";
+import { getLocale } from "@/lib/locale.server";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [publishedArticles, biographies] = await Promise.all([getPublishedArticles(), getPublishedBiographies()]);
+  const [publishedArticles, biographies, locale] = await Promise.all([
+    getPublishedArticles(),
+    getPublishedBiographies(),
+    getLocale(),
+  ]);
   const [lead, ...latestArticles] = publishedArticles;
   const digitalEconomyArticle = publishedArticles.find(
     (article) => article.slug === "inclusao-digital-africa-uso-internet-movel",
   );
   const gsmaSource = digitalEconomyArticle?.sources?.find((source) => source.publisher === "GSMA");
   const carouselStories = [
-    ...latestArticles.slice(0, 4).map((article) => ({
+    ...publishedArticles.slice(0, 3).map((article) => ({
       href: `/artigos/${article.slug}`,
       title: article.title,
       description: article.standfirst,
       image: article.image,
       imageAlt: article.imageAlt,
-      label: article.category,
+      label: localizeCategory(article.category, locale),
+      byline: article.author,
+      date: article.date,
     })),
-    ...biographies.slice(0, 3).map((profile) => ({
+    ...biographies.slice(0, 1).map((profile) => ({
       href: `/biografias/${profile.slug}`,
       title: profile.name,
       description: profile.summary,
       image: profile.portrait?.src ?? imageForCategory[profile.field] ?? imageForCategory.Tecnologia,
       imageAlt: profile.portrait?.alt ?? `${profile.name}, perfil biográfico`,
-      label: `${profile.country} · ${profile.field}`,
+      label: locale === "en" ? `${profile.country} · ${localizeCategory(profile.field, locale)}` : `${profile.country} · ${profile.field}`,
+      byline: locale === "en" ? "Kioo Africa Editorial" : "Redação Kioo Africa",
+      date: "",
     })),
   ];
 
@@ -41,51 +50,29 @@ export default async function HomePage() {
       <div className="home-scroll-progress" aria-hidden="true"><span /></div>
       <section className="home-hero">
         <div className="hero-topline">
-          <span className="eyebrow"><span className="eyebrow-dot" /> A OBSERVAR O CONTINENTE</span>
-          <span className="hero-edition">VOL. 01 <span>—</span> EDIÇÃO 026</span>
+          <span className="eyebrow"><span className="eyebrow-dot" /> {translate(locale, "watchContinent")}</span>
+          <span className="hero-edition">VOL. 01 <span>—</span> {translate(locale, "edition")} 026</span>
         </div>
-        <div className="hero-grid">
-          <div className="hero-copy">
-            <p className="hero-kicker">UM CONTINENTE. <span>∞</span> HISTÓRIAS.</p>
-            <h1>O que move <span>África</span><br />move o futuro.</h1>
-            <p className="hero-description">
-              Pessoas, mercados e ideias em transformação. Jornalismo independente para olhar o continente de mais perto — e o mundo de um novo ângulo.
-            </p>
-            <div className="hero-actions">
-              <Link href="/artigos" className="button button-dark">Explorar as histórias <ArrowUpRight size={16} /></Link>
-              <Link href="/sobre" className="text-link">Conheça a Kioo <ArrowRight size={15} /></Link>
-            </div>
-            <div className="hero-note">
-              <span className="hero-note-line" />
-              <p>Uma lente independente sobre África.<br />Contexto para compreender o que vem a seguir.</p>
-            </div>
-          </div>
-          <div className="hero-visual">
-            <div className="hero-image-frame">
-              <Image
-                src="https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=1200&q=88"
-                alt="Paisagem africana iluminada pelo sol ao fim da tarde"
-                fill
-                priority
-                sizes="(max-width: 760px) 100vw, 52vw"
-              />
-              <div className="hero-image-shade" />
-              <div className="hero-image-caption">
-                <span>01° 17′ N · 36° 49′ E</span>
-                <span>NAIROBI · QUÉNIA</span>
-              </div>
-            </div>
-            <div className="hero-sticker"><Globe2 size={16} /><span>DE 54 PAÍSES,<br />UMA CONVERSA.</span></div>
-            <span className="hero-vertical-label">PERSPECTIVAS QUE NOS APROXIMAM</span>
-          </div>
-        </div>
+        <HomeHeroCarousel locale={locale} items={carouselStories.length > 0 ? carouselStories : [{
+            href: "/artigos",
+            title: locale === "en" ? "African people, ideas and markets" : "Pessoas, mercados e ideias africanas",
+            description: locale === "en" ? "Independent stories to understand what is changing across the continent." : "Histórias independentes para compreender o que está a mudar no continente.",
+            image: imageForCategory.Mercados,
+            imageAlt: "Mercados e cidades africanas",
+            label: "KIOO AFRICA",
+            byline: "Kioo Africa",
+            date: "",
+          }]} />
         <div className="hero-bottom">
-          <a href="#destaque" className="scroll-cue"><ArrowDownRight size={15} /> DESCUBRA O QUE ESTÁ A MUDAR</a>
+          <a href="#destaque" className="scroll-cue"><ArrowDownRight size={15} /> {translate(locale, "discoverChanges")}</a>
           <div className="ticker" aria-label="Os nossos temas">
-            <span>MERCADOS</span><i /><span>TECNOLOGIA</span><i /><span>IDEIAS</span><i /><span>CULTURA</span><i /><span>PESSOAS</span>
+            <span>{translate(locale, "markets")}</span><i /><span>{translate(locale, "technology")}</span><i /><span>{translate(locale, "ideas")}</span><i /><span>{translate(locale, "culture")}</span><i /><span>{translate(locale, "people")}</span>
           </div>
         </div>
       </section>
+      {locale === "en" && (
+        <p className="locale-content-notice" role="note">{translate(locale, "englishContentNotice")}</p>
+      )}
 
       <ScrollReveal
         className="featured-section section-pad"
@@ -94,22 +81,22 @@ export default async function HomePage() {
       >
         <div className="section-heading">
           <div>
-            <span className="section-kicker">A ESCOLHA DA REDAÇÃO <span>✳</span></span>
-            <h2>O continente<br className="mobile-break" /> em <em>contexto.</em></h2>
+            <span className="section-kicker">{translate(locale, "editorsPick")} <span>✳</span></span>
+            <h2>{locale === "en" ? <>The continent<br className="mobile-break" /> in <em>context.</em></> : <>O continente<br className="mobile-break" /> em <em>contexto.</em></>}</h2>
           </div>
-          <Link className="text-link heading-link" href="/artigos">Todas as histórias <ArrowRight size={15} /></Link>
+          <Link className="text-link heading-link" href="/artigos">{translate(locale, "allStories")} <ArrowRight size={15} /></Link>
         </div>
         <div className="featured-layout">
           {lead ? <div className="lead-article"><ArticleCard article={lead} featured /></div> : <div className="lead-article workspace-empty"><p>A próxima história está a ser preparada pela redação.</p></div>}
           <aside className="briefing">
             <div className="briefing-top">
-              <span className="briefing-overline">O PONTO DE PARTIDA</span>
+              <span className="briefing-overline">{translate(locale, "startingPoint")}</span>
               <span className="briefing-symbol">✳</span>
             </div>
-            <h3>O contexto muda<br />tudo.</h3>
-            <p>As grandes conversas sobre África são muitas vezes contadas de longe. Nós começamos mais perto: dos dados, das pessoas e das realidades que fazem cada mercado único.</p>
-            <Link href="/sobre" className="briefing-link">A nossa forma de olhar <MoveUpRight size={15} /></Link>
-            <div className="briefing-index"><span>01</span><span>—</span><span>NOTA EDITORIAL</span></div>
+            <h3>{locale === "en" ? <>Context changes<br />everything.</> : <>O contexto muda<br />tudo.</>}</h3>
+            <p>{translate(locale, "contextBriefing")}</p>
+            <Link href="/sobre" className="briefing-link">{translate(locale, "ourApproach")} <MoveUpRight size={15} /></Link>
+            <div className="briefing-index"><span>01</span><span>—</span><span>{translate(locale, "editorialNote")}</span></div>
           </aside>
         </div>
       </ScrollReveal>
@@ -122,50 +109,39 @@ export default async function HomePage() {
         >
           <div className="market-lens-heading">
             <div>
-              <span className="section-kicker">DADOS EM CONTEXTO <span>✳</span> GSMA · 2025</span>
-              <h2 id="market-lens-title">A economia digital<br />para lá do <em>sinal.</em></h2>
-              <p>
-                Cobertura de rede é só o começo. Acesso, preço e utilidade ajudam a explicar
-                como a conectividade se transforma — ou não — em oportunidade.
-              </p>
+              <span className="section-kicker">{translate(locale, "dataInContext")} <span>✳</span> GSMA · 2025</span>
+              <h2 id="market-lens-title">{locale === "en" ? <>The digital economy<br /><em>beyond the signal.</em></> : <>A economia digital<br />para lá do <em>sinal.</em></>}</h2>
+              <p>{translate(locale, "mobileAccessContext")}</p>
             </div>
             <Link className="text-link market-lens-link" href={`/artigos/${digitalEconomyArticle.slug}`}>
-              Leia a análise completa <ArrowUpRight size={16} />
+              {translate(locale, "readFullAnalysis")} <ArrowUpRight size={16} />
             </Link>
           </div>
-          <div className="market-metrics" aria-label="Indicadores da economia móvel africana citados pela GSMA">
+          <div className="market-metrics"           aria-label={translate(locale, "mobileAccessIndicators")}>
             <article className="market-metric">
-              <span className="metric-index">01 / ACESSO</span>
-              <strong>Quase 1 mil milhão</strong>
-              <p>de pessoas em África ainda não utilizam internet móvel, apesar da cobertura disponível.</p>
+              <span className="metric-index">01 / {translate(locale, "access")}</span>
+              <strong>{translate(locale, "almostOneBillion")}</strong>
+              <p>{translate(locale, "mobileInternetGap")}</p>
             </article>
             <article className="market-metric">
-              <span className="metric-index">02 / ECONOMIA</span>
+              <span className="metric-index">02 / {translate(locale, "economy")}</span>
               <strong>US$ 240 mil milhões</strong>
-              <p>é o contributo estimado das tecnologias e serviços móveis para a economia africana.</p>
+              <p>{translate(locale, "mobileEconomyContribution")}</p>
             </article>
             <article className="market-metric market-metric-highlight">
-              <span className="metric-index">03 / ESCALA</span>
-              <strong>7,8% do PIB</strong>
-              <p>representa esse contributo estimado para o continente em 2025.</p>
+              <span className="metric-index">03 / {translate(locale, "scale")}</span>
+              <strong>{locale === "en" ? "7.8% of GDP" : "7,8% do PIB"}</strong>
+              <p>{translate(locale, "gdpContribution")}</p>
             </article>
           </div>
           <div className="market-source">
-            <span>Estimativas da GSMA para 2025. Os números são da fonte, não uma medição própria.</span>
+            <span>{translate(locale, "estimatesNote")}</span>
             <a href={gsmaSource.url} target="_blank" rel="noreferrer">
-              Fonte: {gsmaSource.publisher} — {gsmaSource.title} <ArrowUpRight size={13} />
+              {translate(locale, "gsmaSource")} {gsmaSource.publisher} — {gsmaSource.title} <ArrowUpRight size={13} />
             </a>
           </div>
         </ScrollReveal>
       )}
-
-      <ScrollReveal
-        as="div"
-        className="home-carousel-reveal"
-        selector=".home-story-carousel-heading, .home-story-card, .home-story-footer"
-      >
-        <HomeStoryCarousel items={carouselStories} />
-      </ScrollReveal>
 
       <ScrollReveal
         className="latest-section section-pad"
@@ -173,15 +149,15 @@ export default async function HomePage() {
       >
         <div className="section-heading section-heading-dark">
           <div>
-            <span className="section-kicker">IDEIAS EM MOVIMENTO</span>
-            <h2>O que vale<br className="mobile-break" /> <em>acompanhar.</em></h2>
+            <span className="section-kicker">{translate(locale, "ideasInMotion")}</span>
+            <h2>{locale === "en" ? <>What to keep<br className="mobile-break" /> <em>an eye on.</em></> : <>O que vale<br className="mobile-break" /> <em>acompanhar.</em></>}</h2>
           </div>
-          <Link className="text-link heading-link" href="/artigos">Ver todos os artigos <ArrowRight size={15} /></Link>
+          <Link className="text-link heading-link" href="/artigos">{translate(locale, "allArticles")} <ArrowRight size={15} /></Link>
         </div>
         <div className="article-grid">
           {latestArticles.map((article) => <ArticleCard key={article.slug} article={article} />)}
         </div>
-        <div className="latest-bottom"><span>LEITURA COM PERSPECTIVA, NÃO COM PRESSA.</span><Link href="/artigos">Mais histórias <ArrowUpRight size={14} /></Link></div>
+        <div className="latest-bottom"><span>{translate(locale, "readingWithPerspective")}</span><Link href="/artigos">{translate(locale, "moreStories")} <ArrowUpRight size={14} /></Link></div>
       </ScrollReveal>
 
       <ScrollReveal
@@ -190,10 +166,10 @@ export default async function HomePage() {
       >
         <div className="section-heading">
           <div>
-            <span className="section-kicker">QUEM ESTÁ A MUDAR O JOGO <span>✳</span></span>
-            <h2>Ideias com<br className="mobile-break" /> <em>rosto e história.</em></h2>
+            <span className="section-kicker">{translate(locale, "peopleChangingTheGame")} <span>✳</span></span>
+            <h2>{locale === "en" ? <>Ideas with a<br className="mobile-break" /> <em>face and a story.</em></> : <>Ideias com<br className="mobile-break" /> <em>rosto e história.</em></>}</h2>
           </div>
-          <Link className="text-link heading-link" href="/biografias">Todas as biografias <ArrowRight size={15} /></Link>
+          <Link className="text-link heading-link" href="/biografias">{translate(locale, "allBiographies")} <ArrowRight size={15} /></Link>
         </div>
         <div className="profile-grid">
           {biographies.map((profile) => <ProfileCard key={profile.slug} profile={profile} />)}
@@ -206,12 +182,12 @@ export default async function HomePage() {
       >
         <div className="contribute-orbit" aria-hidden="true"><span>✳</span></div>
         <div className="contribute-copy">
-          <span className="section-kicker">AS MELHORES IDEIAS COMEÇAM EM CONJUNTO</span>
-          <h2>Tem uma história<br />que precisa <em>de espaço?</em></h2>
-          <p>Procuramos vozes com perspetiva, experiência e algo novo a acrescentar à conversa.</p>
-          <Link className="button button-light" href="/publicar">Partilhe a sua ideia <ArrowUpRight size={16} /></Link>
+          <span className="section-kicker">{translate(locale, "bestIdeasTogether")}</span>
+          <h2>{locale === "en" ? <>Have a story<br />that needs <em>room?</em></> : <>Tem uma história<br />que precisa <em>de espaço?</em></>}</h2>
+          <p>{translate(locale, "seekingVoices")}</p>
+          <Link className="button button-light" href="/publicar">{translate(locale, "shareIdea")} <ArrowUpRight size={16} /></Link>
         </div>
-        <div className="contribute-note"><span>✳</span> A NOSSA REDAÇÃO<br />COMEÇA POR OUVIR.</div>
+        <div className="contribute-note"><span>✳</span> {translate(locale, "newsroomListens")}</div>
       </ScrollReveal>
     </>
   );

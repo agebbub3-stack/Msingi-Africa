@@ -5,6 +5,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "Quem somos",
   description: "Conheça a Kioo Africa, uma iniciativa editorial independente com raízes em Angola, África do Sul e Uganda, dedicada a pesquisa e jornalismo rigorosos.",
+  alternates: { canonical: "/sobre" },
 };
 
 const principles = [

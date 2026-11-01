@@ -7,6 +7,7 @@ import { getPublishedBiographies } from "@/lib/public-content";
 export const metadata: Metadata = {
   title: "Biografias de África",
   description: "As pessoas, os percursos e as ideias que estão a transformar os mercados e a cultura africana.",
+  alternates: { canonical: "/biografias" },
 };
 
 export const dynamic = "force-dynamic";

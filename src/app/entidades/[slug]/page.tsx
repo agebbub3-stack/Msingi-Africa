@@ -18,7 +18,19 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     title: entity.name,
     description: entity.description,
     alternates: { canonical: new URL(`/entidades/${slug}`, siteUrl).toString() },
-    openGraph: { type: "website", title: entity.name, description: entity.description, ...(entity.imageUrl ? { images: [entity.imageUrl] } : {}) },
+    openGraph: {
+      type: "website",
+      title: entity.name,
+      description: entity.description,
+      url: new URL(`/entidades/${slug}`, siteUrl).toString(),
+      images: [entity.imageUrl ?? "/social-card.png"],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: entity.name,
+      description: entity.description,
+      images: [entity.imageUrl ?? "/social-card-twitter.png"],
+    },
   };
 }
 
@@ -61,10 +73,19 @@ export default async function EntityPage({ params }: Props) {
         description: entity.description,
         url: entityUrl,
         ...(entity.imageUrl ? { image: entity.imageUrl } : {}),
-        ...(entity.countryCode ? { areaServed: entity.countryCode } : {}),
+        ...(entity.countryCode ? { areaServed: { "@type": "Country", identifier: entity.countryCode } } : {}),
         ...(entity.websiteUrl ? { sameAs: entity.websiteUrl } : {}),
         ...(productOffer ? { offers: productOffer } : {}),
         ...(entity.verified ? { additionalProperty: { "@type": "PropertyValue", name: "Verificado pela redação", value: true } } : {}),
+      }} />
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Início", item: siteUrl },
+          { "@type": "ListItem", position: 2, name: "Entidades", item: new URL("/entidades", siteUrl).toString() },
+          { "@type": "ListItem", position: 3, name: entity.name, item: entityUrl },
+        ],
       }} />
       <nav className="story-breadcrumb"><Link href="/entidades"><ArrowLeft size={14} /> Todas as entidades</Link><span> / </span><span>{entity.type}</span></nav>
       <header className="entity-detail-header">
