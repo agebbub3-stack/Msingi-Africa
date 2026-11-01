@@ -37,6 +37,7 @@ export default async function HomePage() {
         description: localizedArticle.standfirst,
         image: article.image,
         imageAlt: localizedArticle.imageAlt,
+        ...(article.slug === "softedge-ia-angolana-akira" ? { imageTreatment: "partner-logo" as const } : {}),
         label: article.partnerName
           ? `${locale === "en" ? "PARTNERSHIP FEATURE" : "PARCERIA DIVULGADA"} · ${localizeCategory(article.category, locale)}`
           : localizeCategory(article.category, locale),

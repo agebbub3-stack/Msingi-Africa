@@ -15,6 +15,7 @@ export type HomeHeroSlide = {
   label: string;
   byline: string;
   date: string;
+  imageTreatment?: "partner-logo";
   isOriginalLanguage?: boolean;
 };
 
@@ -52,7 +53,7 @@ export function HomeHeroCarousel({ items, locale }: { items: HomeHeroSlide[]; lo
         if (event.key === "ArrowRight") next();
       }}
     >
-      <div className="hero-slide">
+      <div className={`hero-slide${activeItem.imageTreatment === "partner-logo" ? " hero-slide-partner-logo" : ""}`}>
         <Image
           key={activeItem.image}
           src={activeItem.image}
@@ -63,6 +64,11 @@ export function HomeHeroCarousel({ items, locale }: { items: HomeHeroSlide[]; lo
           sizes="100vw"
         />
         <div className="hero-slide-shade" />
+        {activeItem.imageTreatment === "partner-logo" && (
+          <div className="hero-slide-brand-art" aria-hidden="true">
+            <Image src={activeItem.image} alt="" fill sizes="(max-width: 760px) 180px, 320px" unoptimized />
+          </div>
+        )}
       </div>
       <div className="hero-feature-layout">
         <div className="hero-slide-content" key={activeItem.href}>
