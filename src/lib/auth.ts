@@ -11,7 +11,7 @@ if (!secret || secret.length < 32) {
 }
 
 export const auth = betterAuth({
-  appName: "Msingi Africa",
+  appName: "Bantaba Africa",
   baseURL: process.env.BETTER_AUTH_URL,
   secret,
   database: drizzleAdapter(db, {
@@ -24,7 +24,7 @@ export const auth = betterAuth({
     sendResetPassword: async ({ user: accountUser, url }) => {
       await sendTransactionalEmail({
         to: accountUser.email,
-        subject: "Redefinir a palavra-passe — Msingi Africa",
+        subject: "Redefinir a palavra-passe — Bantaba Africa",
         html: `<p>Recebemos um pedido para redefinir a sua palavra-passe.</p><p><a href="${url}">Criar uma nova palavra-passe</a></p><p>Se não fez este pedido, ignore esta mensagem.</p>`,
       });
     },
@@ -34,7 +34,7 @@ export const auth = betterAuth({
     sendVerificationEmail: async ({ user: accountUser, url }) => {
       await sendTransactionalEmail({
         to: accountUser.email,
-        subject: "Confirme o seu e-mail — Msingi Africa",
+        subject: "Confirme o seu e-mail — Bantaba Africa",
         html: `<p>Confirme o seu endereço para ativar a sua conta.</p><p><a href="${url}">Confirmar o meu e-mail</a></p>`,
       });
     },

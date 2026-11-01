@@ -86,7 +86,7 @@ export async function POST(request: NextRequest) {
       typeof verifiedPayment.amount !== "number" ||
       verifiedPayment.tx_ref !== eventData.tx_ref
     ) {
-      console.error("Flutterwave webhook transaction details did not match the expected Msingi payment.");
+      console.error("Flutterwave webhook transaction details did not match the expected Bantaba payment.");
       return NextResponse.json({ received: true, ignored: true });
     }
   }

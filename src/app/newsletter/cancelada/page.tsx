@@ -16,7 +16,7 @@ export default async function UnsubscribeResultPage({ searchParams }: Props) {
     <section className="newsletter-result-page" aria-labelledby="newsletter-result-title">
       <div className={`newsletter-result-card${success ? " newsletter-result-success" : " newsletter-result-invalid"}`}>
         <div className="newsletter-result-topline">
-          <span>MS / NEWSLETTER</span>
+          <span>BA / NEWSLETTER</span>
           <span>{success ? "PREFERÊNCIAS ATUALIZADAS" : "LIGAÇÃO NÃO RECONHECIDA"}</span>
         </div>
         <div className="newsletter-result-icon" aria-hidden="true">
@@ -30,13 +30,13 @@ export default async function UnsubscribeResultPage({ searchParams }: Props) {
         </h1>
         <p className="newsletter-result-description">
           {success
-            ? "A inscrição foi cancelada. Não enviaremos mais a newsletter Msingi Africa para este endereço."
+            ? "A inscrição foi cancelada. Não enviaremos mais a newsletter Bantaba Africa para este endereço."
             : "A ligação expirou ou não corresponde a um pedido válido. Pode pedir uma nova ligação segura para gerir a inscrição."}
         </p>
         <div className="newsletter-result-actions">
           {success ? (
             <Link className="newsletter-result-link" href="/">
-              <ArrowLeft size={15} /> Voltar à Msingi Africa
+              <ArrowLeft size={15} /> Voltar à Bantaba Africa
             </Link>
           ) : (
             <Link className="button button-light" href="/newsletter/cancelar">
@@ -45,7 +45,7 @@ export default async function UnsubscribeResultPage({ searchParams }: Props) {
           )}
         </div>
         <div className="newsletter-result-footer">
-          <span>MSINGI AFRICA</span>
+          <span>BANTABA AFRICA</span>
           <span>PESSOAS, IDEIAS E MERCADOS AFRICANOS</span>
         </div>
       </div>

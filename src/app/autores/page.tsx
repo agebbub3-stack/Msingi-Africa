@@ -21,7 +21,7 @@ export default async function AuthorsPage() {
             <span className="byline-avatar" aria-hidden="true">{author.name.slice(0, 1).toUpperCase()}</span>
             <h2><Link href={`/autores/${author.slug}`}>{author.name}</Link></h2>
             {author.countryCode && <span className="profile-location"><MapPin size={13} /> {author.countryCode}</span>}
-            <p>{author.biography || "Autor e colaborador da Msingi Africa."}</p>
+            <p>{author.biography || "Autor e colaborador da Bantaba Africa."}</p>
             <span className="author-count">{author.articleCount} {author.articleCount === 1 ? "artigo publicado" : "artigos publicados"}</span>
             <Link className="text-link" href={`/autores/${author.slug}`}>Ver perfil <ArrowUpRight size={14} /></Link>
           </article>

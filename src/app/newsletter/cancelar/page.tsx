@@ -3,7 +3,7 @@ import { NewsletterUnsubscribe } from "@/components/newsletter-unsubscribe";
 
 export const metadata: Metadata = {
   title: "Cancelar newsletter",
-  description: "Peça uma ligação segura para cancelar a sua inscrição na newsletter Msingi Africa.",
+  description: "Peça uma ligação segura para cancelar a sua inscrição na newsletter Bantaba Africa.",
   robots: { index: false, follow: false },
 };
 

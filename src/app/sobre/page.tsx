@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Quem somos",
-  description: "Conheça as raízes estudantis da Msingi Africa, o movimento independente que liga África do Sul, Angola e Uganda, e o seu compromisso com pesquisa e jornalismo rigorosos.",
+  description: "Conheça a Bantaba Africa, uma iniciativa editorial independente com raízes em Angola, África do Sul e Uganda, dedicada a pesquisa e jornalismo rigorosos.",
 };
 
 const principles = [
@@ -30,7 +30,7 @@ export default function AboutPage() {
           <div className="about-origin-orbit about-origin-orbit-outer" />
           <div className="about-origin-orbit about-origin-orbit-inner" />
           <span className="about-origin-star">✳</span>
-          <span className="about-origin-mark">MS</span>
+          <span className="about-origin-mark">BA</span>
           <span className="about-origin-visual-caption">UM CONTINENTE<br />MUITAS PERSPETIVAS</span>
         </div>
         <div className="about-hero-footer">
@@ -46,7 +46,7 @@ export default function AboutPage() {
         </div>
         <div className="about-origin-story">
           <span className="about-origin-number">01 / AS ORIGENS</span>
-          <p>A história da Msingi Africa começa com estudantes universitários na <strong>África do Sul, em Angola e no Uganda</strong>. Em contextos diferentes, partilhavam a mesma inquietação: demasiadas vezes, o continente era explicado por outros — e as suas próprias ideias, investigação e vozes ficavam à margem.</p>
+          <p>A história da Bantaba Africa começa com estudantes universitários na <strong>África do Sul, em Angola e no Uganda</strong>. Em contextos diferentes, partilhavam a mesma inquietação: demasiadas vezes, o continente era explicado por outros — e as suas próprias ideias, investigação e vozes ficavam à margem.</p>
           <p>Da aproximação entre esses estudantes nasceu um movimento independente. O que começou como vontade de pesquisar, dialogar e dar espaço a perspetivas africanas foi consolidado numa iniciativa editorial com uma missão mais ampla: aproximar conhecimento, pessoas e mercados sem apagar as diferenças que fazem cada realidade única.</p>
           <p>Hoje, essa origem continua a orientar o nosso trabalho. Crescer, para nós, significa aprofundar a pesquisa, ampliar a conversa e ganhar a confiança de quem procura compreender África com mais rigor — não falar em nome de um continente diverso.</p>
         </div>
@@ -58,7 +58,7 @@ export default function AboutPage() {
       </section>
       <section className="about-manifesto">
         <div className="manifesto-index"><span>02 — O SIGNIFICADO</span><span>UM FUNDAMENTO<br />PARA AVANÇAR.</span></div>
-        <div><p className="manifesto-quote">“Msingi” significa <em>fundamento.</em></p><p className="manifesto-copy">Escolhemos este nome porque decisões melhores começam com informação que explica, não apenas anuncia. A nossa missão é construir esse fundamento: ligar quem lê aos contextos que moldam o continente, com independência, respeito e curiosidade.</p></div>
+        <div><p className="manifesto-quote">Um espaço comum para <em>boas ideias.</em></p><p className="manifesto-copy">Bantaba representa o lugar de encontro que queremos criar: reunir histórias, pesquisa e perspetivas para compreender melhor as mudanças nos mercados africanos. Fazemo-lo com independência, respeito e curiosidade.</p></div>
       </section>
       <section className="about-principles section-pad" id="principios">
         <div className="section-heading"><div><span className="section-kicker">A NOSSA RESPONSABILIDADE</span><h2>O método é<br /><em>parte da história.</em></h2></div><span className="principle-side-note">OS PRINCÍPIOS NÃO<br />MUDAM COM O TEMA.</span></div>
@@ -88,7 +88,7 @@ export default function AboutPage() {
       </section>
       <section className="reference-note">
         <span className="section-kicker">O QUE ESTUDÁMOS</span>
-        <p>Estudámos o jornalismo e os envios de artigos da <a href="https://techcabal.com/about/" target="_blank" rel="noreferrer">TechCabal</a>, a separação entre publicidade e redação nas <a href="https://techcabal.com/standards-and-policies/" target="_blank" rel="noreferrer">políticas editoriais</a>, os <a href="https://disruptafrica.com/research/" target="_blank" rel="noreferrer">relatórios de pesquisa da Disrupt Africa</a>, a experiência de revista e assinatura da <a href="https://www.african.business/" target="_blank" rel="noreferrer">African Business</a>, a hierarquia de notícias da <a href="https://www.forbesafrica.com/" target="_blank" rel="noreferrer">Forbes Africa</a> e as ferramentas de publicação independente da <a href="https://substack.com/" target="_blank" rel="noreferrer">Substack</a>. A Msingi é uma identidade própria: não é uma extensão dessas publicações e mantém a seleção editorial independente de qualquer compra.</p>
+        <p>Estudámos o jornalismo e os envios de artigos da <a href="https://techcabal.com/about/" target="_blank" rel="noreferrer">TechCabal</a>, a separação entre publicidade e redação nas <a href="https://techcabal.com/standards-and-policies/" target="_blank" rel="noreferrer">políticas editoriais</a>, os <a href="https://disruptafrica.com/research/" target="_blank" rel="noreferrer">relatórios de pesquisa da Disrupt Africa</a>, a experiência de revista e assinatura da <a href="https://www.african.business/" target="_blank" rel="noreferrer">African Business</a>, a hierarquia de notícias da <a href="https://www.forbesafrica.com/" target="_blank" rel="noreferrer">Forbes Africa</a> e as ferramentas de publicação independente da <a href="https://substack.com/" target="_blank" rel="noreferrer">Substack</a>. A Bantaba é uma identidade própria: não é uma extensão dessas publicações e mantém a seleção editorial independente de qualquer compra.</p>
       </section>
       <section className="about-invite"><Layers3 size={25} /><div><span className="section-kicker">UMA CONVERSA ABERTA</span><h2>As histórias que faltam<br />podem começar consigo.</h2></div><Link href="/publicar" className="button button-dark">Fale com a redação <ArrowUpRight size={15} /></Link></section>
     </>

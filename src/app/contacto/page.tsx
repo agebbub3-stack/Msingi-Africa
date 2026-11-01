@@ -3,7 +3,7 @@ import { ContactForm } from "@/components/contact-form";
 
 export const metadata: Metadata = {
   title: "Contactar a redação",
-  description: "Envie uma mensagem à equipa de pesquisa e redação da Msingi Africa.",
+  description: "Envie uma mensagem à equipa de pesquisa e redação da Bantaba Africa.",
   alternates: { canonical: "/contacto" },
 };
 

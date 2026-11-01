@@ -33,13 +33,13 @@ export function SiteFooter() {
           </div>
         </div>
         <div className="footer-newsletter">
-          <span className="footer-label">A carta Msingi</span>
+          <span className="footer-label">A carta Bantaba</span>
           <h3>O continente não cabe num só título.</h3>
           <Newsletter />
         </div>
       </div>
       <div className="footer-bottom">
-        <span>© {new Date().getFullYear()} Msingi Africa. Todos os direitos reservados.</span>
+        <span>© {new Date().getFullYear()} Bantaba Africa. Todos os direitos reservados.</span>
         <span>Feito para quem olha mais longe.</span>
       </div>
     </footer>

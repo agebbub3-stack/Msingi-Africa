@@ -12,7 +12,7 @@ export default function PaymentReturnPage() {
 function PaymentResultFallback() {
   return (
     <section className="payment-state">
-      <span className="section-kicker">MS / PAGAMENTO</span>
+      <span className="section-kicker">BA / PAGAMENTO</span>
       <h1>A confirmar<br /><em>a transação.</em></h1>
       <p>Estamos a validar o pagamento diretamente com a Flutterwave.</p>
     </section>

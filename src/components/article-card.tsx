@@ -24,6 +24,8 @@ export function ArticleCard({
             fill
             sizes={featured ? "(max-width: 760px) 100vw, 58vw" : "(max-width: 760px) 100vw, 33vw"}
           />
+          <span className="article-image-category">{article.category}</span>
+          {article.isSponsored && <span className="article-image-sponsored">Patrocinado</span>}
           <span className="image-arrow" aria-hidden="true">
             <ArrowUpRight size={18} />
           </span>
@@ -31,14 +33,13 @@ export function ArticleCard({
       </Link>
       <div className="article-card-copy">
         <div className="card-meta">
-          <span className="category-label">{article.category}</span>
-          <span className="meta-dot" aria-hidden="true" />
           <span>{article.date}</span>
+          {article.kind === "biography" && <span className="article-kind-label">Perfil biográfico</span>}
         </div>
         <h3>
           <Link href={`/artigos/${article.slug}`}>{article.title}</Link>
         </h3>
-        {featured && <p className="article-card-standfirst">{article.standfirst}</p>}
+        <p className="article-card-standfirst">{article.standfirst}</p>
         <div className="article-card-byline">
           <span>{article.author}</span>
           <span className="reading-time"><Clock3 size={13} /> {article.readingTime}</span>

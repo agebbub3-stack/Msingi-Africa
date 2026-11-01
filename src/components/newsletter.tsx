@@ -25,7 +25,7 @@ export function Newsletter() {
       setMessage(result.message ?? result.error ?? "Não foi possível registar a inscrição.");
       if (response.ok) form.reset();
     } catch (error) {
-      console.error("Could not subscribe to the Msingi newsletter.", error);
+      console.error("Could not subscribe to the Bantaba newsletter.", error);
       setMessage("Não foi possível registar a inscrição. Tente novamente.");
     } finally {
       setIsSubmitting(false);

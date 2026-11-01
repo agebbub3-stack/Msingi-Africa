@@ -4,7 +4,7 @@ import { AuthForm } from "@/components/auth-form";
 
 export const metadata: Metadata = {
   title: "Entrar",
-  description: "Aceda à sua conta de criador Msingi Africa.",
+  description: "Aceda à sua conta de criador Bantaba Africa.",
   robots: { index: false, follow: false },
 };
 

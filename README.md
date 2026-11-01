@@ -1,4 +1,4 @@
-# Msingi Africa
+# Bantaba Africa
 
 Revista digital e grupo independente de pesquisa sobre pessoas, ideias e mercados africanos. A plataforma combina artigos e biografias editoriais com propostas de criadores, perfis, comentários, newsletter, revisão pela redação e oportunidades de divulgação patrocinada. Conteúdo pago é identificado e não compra aprovação editorial.
 
@@ -73,7 +73,7 @@ docker compose up -d
 
 Execute a migração a partir do ambiente que tem o CLI Drizzle instalado e acesso ao PostgreSQL, antes de iniciar a nova versão.
 
-Também é possível usar `docker build --build-arg NEXT_PUBLIC_SITE_URL=https://SEU-DOMINIO -t msingi-africa .` e executar a imagem com as variáveis de runtime. A imagem usa utilizador sem privilégios e o servidor standalone do Next.js.
+Também é possível usar `docker build --build-arg NEXT_PUBLIC_SITE_URL=https://SEU-DOMINIO -t bantaba-africa .` e executar a imagem com as variáveis de runtime. A imagem usa utilizador sem privilégios e o servidor standalone do Next.js.
 
 ## Validação
 

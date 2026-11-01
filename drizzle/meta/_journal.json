@@ -15,6 +15,13 @@
       "when": 1793491127280,
       "tag": "0001_freezing_jigsaw",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1793533131118,
+      "tag": "0002_bantaba_brand",
+      "breakpoints": true
     }
   ]
 }

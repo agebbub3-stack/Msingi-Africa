@@ -83,7 +83,7 @@ export default async function BiographyPage({ params }: Props) {
             },
           } : {}),
         },
-        publisher: { "@type": "Organization", name: "Msingi Africa", url: siteUrl },
+        publisher: { "@type": "Organization", name: "Bantaba Africa", url: siteUrl },
       }} />
       <JsonLd data={{
         "@context": "https://schema.org",
@@ -100,7 +100,7 @@ export default async function BiographyPage({ params }: Props) {
           <figure className="person-portrait">
             <div className="person-portrait-image">
               <Image src={portrait.src} alt={portrait.alt} fill sizes="(max-width: 800px) 100vw, 42vw" loading="eager" />
-              <span className="person-portrait-index">MS / PROFILE</span>
+              <span className="person-portrait-index">BA / PROFILE</span>
             </div>
             <figcaption>
               Foto: <a href={portrait.sourceUrl} target="_blank" rel="noopener noreferrer">{portrait.credit}</a>
@@ -109,7 +109,7 @@ export default async function BiographyPage({ params }: Props) {
             </figcaption>
           </figure>
         ) : (
-          <div className="person-art profile-sage"><span className="profile-orbit orbit-one" /><span className="profile-orbit orbit-two" /><span className="person-monogram">{profile.title.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase()}</span><span className="profile-art-caption">PESSOAS · IDEIAS · IMPACTO</span><span className="person-portrait-index">MS / PROFILE</span></div>
+          <div className="person-art profile-sage"><span className="profile-orbit orbit-one" /><span className="profile-orbit orbit-two" /><span className="person-monogram">{profile.title.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase()}</span><span className="profile-art-caption">PESSOAS · IDEIAS · IMPACTO</span><span className="person-portrait-index">BA / PROFILE</span></div>
         )}
         <div className="person-intro">
           <span className="section-kicker">UM PERCURSO, MUITAS POSSIBILIDADES</span>
@@ -121,7 +121,7 @@ export default async function BiographyPage({ params }: Props) {
         </div>
       </section>
       <section className="person-story">
-        <aside><span>O PERCURSO</span><span>UMA BIOGRAFIA<br />MS / JOURNAL</span><Link href="/publicar">Sugira outra história <ArrowUpRight size={14} /></Link></aside>
+        <aside><span>O PERCURSO</span><span>UMA BIOGRAFIA<br />BA / JOURNAL</span><Link href="/publicar">Sugira outra história <ArrowUpRight size={14} /></Link></aside>
         <div className="person-body">
           <ArticleMarkdown content={profile.markdown ?? ""} />
           {profile.sources && profile.sources.length > 0 && (

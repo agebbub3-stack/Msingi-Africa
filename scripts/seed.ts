@@ -39,25 +39,25 @@ async function seed() {
 
   await db.insert(schema.user).values({
     id: editorId,
-    name: "Redação Msingi Africa",
+    name: "Redação Bantaba Africa",
     email: editorEmail,
     emailVerified: true,
   }).onConflictDoUpdate({
     target: schema.user.id,
-    set: { name: "Redação Msingi Africa", emailVerified: true, updatedAt: new Date() },
+    set: { name: "Redação Bantaba Africa", emailVerified: true, updatedAt: new Date() },
   });
 
   await db.insert(schema.creatorProfiles).values({
     userId: editorId,
     slug: "msingi-africa",
-    displayName: "Redação Msingi Africa",
+    displayName: "Redação Bantaba Africa",
     biography: "Grupo independente de pesquisa e jornalismo que acompanha as ideias, os negócios e as pessoas a transformar os mercados africanos.",
     countryCode: "AO",
   }).onConflictDoUpdate({
     target: schema.creatorProfiles.userId,
     set: {
       slug: "msingi-africa",
-      displayName: "Redação Msingi Africa",
+      displayName: "Redação Bantaba Africa",
       biography: "Grupo independente de pesquisa e jornalismo que acompanha as ideias, os negócios e as pessoas a transformar os mercados africanos.",
       countryCode: "AO",
       updatedAt: new Date(),
@@ -117,7 +117,7 @@ async function seed() {
           profile.role,
           profile.field,
           profile.country,
-          "Msingi Africa",
+          "Bantaba Africa",
           "inovadores africanos",
         ],
         publishedAt: new Date(),
@@ -155,7 +155,7 @@ async function seed() {
     {
       slug: "msingi-africa",
       type: "organization" as const,
-      name: "Msingi Africa",
+      name: "Bantaba Africa",
       description: "Grupo editorial e de pesquisa independente dedicado a pessoas, ideias e mercados africanos.",
       countryCode: "AO",
       websiteUrl: "https://msingi.africa",
@@ -164,7 +164,7 @@ async function seed() {
     {
       slug: "creator-plus",
       type: "product" as const,
-      name: "Msingi Creator Plus",
+      name: "Bantaba Creator Plus",
       description: "Plano mensal para criadores que precisam incluir ligações e fontes verificáveis nas propostas editoriais.",
       isVerified: true,
     },

@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!author) return { title: "Autor não encontrado", robots: { index: false, follow: false } };
   return {
     title: author.name,
-    description: author.biography || `Artigos e perspetivas de ${author.name} na Msingi Africa.`,
+    description: author.biography || `Artigos e perspetivas de ${author.name} na Bantaba Africa.`,
     alternates: { canonical: `/autores/${slug}` },
     openGraph: { type: "profile", title: author.name, description: author.biography },
   };
@@ -40,7 +40,7 @@ export default async function AuthorPage({ params }: Props) {
           ...(author.imageUrl ? { image: author.imageUrl } : {}),
           ...(author.countryCode ? { homeLocation: { "@type": "Place", addressCountry: author.countryCode } } : {}),
         },
-        publisher: { "@type": "Organization", name: "Msingi Africa", url: siteUrl },
+        publisher: { "@type": "Organization", name: "Bantaba Africa", url: siteUrl },
       }} />
       <nav className="story-breadcrumb"><Link href="/autores"><ArrowLeft size={14} /> Todos os autores</Link><span> / </span><span>Perfil</span></nav>
       <header className="author-detail-header">
@@ -48,7 +48,7 @@ export default async function AuthorPage({ params }: Props) {
         <span className="section-kicker">AUTOR / MSINGI AFRICA</span>
         <h1>{author.name}</h1>
         {author.countryCode && <p className="profile-location"><MapPin size={14} /> {author.countryCode}</p>}
-        <p>{author.biography || "Autor e colaborador da Msingi Africa."}</p>
+        <p>{author.biography || "Autor e colaborador da Bantaba Africa."}</p>
         {author.articleCount > 0 && <span className="author-count">{author.articleCount} {author.articleCount === 1 ? "artigo publicado" : "artigos publicados"}</span>}
       </header>
       <section className="entity-related">

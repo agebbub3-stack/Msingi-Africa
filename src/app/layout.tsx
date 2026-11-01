@@ -19,17 +19,16 @@ const dmSerifDisplay = DM_Serif_Display({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"),
-  applicationName: "Msingi Africa",
+  applicationName: "Bantaba Africa",
   title: {
-    default: "Msingi Africa — Mercados, inovação e perfis africanos",
-    template: "%s — Msingi Africa",
+    default: "Bantaba Africa — Mercados, inovação e perfis africanos",
+    template: "%s — Bantaba Africa",
   },
   description:
     "Jornalismo independente, artigos, biografias e pesquisa sobre mercados, tecnologia, energia limpa e pessoas a transformar África.",
   keywords: [
-    "Msingi Africa",
-    "Msingi Africa Angola",
-    "Msingi Angola",
+    "Bantaba Africa",
+    "Bantaba",
     "mercados africanos",
     "Africa forum",
     "Modern Africa",
@@ -44,16 +43,16 @@ export const metadata: Metadata = {
     : {}),
   icons: { icon: [{ url: "/brand-mark.svg", type: "image/svg+xml" }] },
   openGraph: {
-    title: "Msingi Africa — Mercados, inovação e perfis africanos",
+    title: "Bantaba Africa — Mercados, inovação e perfis africanos",
     description:
       "Artigos, biografias e análise independente sobre o futuro dos mercados africanos.",
-    siteName: "Msingi Africa",
+    siteName: "Bantaba Africa",
     locale: "pt_PT",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Msingi Africa — Mercados, inovação e perfis africanos",
+    title: "Bantaba Africa — Mercados, inovação e perfis africanos",
     description: "Artigos, biografias e análise independente sobre o futuro dos mercados africanos.",
   },
 };
@@ -69,7 +68,9 @@ export default function RootLayout({
         <JsonLd data={{
           "@context": "https://schema.org",
           "@type": "Organization",
-          name: "Msingi Africa",
+          name: "Bantaba Africa",
+          alternateName: "Bantaba",
+          slogan: "Pessoas, ideias e mercados africanos.",
           url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa",
           logo: new URL("/brand-mark.svg", process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa").toString(),
           description: "Grupo editorial e de pesquisa independente dedicado a pessoas, ideias e mercados africanos.",

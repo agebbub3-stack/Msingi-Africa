@@ -113,7 +113,7 @@ export async function POST() {
         customer: { email: session.user.email, name: session.user.name },
         meta: { payment_kind: "creator_plus" },
         customizations: {
-          title: "Msingi Africa",
+          title: "Bantaba Africa",
           description: "Creator Plus — assinatura mensal",
           logo: new URL("/brand-mark.svg", origin.origin).toString(),
         },

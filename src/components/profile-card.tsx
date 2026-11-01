@@ -27,6 +27,7 @@ export function ProfileCard({ profile }: { profile: Biography }) {
           </>
         )}
         <span className="profile-art-caption">PESSOAS · IDEIAS · IMPACTO</span>
+        <span className="profile-art-country">{profile.country}</span>
         <span className="profile-art-arrow"><ArrowUpRight size={17} /></span>
       </Link>
       <div className="profile-card-copy">
@@ -41,6 +42,9 @@ export function ProfileCard({ profile }: { profile: Biography }) {
         <h3><Link href={`/biografias/${profile.slug}`}>{profile.name}</Link></h3>
         <p className="profile-role">{profile.role}</p>
         <p className="profile-summary">{profile.summary}</p>
+        <Link className="profile-card-link" href={`/biografias/${profile.slug}`}>
+          Ler biografia <ArrowUpRight size={14} aria-hidden="true" />
+        </Link>
       </div>
     </article>
   );

@@ -26,5 +26,5 @@ export async function POST(request: NextRequest) {
     target: newsletterSubscribers.email,
     set: { consentedAt: new Date(), unsubscribedAt: null },
   });
-  return NextResponse.json({ message: "Inscrição registada. Obrigado por acompanhar a Msingi." }, { status: 201 });
+  return NextResponse.json({ message: "Inscrição registada. Obrigado por acompanhar a Bantaba." }, { status: 201 });
 }

@@ -29,7 +29,7 @@ export function ArticlesArchive({ articles }: { articles: Article[] }) {
         <span className="section-kicker">A NOSSA LEITURA DO CONTINENTE</span>
         <div className="archive-masthead-row">
           <div><h1>Histórias<br />com <em>perspetiva.</em></h1><p>Jornalismo independente, análise e ideias que nos ajudam a entender o que está a mudar nos mercados africanos.</p></div>
-          <div className="archive-edition-stamp"><span>MS / 01</span><span>UM CONTINENTE<br />EM MOVIMENTO</span><span>54° AFRICA</span></div>
+          <div className="archive-edition-stamp"><span>BA / 01</span><span>UM CONTINENTE<br />EM MOVIMENTO</span><span>54° AFRICA</span></div>
         </div>
         <div className="archive-stats"><span>ARTIGOS <b>{String(articles.length).padStart(2, "0")}</b></span><span>CONTEXTO <b>SEM FRONTEIRAS</b></span><span>EDIÇÃO <b>PAN-AFRICANA</b></span></div>
       </section>
