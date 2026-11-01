@@ -53,16 +53,18 @@ export function HomeHeroCarousel({ items, locale }: { items: HomeHeroSlide[]; lo
         if (event.key === "ArrowRight") next();
       }}
     >
-      <div className={`hero-slide${activeItem.imageTreatment === "partner-logo" ? " hero-slide-partner-logo" : ""}`}>
-        <Image
-          key={activeItem.image}
-          src={activeItem.image}
-          alt={activeItem.imageAlt}
-          fill
-          loading="eager"
-          unoptimized
-          sizes="100vw"
-        />
+      <div className="hero-slide">
+        {activeItem.imageTreatment !== "partner-logo" && (
+          <Image
+            key={activeItem.image}
+            src={activeItem.image}
+            alt={activeItem.imageAlt}
+            fill
+            loading="eager"
+            unoptimized
+            sizes="100vw"
+          />
+        )}
         <div className="hero-slide-shade" />
         {activeItem.imageTreatment === "partner-logo" && (
           <div className="hero-slide-brand-art" aria-hidden="true">
