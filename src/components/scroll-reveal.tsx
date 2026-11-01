@@ -53,7 +53,9 @@ export function ScrollReveal({
 
     const observer = new IntersectionObserver((entries) => {
       for (const entry of entries) {
-        entry.target.classList.toggle("scroll-revealed", entry.isIntersecting);
+        if (!entry.isIntersecting) continue;
+        entry.target.classList.add("scroll-revealed");
+        observer.unobserve(entry.target);
       }
     }, { threshold: 0.12, rootMargin: "0px 0px -7% 0px" });
 
