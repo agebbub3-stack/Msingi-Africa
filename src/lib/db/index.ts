@@ -3,6 +3,7 @@ import { attachDatabasePool } from "@vercel/functions";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import * as schema from "@/lib/db/schema";
+import { getPostgresConnectionUrl } from "@/lib/db/connection-url";
 import { getPostgresSslConfig } from "@/lib/db/ssl";
 
 const connectionString = process.env.DATABASE_URL;
@@ -11,10 +12,7 @@ if (!connectionString) {
   throw new Error("DATABASE_URL is required for database operations.");
 }
 
-const databaseUrl = new URL(connectionString);
-for (const parameter of ["sslmode", "sslrootcert", "sslcert", "sslkey"]) {
-  databaseUrl.searchParams.delete(parameter);
-}
+const databaseUrl = getPostgresConnectionUrl(connectionString);
 
 const poolOptions = {
   connectionString: databaseUrl.toString(),

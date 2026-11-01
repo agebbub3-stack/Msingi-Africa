@@ -3,6 +3,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { migrate } from "drizzle-orm/node-postgres/migrator";
 import { Pool } from "pg";
 import * as schema from "../src/lib/db/schema";
+import { getPostgresConnectionUrl } from "../src/lib/db/connection-url";
 import { getPostgresSslConfig } from "../src/lib/db/ssl";
 
 config({ path: ".env.local" });
@@ -11,10 +12,7 @@ config();
 const connectionString = process.env.DATABASE_URL;
 if (!connectionString) throw new Error("DATABASE_URL is required to run database migrations.");
 
-const databaseUrl = new URL(connectionString);
-for (const parameter of ["sslmode", "sslrootcert", "sslcert", "sslkey"]) {
-  databaseUrl.searchParams.delete(parameter);
-}
+const databaseUrl = getPostgresConnectionUrl(connectionString);
 
 const pool = new Pool({
   connectionString: databaseUrl.toString(),
