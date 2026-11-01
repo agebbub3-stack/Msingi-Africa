@@ -23,6 +23,8 @@ type Submission = {
   updatedAt: string;
   createdAt: string;
 };
+type SourceDraft = { title: string; publisher: string; url: string };
+const emptySource: SourceDraft = { title: "", publisher: "", url: "" };
 
 const statusNames: Record<string, string> = {
   draft: "Rascunho",
@@ -49,6 +51,8 @@ export function CreatorWorkspace({
 }) {
   const [notice, setNotice] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [contentKind, setContentKind] = useState<"article" | "biography">("article");
+  const [sourceDrafts, setSourceDrafts] = useState<SourceDraft[]>([{ ...emptySource }]);
   const router = useRouter();
 
   async function saveProfile(event: FormEvent<HTMLFormElement>) {
@@ -91,14 +95,30 @@ export function CreatorWorkspace({
     setNotice("");
     const form = event.currentTarget;
     const data = new FormData(form);
-    let sources: unknown[] = [];
-    try {
-      sources = JSON.parse(String(data.get("sources") || "[]")) as unknown[];
-    } catch {
-      setNotice("As fontes devem ser uma lista JSON válida. Consulte o exemplo junto ao campo.");
+    const enteredSources = sourceDrafts.filter((source) =>
+      source.title.trim() || source.publisher.trim() || source.url.trim(),
+    );
+    if (enteredSources.some((source) => !source.title.trim() || !source.url.trim())) {
+      setNotice("Preencha o título e a ligação HTTPS de cada fonte, ou remova a linha incompleta.");
       setIsSubmitting(false);
       return;
     }
+    if (enteredSources.some((source) => {
+      try {
+        return new URL(source.url.trim()).protocol !== "https:";
+      } catch {
+        return true;
+      }
+    })) {
+      setNotice("Use uma ligação HTTPS válida para cada fonte.");
+      setIsSubmitting(false);
+      return;
+    }
+    const sources = enteredSources.map((source) => ({
+      title: source.title.trim(),
+      publisher: source.publisher.trim() || undefined,
+      url: source.url.trim(),
+    }));
 
     try {
       const response = await fetch("/api/articles", {
@@ -124,6 +144,8 @@ export function CreatorWorkspace({
       }
       setNotice(`Artigo enviado para revisão. Referência: ${result.article?.slug ?? "submetido"}.`);
       form.reset();
+      setContentKind("article");
+      setSourceDrafts([{ ...emptySource }]);
       router.refresh();
     } catch (error) {
       console.error("Could not submit creator article.", error);
@@ -196,22 +218,38 @@ export function CreatorWorkspace({
         <div className="workspace-heading"><span className="section-kicker">SUBMISSÕES EDITORIAIS</span><h2>Proponha uma história</h2><p>Todas as submissões são revistas por uma pessoa da redação antes de serem publicadas.</p></div>
         <form className="workspace-form" onSubmit={submitArticle}>
           <div className="form-inline-fields">
-            <label className="field-label">Tipo<select className="form-input" name="kind"><option value="article">Artigo</option><option value="biography">Biografia</option></select></label>
+            <label className="field-label">Tipo<select className="form-input" name="kind" value={contentKind} onChange={(event) => setContentKind(event.target.value as "article" | "biography")}><option value="article">Artigo</option><option value="biography">Biografia</option></select></label>
             <label className="field-label">Tema<input className="form-input" name="category" maxLength={64} placeholder="Mercados, Angola, Tecnologia…" required /></label>
           </div>
           <label className="field-label">Título<input className="form-input" name="title" minLength={8} maxLength={180} required /></label>
           <label className="field-label">Resumo<textarea className="form-input form-textarea" name="standfirst" minLength={30} maxLength={360} rows={2} required /></label>
           <label className="field-label">Texto em Markdown<textarea className="form-input form-textarea" name="bodyMarkdown" minLength={300} maxLength={50000} rows={12} required /></label>
           <label className="field-label">Imagem de capa (URL HTTPS, opcional)<input className="form-input" name="coverImageUrl" type="url" placeholder="https://…" /></label>
-          <fieldset className="biography-fields">
-            <legend>Dados para biografia</legend>
-            <div className="form-inline-fields">
-              <label className="field-label">País da pessoa<input className="form-input" name="personCountry" maxLength={100} /></label>
-              <label className="field-label">Área de atuação<input className="form-input" name="personField" maxLength={100} /></label>
-            </div>
-            <label className="field-label">Percurso ou cargo<input className="form-input" name="personRole" maxLength={160} /></label>
+          {contentKind === "biography" && (
+            <fieldset className="biography-fields">
+              <legend>Dados para biografia</legend>
+              <div className="form-inline-fields">
+                <label className="field-label">País da pessoa<input className="form-input" name="personCountry" maxLength={100} required /></label>
+                <label className="field-label">Área de atuação<input className="form-input" name="personField" maxLength={100} /></label>
+              </div>
+              <label className="field-label">Percurso ou cargo<input className="form-input" name="personRole" maxLength={160} required /></label>
+            </fieldset>
+          )}
+          <fieldset className="sources-editor" disabled={!creatorPlus}>
+            <legend>Fontes e referências</legend>
+            <p className="form-hint">Inclua fontes verificáveis com ligações HTTPS. A redação confirma as referências durante a revisão.</p>
+            {sourceDrafts.map((source, index) => (
+              <div className="source-draft" key={index}>
+                <div className="form-inline-fields">
+                  <label className="field-label">Título da fonte<input className="form-input" value={source.title} onChange={(event) => setSourceDrafts((current) => current.map((item, itemIndex) => itemIndex === index ? { ...item, title: event.target.value } : item))} maxLength={180} placeholder="Relatório, artigo ou estudo" /></label>
+                  <label className="field-label">Publicador<input className="form-input" value={source.publisher} onChange={(event) => setSourceDrafts((current) => current.map((item, itemIndex) => itemIndex === index ? { ...item, publisher: event.target.value } : item))} maxLength={120} placeholder="Instituição ou publicação" /></label>
+                </div>
+                <label className="field-label">Ligação HTTPS<input className="form-input" type="url" value={source.url} onChange={(event) => setSourceDrafts((current) => current.map((item, itemIndex) => itemIndex === index ? { ...item, url: event.target.value } : item))} maxLength={2048} placeholder="https://…" /></label>
+                {sourceDrafts.length > 1 && <button className="inline-button" type="button" onClick={() => setSourceDrafts((current) => current.filter((_, itemIndex) => itemIndex !== index))}>Remover esta fonte</button>}
+              </div>
+            ))}
+            {sourceDrafts.length < 20 && <button className="inline-button" type="button" onClick={() => setSourceDrafts((current) => [...current, { ...emptySource }])}>Adicionar outra fonte</button>}
           </fieldset>
-          <label className="field-label">Fontes (Creator Plus)<textarea className="form-input form-textarea" name="sources" rows={3} disabled={!creatorPlus} placeholder='[{"title":"Relatório anual","publisher":"Instituição","url":"https://…"}]' /></label>
           {!creatorPlus && <p className="form-privacy">O plano gratuito não aceita fontes nem ligações no artigo. <button className="inline-button" type="button" onClick={upgrade}>Conheça o Creator Plus</button></p>}
           <button className="button button-dark" type="submit" disabled={isSubmitting}>Enviar para revisão</button>
         </form>

@@ -1,8 +1,21 @@
 import type { Metadata } from "next";
+import { DM_Sans, DM_Serif_Display } from "next/font/google";
 import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { JsonLd } from "@/components/json-ld";
 import "./globals.css";
+
+const dmSans = DM_Sans({
+  subsets: ["latin"],
+  display: "swap",
+  variable: "--font-dm-sans",
+});
+const dmSerifDisplay = DM_Serif_Display({
+  subsets: ["latin"],
+  weight: "400",
+  display: "swap",
+  variable: "--font-dm-serif",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"),
@@ -35,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt">
+    <html lang="pt" className={`${dmSans.variable} ${dmSerifDisplay.variable}`}>
       <body>
         <JsonLd data={{
           "@context": "https://schema.org",

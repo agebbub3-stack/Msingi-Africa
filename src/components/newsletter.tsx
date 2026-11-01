@@ -35,13 +35,15 @@ export function Newsletter() {
   return (
     <div className="newsletter-form-wrap">
       <form className="newsletter-form" onSubmit={handleSubmit}>
-        <label className="sr-only" htmlFor="newsletter-email">O seu endereço de e-mail</label>
-        <Mail size={17} aria-hidden="true" />
-        <input id="newsletter-email" name="email" type="email" placeholder="O seu melhor e-mail" required />
+        <div className="newsletter-email-row">
+          <label className="sr-only" htmlFor="newsletter-email">O seu endereço de e-mail</label>
+          <Mail size={17} aria-hidden="true" />
+          <input id="newsletter-email" name="email" type="email" placeholder="O seu melhor e-mail" required />
+          <button type="submit" aria-label="Inscrever-se na newsletter" disabled={isSubmitting}>
+            <span>{isSubmitting ? "A registar…" : "Quero receber"}</span><ArrowUpRight size={16} />
+          </button>
+        </div>
         <label className="newsletter-consent"><input type="checkbox" name="consent" value="true" required /> Aceito receber a newsletter e posso cancelar a inscrição quando quiser.</label>
-        <button type="submit" aria-label="Inscrever-se na newsletter" disabled={isSubmitting}>
-          <span>{isSubmitting ? "A registar…" : "Quero receber"}</span><ArrowUpRight size={16} />
-        </button>
       </form>
       <p className="newsletter-note" aria-live="polite">
         {message || "Uma leitura com contexto. Sem ruído, diretamente na sua caixa de entrada."}

@@ -8,8 +8,6 @@ import { promotionPackages } from "@/lib/paid-promotions";
 type ProposalType = "opinion" | "profile" | "sponsored";
 type ProposalDetails = { name: string; email: string; title: string; idea: string };
 
-const editorialEmail = process.env.NEXT_PUBLIC_EDITORIAL_EMAIL || "editorial@msingi.africa";
-
 export default function PublishPage() {
   const [proposalType, setProposalType] = useState<ProposalType>("opinion");
   const [selectedPackage, setSelectedPackage] = useState<string>("sponsored-story");
@@ -18,7 +16,8 @@ export default function PublishPage() {
 
   async function submitProposal(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const form = event.currentTarget;
+    const formData = new FormData(form);
     const name = String(formData.get("name") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
     const title = String(formData.get("title") ?? "").trim();
@@ -64,12 +63,29 @@ export default function PublishPage() {
     const kindLabel = proposalType === "profile"
       ? "Sugestão de perfil (seleção editorial gratuita)"
       : "Artigo de opinião (avaliação editorial gratuita)";
-    const subject = encodeURIComponent(`Proposta Msingi: ${title}`);
-    const body = encodeURIComponent(
-      `${kindLabel}\n\nNome: ${name}\nE-mail: ${email}\nTítulo ou pessoa: ${title}\n\nProposta / ligação de referência:\n${idea}\n\nNota: esta mensagem é uma proposta, não uma confirmação de publicação ou pagamento.`,
-    );
-    setNotice("A sua aplicação de e-mail será aberta com a proposta preenchida. A redação responde após avaliação.");
-    window.location.assign(`mailto:${editorialEmail}?subject=${subject}&body=${body}`);
+    setIsSubmitting(true);
+    setNotice("");
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          email,
+          subject: `${kindLabel}: ${title}`.slice(0, 140),
+          message: `Nome: ${name}\nE-mail: ${email}\nTipo: ${kindLabel}\nTítulo ou pessoa: ${title}\n\nProposta / referências:\n${idea}`,
+          website: String(formData.get("website") ?? ""),
+        }),
+      });
+      const result = await response.json() as { error?: string; message?: string };
+      setNotice(result.message ?? result.error ?? "Não foi possível enviar a proposta.");
+      if (response.ok) form.reset();
+    } catch (error) {
+      console.error("Could not send editorial proposal.", error);
+      setNotice("Não foi possível enviar a proposta. Verifique a ligação e tente novamente.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -91,16 +107,17 @@ export default function PublishPage() {
           <label className="field-label" htmlFor="proposal-title">{proposalType === "profile" ? "Pessoa ou perfil sugerido" : "Título provisório"} <span>*</span></label>
           <input className="form-input" id="proposal-title" name="title" placeholder={proposalType === "profile" ? "Quem devemos conhecer?" : "Sobre o que gostaria de escrever?"} required maxLength={140} />
           <label className="field-label" htmlFor="proposal-idea">Resumo ou ligação de referência <span>*</span></label>
-          <textarea className="form-input form-textarea" id="proposal-idea" name="idea" placeholder="O que torna esta história relevante agora? Inclua fontes, dados ou ligações úteis." required rows={5} maxLength={4000} />
+          <textarea className="form-input form-textarea" id="proposal-idea" name="idea" placeholder="O que torna esta história relevante agora? Inclua fontes, dados ou ligações úteis." required rows={5} maxLength={3300} />
           <div className="form-section-head form-section-second"><span>03</span><div><h2>Quem é você?</h2><p>Usaremos estes dados apenas para responder à sua proposta.</p></div></div>
           <div className="form-inline-fields"><div><label className="field-label" htmlFor="proposal-name">Nome <span>*</span></label><input className="form-input" id="proposal-name" name="name" autoComplete="name" placeholder="O seu nome" required maxLength={100} /></div><div><label className="field-label" htmlFor="proposal-email">E-mail <span>*</span></label><input className="form-input" id="proposal-email" name="email" type="email" autoComplete="email" placeholder="voce@exemplo.com" required maxLength={254} /></div></div>
-          <button type="submit" className="button button-dark submit-button" disabled={isSubmitting}>{isSubmitting ? "A preparar checkout…" : proposalType === "sponsored" ? "Continuar para pagamento" : "Enviar proposta"} <ArrowUpRight size={16} /></button>
+          <label className="contact-honeypot" aria-hidden="true">Website<input name="website" tabIndex={-1} autoComplete="off" /></label>
+          <button type="submit" className="button button-dark submit-button" disabled={isSubmitting}>{isSubmitting ? proposalType === "sponsored" ? "A preparar checkout…" : "A enviar proposta…" : proposalType === "sponsored" ? "Continuar para pagamento" : "Enviar proposta"} <ArrowUpRight size={16} /></button>
           <p className="form-notice" role="status" aria-live="polite">{notice}</p>
-          <p className="form-privacy"><ShieldCheck size={14} /> {proposalType === "sponsored" ? "Pagamento em USD pela Flutterwave. A proposta é guardada automaticamente e analisada pela redação após a confirmação." : "Ao enviar, abre-se o seu e-mail. A proposta ainda não foi enviada nem publicada."}</p>
+          <p className="form-privacy"><ShieldCheck size={14} /> {proposalType === "sponsored" ? "Pagamento em USD pela Flutterwave. A proposta é guardada automaticamente e analisada pela redação após a confirmação." : "A proposta é enviada diretamente à redação para avaliação. O envio não confirma nem garante publicação."}</p>
         </form>
         <aside className="submit-aside">
           <div className="submit-aside-card"><span className="section-kicker">ANTES DE ENVIAR</span><h2>Boa apuração.<br />Sem atalhos.</h2><ul><li><Check size={15} /> Inclua factos e fontes verificáveis</li><li><Check size={15} /> Traga uma perspetiva própria</li><li><Check size={15} /> Explique por que importa agora</li></ul><Link href="/sobre#principios">Os nossos princípios editoriais <ArrowUpRight size={14} /></Link></div>
-          <div className="submit-help"><Mail size={17} /><p>Prefere falar connosco?<a href={`mailto:${editorialEmail}`}> {editorialEmail}</a></p></div>
+          <div className="submit-help"><Mail size={17} /><p>Prefere falar connosco? <Link href="/contacto">Contacte a redação</Link></p></div>
         </aside>
       </section>
     </>

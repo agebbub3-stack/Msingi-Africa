@@ -108,7 +108,7 @@ async function seed() {
         personField: profile.field,
         personRole: profile.role,
         authorId: editorId,
-        coverImageUrl: imageForCategory.Tecnologia,
+        coverImageUrl: profile.portrait?.src ?? imageForCategory.Tecnologia,
         readingMinutes: readingMinutes(bodyMarkdown),
         seoTitle: `${profile.name}: ${profile.role}`,
         seoDescription: profile.summary,

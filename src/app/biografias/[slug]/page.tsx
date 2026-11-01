@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ArrowLeft, ArrowUpRight, MapPin } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArticleInteractions } from "@/components/article-interactions";
@@ -8,6 +9,7 @@ import { JsonLd } from "@/components/json-ld";
 import { ProfileCard } from "@/components/profile-card";
 import { getPublishedArticle, getPublishedBiographies } from "@/lib/public-content";
 import { getStorySeo } from "@/lib/story-seo";
+import { biographies as editorialBiographies } from "@/lib/content";
 
 export const dynamic = "force-dynamic";
 type Props = { params: Promise<{ slug: string }> };
@@ -46,6 +48,7 @@ export default async function BiographyPage({ params }: Props) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
   const pageUrl = new URL(`/biografias/${slug}`, siteUrl).toString();
   const relatedProfiles = biographies.filter((item) => item.slug !== slug).slice(0, 3);
+  const portrait = editorialBiographies.find((item) => item.slug === slug)?.portrait;
   const seo = getStorySeo(profile);
 
   return (
@@ -80,7 +83,21 @@ export default async function BiographyPage({ params }: Props) {
       }} />
       <div className="story-breadcrumb"><Link href="/biografias"><ArrowLeft size={14} /> Todas as biografias</Link><span> / </span><span>Retratos</span></div>
       <section className="person-hero">
-        <div className="person-art profile-sage"><span className="profile-orbit orbit-one" /><span className="profile-orbit orbit-two" /><span className="person-monogram">{profile.title.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase()}</span><span className="profile-art-caption">PESSOAS · IDEIAS · IMPACTO</span><span className="person-portrait-index">MS / PROFILE</span></div>
+        {portrait ? (
+          <figure className="person-portrait">
+            <div className="person-portrait-image">
+              <Image src={portrait.src} alt={portrait.alt} fill sizes="(max-width: 800px) 100vw, 42vw" loading="eager" />
+              <span className="person-portrait-index">MS / PROFILE</span>
+            </div>
+            <figcaption>
+              Foto: <a href={portrait.sourceUrl} target="_blank" rel="noopener noreferrer">{portrait.credit}</a>
+              {" · "}
+              <a href={portrait.licenseUrl} target="_blank" rel="noopener noreferrer">{portrait.license}</a>
+            </figcaption>
+          </figure>
+        ) : (
+          <div className="person-art profile-sage"><span className="profile-orbit orbit-one" /><span className="profile-orbit orbit-two" /><span className="person-monogram">{profile.title.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase()}</span><span className="profile-art-caption">PESSOAS · IDEIAS · IMPACTO</span><span className="person-portrait-index">MS / PROFILE</span></div>
+        )}
         <div className="person-intro">
           <span className="section-kicker">UM PERCURSO, MUITAS POSSIBILIDADES</span>
           <h1>{profile.title}</h1>

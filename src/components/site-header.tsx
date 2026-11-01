@@ -10,6 +10,8 @@ const links = [
   { label: "Artigos", href: "/artigos" },
   { label: "Biografias", href: "/biografias" },
   { label: "Entidades", href: "/entidades" },
+  { label: "Autores", href: "/autores" },
+  { label: "Planos", href: "/planos" },
   { label: "Sobre nós", href: "/sobre" },
 ];
 

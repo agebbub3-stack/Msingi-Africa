@@ -35,6 +35,23 @@ export default function AboutPage() {
         <div><span className="section-kicker">UM MÉTODO, NÃO UM PALPITE</span><h2>Pesquisa que começa<br /><em>por ouvir.</em></h2></div>
         <div className="method-steps"><div><span>01 / OUVIR</span><p>Conversamos com as pessoas que vivem e trabalham em cada mercado.</p></div><div><span>02 / VERIFICAR</span><p>Procuramos fontes independentes e deixamos claro de onde vêm as informações.</p></div><div><span>03 / EXPLICAR</span><p>Ligamos os factos ao contexto — e o contexto à vida real.</p></div></div>
       </section>
+      <section className="about-scope section-pad">
+        <div className="about-scope-heading"><span className="section-kicker">O QUE ACOMPANHAMOS</span><h2>Um continente diverso.<br /><em>Muitas realidades.</em></h2></div>
+        <div className="about-scope-grid">
+          <article><span>01 / MERCADOS</span><h3>Economias em transformação.</h3><p>Negócios, investimento, comércio e políticas públicas — sempre com atenção às diferenças entre países e setores.</p></article>
+          <article><span>02 / TECNOLOGIA</span><h3>Inovação com contexto.</h3><p>Infraestrutura, empresas e competências digitais, incluindo quem consegue aceder e participar nesses avanços.</p></article>
+          <article><span>03 / CULTURA</span><h3>Ideias que criam valor.</h3><p>Media, indústrias criativas e as pessoas que ampliam a circulação de histórias e conhecimento africanos.</p></article>
+          <article><span>04 / PERCURSOS</span><h3>Biografias sem atalhos.</h3><p>Perfis baseados em fontes, que explicam decisões, trabalho e contexto sem confundir promoção com reportagem.</p></article>
+        </div>
+      </section>
+      <section className="about-corrections">
+        <div><span className="section-kicker">TRANSPARÊNCIA EDITORIAL</span><h2>Precisão é um<br /><em>trabalho contínuo.</em></h2></div>
+        <div className="about-corrections-copy">
+          <p>Indicamos as fontes e procuramos separar factos, estimativas e análise. Quando um dado é reportado por uma organização, identificamos essa origem em vez de o apresentar como investigação própria.</p>
+          <p>Se encontrar um erro factual ou tiver documentação relevante, escreva à redação. Analisamos pedidos de correção e, quando procedem, atualizamos o conteúdo com clareza.</p>
+          <Link className="text-link" href="/publicar">Contactar a redação <ArrowUpRight size={14} /></Link>
+        </div>
+      </section>
       <section className="reference-note">
         <span className="section-kicker">O QUE ESTUDÁMOS</span>
         <p>Estudámos o jornalismo e os envios de artigos da <a href="https://techcabal.com/about/" target="_blank" rel="noreferrer">TechCabal</a>, a separação entre publicidade e redação nas <a href="https://techcabal.com/standards-and-policies/" target="_blank" rel="noreferrer">políticas editoriais</a>, os <a href="https://disruptafrica.com/research/" target="_blank" rel="noreferrer">relatórios de pesquisa da Disrupt Africa</a>, a experiência de revista e assinatura da <a href="https://www.african.business/" target="_blank" rel="noreferrer">African Business</a>, a hierarquia de notícias da <a href="https://www.forbesafrica.com/" target="_blank" rel="noreferrer">Forbes Africa</a> e as ferramentas de publicação independente da <a href="https://substack.com/" target="_blank" rel="noreferrer">Substack</a>. A Msingi é uma identidade própria: não é uma extensão dessas publicações e mantém a seleção editorial independente de qualquer compra.</p>

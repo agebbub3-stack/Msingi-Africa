@@ -10,6 +10,10 @@ export const dynamic = "force-dynamic";
 export default async function HomePage() {
   const [publishedArticles, biographies] = await Promise.all([getPublishedArticles(), getPublishedBiographies()]);
   const [lead, ...latestArticles] = publishedArticles;
+  const digitalEconomyArticle = publishedArticles.find(
+    (article) => article.slug === "inclusao-digital-africa-uso-internet-movel",
+  );
+  const gsmaSource = digitalEconomyArticle?.sources?.find((source) => source.publisher === "GSMA");
 
   return (
     <>
@@ -83,6 +87,47 @@ export default async function HomePage() {
           </aside>
         </div>
       </section>
+
+      {digitalEconomyArticle && gsmaSource && (
+        <section className="market-lens section-pad" aria-labelledby="market-lens-title">
+          <div className="market-lens-heading">
+            <div>
+              <span className="section-kicker">DADOS EM CONTEXTO <span>✳</span> GSMA · 2025</span>
+              <h2 id="market-lens-title">A economia digital<br />para lá do <em>sinal.</em></h2>
+              <p>
+                Cobertura de rede é só o começo. Acesso, preço e utilidade ajudam a explicar
+                como a conectividade se transforma — ou não — em oportunidade.
+              </p>
+            </div>
+            <Link className="text-link market-lens-link" href={`/artigos/${digitalEconomyArticle.slug}`}>
+              Leia a análise completa <ArrowUpRight size={16} />
+            </Link>
+          </div>
+          <div className="market-metrics" aria-label="Indicadores da economia móvel africana citados pela GSMA">
+            <article className="market-metric">
+              <span className="metric-index">01 / ACESSO</span>
+              <strong>Quase 1 mil milhão</strong>
+              <p>de pessoas em África ainda não utilizam internet móvel, apesar da cobertura disponível.</p>
+            </article>
+            <article className="market-metric">
+              <span className="metric-index">02 / ECONOMIA</span>
+              <strong>US$ 240 mil milhões</strong>
+              <p>é o contributo estimado das tecnologias e serviços móveis para a economia africana.</p>
+            </article>
+            <article className="market-metric market-metric-highlight">
+              <span className="metric-index">03 / ESCALA</span>
+              <strong>7,8% do PIB</strong>
+              <p>representa esse contributo estimado para o continente em 2025.</p>
+            </article>
+          </div>
+          <div className="market-source">
+            <span>Estimativas da GSMA para 2025. Os números são da fonte, não uma medição própria.</span>
+            <a href={gsmaSource.url} target="_blank" rel="noreferrer">
+              Fonte: {gsmaSource.publisher} — {gsmaSource.title} <ArrowUpRight size={13} />
+            </a>
+          </div>
+        </section>
+      )}
 
       <section className="latest-section section-pad">
         <div className="section-heading section-heading-dark">

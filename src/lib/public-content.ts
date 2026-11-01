@@ -24,8 +24,8 @@ function legacyBiographyAsArticle(slug: string): Article | undefined {
     author: "Redação Msingi",
     date: "",
     readingTime: "5 min de leitura",
-    image: imageForCategory.Tecnologia,
-    imageAlt: `${profile.name}, perfil biográfico`,
+    image: profile.portrait?.src ?? imageForCategory.Tecnologia,
+    imageAlt: profile.portrait?.alt ?? `${profile.name}, perfil biográfico`,
     kind: "biography",
     personCountry: profile.country,
     personField: profile.field,
@@ -114,7 +114,9 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
     sourcesByArticle.set(source.articleId, sources);
   }
 
-  return rows.map((row): Article => ({
+  return rows.map((row): Article => {
+    const biography = row.kind === "biography" ? biographies.find((item) => item.slug === row.slug) : undefined;
+    return {
       id: row.id,
       slug: row.slug,
       kind: row.kind,
@@ -130,8 +132,8 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
       publishedAt: row.publishedAt?.toISOString() ?? null,
       modifiedAt: row.modifiedAt.toISOString(),
       readingTime: `${row.readingMinutes} min de leitura`,
-      image: row.coverImageUrl ?? imageForCategory[row.category] ?? imageForCategory.Mercados,
-      imageAlt: row.title,
+      image: biography?.portrait?.src ?? row.coverImageUrl ?? imageForCategory[row.category] ?? imageForCategory.Mercados,
+      imageAlt: biography?.portrait?.alt ?? row.title,
       markdown: row.bodyMarkdown,
       isSponsored: row.isSponsored,
       sponsorDisclosure: row.sponsorDisclosure,
@@ -140,7 +142,8 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
       seoKeywords: row.seoKeywords,
       canonicalUrl: row.canonicalUrl,
       sources: sourcesByArticle.get(row.id) ?? [],
-    }));
+    };
+  });
 }
 
 export async function getPublishedArticles() {
@@ -175,17 +178,23 @@ export async function getPublishedBiographies() {
     .where(and(eq(articles.kind, "biography"), eq(articles.status, "published"), eq(articles.noIndex, false)))
     .orderBy(desc(articles.publishedAt))
     .limit(100);
-  return rows.map((row): Biography => ({
-    slug: row.slug,
-    name: row.name,
-    summary: row.summary,
-    field: row.field,
-    country: row.country ?? "África",
-    role: row.role ?? "Perfil publicado pela comunidade",
-    monogram: row.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase(),
-    accent: "sage",
-    body: row.bodyMarkdown.split(/\n{2,}/).filter(Boolean),
-  }));
+  return rows.map((row): Biography => {
+    const editorialProfile = biographies.find((profile) => profile.slug === row.slug);
+    return {
+      ...editorialProfile,
+      slug: row.slug,
+      name: row.name,
+      summary: row.summary,
+      field: row.field,
+      country: row.country ?? "África",
+      role: row.role ?? "Perfil publicado pela comunidade",
+      monogram: row.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase(),
+      accent: editorialProfile?.accent ?? "sage",
+      body: row.bodyMarkdown.split(/\n{2,}/).filter(Boolean),
+      portrait: editorialProfile?.portrait,
+      sources: editorialProfile?.sources,
+    };
+  });
 }
 
 export async function searchPublishedArticles(query: string) {

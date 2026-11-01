@@ -153,23 +153,31 @@ export const articles: Article[] = [
     image:
       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=85",
     imageAlt: "Edifícios comerciais vistos de baixo numa cidade",
+    sources: [
+      {
+        title: "2025 Africa Tech Venture Capital Report",
+        publisher: "Partech",
+        url: "https://partechpartners.com/africa-reports/2025-africa-tech-venture-capital-report",
+      },
+    ],
     body: [
       {
-        text: "Falar de investimento em África como se fosse uma única história esconde a parte mais importante: cada mercado tem regras, moedas, infraestruturas e ritmos próprios. O capital que chega é apenas metade da conversa. A outra metade é perceber quem consegue transformá-lo em capacidade produtiva.",
+        text: "Falar de investimento em África como se fosse uma única história esconde a parte mais importante: cada mercado tem regras, moedas, infraestruturas e ritmos próprios. O capital que chega é apenas metade da conversa. A outra metade é perceber quem consegue transformá-lo em capacidade produtiva — e em que condições.",
       },
       {
         heading: "O contexto antes do anúncio",
-        text: "Uma ronda de financiamento pode revelar confiança, mas não explica, por si só, a saúde de um setor. Para compreender a oportunidade, importa observar a origem do capital, o horizonte do investimento e a forma como as empresas geram receita nos mercados onde operam.",
+        text: "A edição de 2025 do Africa Tech Venture Capital Report, da Partech, estima que startups tecnológicas africanas captaram US$ 4,1 mil milhões em capital próprio e dívida. A componente de dívida atingiu US$ 1,6 mil milhões, enquanto o financiamento por capital próprio chegou a US$ 2,4 mil milhões. São números do ecossistema tecnológico acompanhado pelo relatório — não uma medida de todo o investimento ou de todos os setores do continente.",
       },
       {
-        text: "Investidores locais, fundos regionais, bancos de desenvolvimento e parceiros internacionais cumprem papéis diferentes. Misturá-los numa única métrica deixa de fora a qualidade das ligações que mantêm os negócios de pé quando as condições mudam.",
+        text: "A distinção importa: dívida e capital próprio têm custos, riscos e expectativas diferentes para quem empreende. Uma ronda pode revelar confiança, mas não explica, por si só, a saúde de um setor. Convém observar a origem do capital, o horizonte do investimento e a forma como a empresa gera receita.",
       },
       {
         heading: "Ler vários mercados, não uma média",
-        text: "A economia africana não cabe numa média continental. Uma leitura útil cruza políticas nacionais, acesso a pagamentos, custos logísticos e hábitos dos consumidores. É esse trabalho de contexto que separa uma tendência passageira de uma mudança com potencial para durar.",
+        text: "O relatório atribui parte do total a operações de dívida de grande dimensão e identifica concentração geográfica entre os principais ecossistemas. Por isso, um total continental não descreve a experiência de uma startup em Luanda, Dakar ou Kigali. Políticas nacionais, moeda, pagamentos, logística e procura local continuam a determinar que empresas conseguem crescer.",
       },
       {
-        text: "Na Msingi, acompanhamos estas dinâmicas com perguntas simples: quem beneficia, que dados sustentam a narrativa e o que ainda não está a ser medido? As respostas começam nos mercados, mas terminam nas pessoas que os constroem.",
+        heading: "O que acompanhar a seguir",
+        text: "Investidores locais, fundos regionais, bancos de desenvolvimento e parceiros internacionais cumprem papéis diferentes. Acompanhar a distribuição por país, setor, instrumento financeiro e fase de crescimento ajuda a perceber quem beneficia — e o que ainda não está a ser medido. Os valores aqui citados são estimativas da Partech, não uma medição independente da Msingi Africa.",
       },
     ],
   },
@@ -185,20 +193,27 @@ export const articles: Article[] = [
     image:
       "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1000&q=85",
     imageAlt: "Vista urbana ao anoitecer",
+    sources: [
+      {
+        title: "Angola: visão geral económica",
+        publisher: "Banco Mundial",
+        url: "https://www.worldbank.org/ext/en/country/angola",
+      },
+    ],
     body: [
       {
         text: "A diversificação económica costuma ser apresentada como um destino. Na prática, é uma sequência de decisões sobre infraestruturas, talento, acesso a financiamento e capacidade de ligar produtores a clientes.",
       },
       {
         heading: "Oportunidade é também execução",
-        text: "Agricultura, logística, serviços financeiros e indústrias criativas são áreas frequentemente apontadas como promissoras. O potencial, contudo, não substitui uma análise de custos, regulação e procura real em cada província.",
+        text: "A dependência do petróleo continua a moldar a economia angolana. Na sua visão geral de 2026, o Banco Mundial estima que o setor representa cerca de 20% do PIB, 60% das receitas fiscais e 95% das exportações. Estes indicadores ajudam a explicar por que diversificar exige mais do que identificar setores promissores: é preciso reduzir obstáculos concretos à produção e à circulação de bens.",
       },
       {
-        text: "Empresas que conhecem a realidade do terreno podem transformar gargalos em serviços úteis. Isso exige dados mais próximos das comunidades, parcerias duradouras e a disposição de ajustar o modelo de negócio às condições locais.",
+        text: "Agricultura, logística, serviços financeiros e indústrias criativas podem abrir espaço para novas cadeias de valor. O potencial, contudo, não substitui uma análise de custos, regulação e procura real em cada província. O próprio Banco Mundial aponta agricultura e serviços — incluindo logística, comunicações e comércio — entre os motores esperados para o médio prazo.",
       },
       {
         heading: "Uma agenda de longo prazo",
-        text: "Atrair investimento produtivo pede previsibilidade e colaboração entre setor privado, instituições e quem já trabalha nas cadeias de valor. As histórias que merecem atenção são as que mostram como essas relações funcionam — e o que ainda precisa de mudar.",
+        text: "A mesma análise projeta crescimento de 4,5% em 2026, mas uma previsão não é um resultado garantido. Atrair investimento produtivo pede previsibilidade e colaboração entre empresas, instituições e quem já trabalha nas cadeias de valor. As histórias que merecem atenção mostram como essas relações funcionam — e o que ainda precisa de mudar.",
       },
     ],
   },
@@ -214,16 +229,28 @@ export const articles: Article[] = [
     image:
       "https://images.unsplash.com/photo-1524368535928-5b5e00ddc76b?auto=format&fit=crop&w=1000&q=85",
     imageAlt: "Público reunido num evento cultural",
+    sources: [
+      {
+        title: "UNESCO destaca o potencial de crescimento da indústria cinematográfica africana",
+        publisher: "UNESCO",
+        url: "https://www.unesco.org/en/articles/unesco-spotlights-growth-potential-africas-film-industry",
+      },
+      {
+        title: "Relatório sobre a indústria cinematográfica em África",
+        publisher: "UNESCO",
+        url: "https://www.unesco.org/en/articles/new-unesco-publication-highlights-growth-potential-africas-film-industry",
+      },
+    ],
     body: [
       {
         text: "A música, o audiovisual, a moda e o design não são apenas expressões culturais: também envolvem propriedade intelectual, empregos, tecnologia e cadeias de distribuição. Tratar estes setores como uma economia exige olhar para o trabalho que acontece antes e depois do palco.",
       },
       {
         heading: "O valor que nem sempre aparece",
-        text: "Direitos, contratos claros, meios de pagamento e acesso a novos públicos determinam se a popularidade se transforma em rendimento sustentável. Sem estes alicerces, a circulação global de uma obra pode beneficiar quase todos, menos quem a criou.",
+        text: "A UNESCO estima que o cinema e o audiovisual empregam cerca de cinco milhões de pessoas e representam US$ 5 mil milhões do PIB em África. A estimativa refere-se a esses setores específicos, não a toda a economia criativa. Direitos, contratos claros, meios de pagamento e acesso a novos públicos continuam a determinar se a circulação de uma obra se transforma em rendimento para quem a criou.",
       },
       {
-        text: "Para que as indústrias criativas cresçam, é importante investir em formação, infraestrutura e dados. Também é preciso ouvir artistas, produtores e profissionais que conhecem os desafios de cada mercado.",
+        text: "Para que as indústrias criativas cresçam, é importante investir em formação, infraestrutura e dados comparáveis. As recomendações da UNESCO sobre o audiovisual também chamam atenção para formação, financiamento, distribuição e políticas públicas. As soluções precisam de ouvir artistas, produtores e profissionais que conhecem os desafios de cada mercado.",
       },
       {
         heading: "Uma conversa de negócios e cultura",
@@ -243,6 +270,18 @@ export const articles: Article[] = [
     image:
       "https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1000&q=85",
     imageAlt: "Equipa a colaborar numa mesa de trabalho",
+    sources: [
+      {
+        title: "Digitalização e lacunas de competências digitais em África: um perfil empírico",
+        publisher: "Brookings Institution",
+        url: "https://www.brookings.edu/articles/digitalization-and-digital-skills-gaps-in-africa-an-empirical-profile/",
+      },
+      {
+        title: "Iniciativa para a Economia Digital em África",
+        publisher: "Banco Mundial",
+        url: "https://www.worldbank.org/en/programs/all-africa-digital-transformation",
+      },
+    ],
     body: [
       {
         text: "É fácil falar de inovação como se ela começasse com uma aplicação ou uma ronda de investimento. Quase sempre, a parte decisiva é menos visível: as pessoas que aprendem, adaptam ferramentas e tornam um produto útil no seu contexto.",
@@ -252,7 +291,10 @@ export const articles: Article[] = [
         text: "A formação técnica importa, mas não é suficiente. Equipas fortes precisam de experiência de gestão, canais para partilhar conhecimento e ambientes onde seja possível experimentar sem perder de vista as necessidades dos clientes.",
       },
       {
-        text: "Quando as empresas investem em talento local, os benefícios podem atravessar setores: fornecedores mais capazes, novos serviços e mais conhecimento acumulado. Medir esses efeitos ajuda a ir além do número de vagas anunciadas.",
+        text: "Uma análise empírica da Brookings mede a digitalização em cinco dimensões, entre elas competências, infraestrutura, finanças e plataformas digitais. O estudo também procura comparar lacunas entre países, em vez de tratar o continente como um mercado uniforme. Essa diferença de contexto importa tanto para governos como para empregadores.",
+      },
+      {
+        text: "Quando as empresas investem em talento local, os benefícios podem atravessar setores: fornecedores mais capazes, novos serviços e mais conhecimento acumulado. Medir esses efeitos ajuda a ir além do número de vagas anunciadas. Os resultados citados são da análise da Brookings e dos seus autores, não de uma pesquisa própria da Msingi Africa.",
       },
     ],
   },
@@ -267,8 +309,20 @@ export type Biography = {
   role: string;
   summary: string;
   accent: "sage" | "clay" | "gold";
+  organization?: string;
+  organizationUrl?: string;
+  contactUrl?: string;
+  spotlight?: string;
   body: string[];
   sources?: { title: string; publisher: string | null; url: string }[];
+  portrait?: {
+    src: string;
+    alt: string;
+    credit: string;
+    sourceUrl: string;
+    license: string;
+    licenseUrl: string;
+  };
 };
 
 export const biographies: Biography[] = [
@@ -282,6 +336,18 @@ export const biographies: Biography[] = [
     summary:
       "A engenheira de software queniana criou uma iniciativa que leva computadores recondicionados e aulas de informática a escolas rurais.",
     accent: "sage",
+    organization: "TechLit Africa",
+    organizationUrl: "https://techlitafrica.org/",
+    spotlight:
+      "Fundou uma iniciativa que equipa escolas rurais com laboratórios de informática, aulas digitais regulares e professores locais.",
+    portrait: {
+      src: "/images/profiles/nelly-cheboi.jpg",
+      alt: "Nelly Cheboi no palco após receber o prémio CNN Hero of the Year",
+      credit: "Cheboinelly",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Nelly_cheboi_on_stage_cnn_hero_of_year.jpg",
+      license: "CC BY-SA 4.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/4.0/",
+    },
     body: [
       "Nelly Cheboi é uma engenheira de software queniana e fundadora da TechLit Africa, organização sem fins lucrativos que introduz competências digitais em escolas rurais. A sua trajetória liga educação, tecnologia e a convicção de que o acesso a ferramentas digitais pode ampliar as oportunidades disponíveis para os jovens.",
       "Em reportagem publicada em 2023, a CNN descreveu o trabalho da TechLit Africa com computadores recondicionados e estudantes em Mogotio, no Quénia. A mesma reportagem registou que Cheboi foi distinguida como CNN Hero of the Year de 2022. Esses dados correspondem ao período coberto pela reportagem e não devem ser confundidos com uma atualização sobre a dimensão atual do programa.",
@@ -299,6 +365,11 @@ export const biographies: Biography[] = [
         publisher: "TechLit Africa",
         url: "https://techlitafrica.org/",
       },
+      {
+        title: "Ficheiro: Nelly Cheboi no palco após receber o prémio CNN Hero of the Year",
+        publisher: "Wikimedia Commons",
+        url: "https://commons.wikimedia.org/wiki/File:Nelly_cheboi_on_stage_cnn_hero_of_year.jpg",
+      },
     ],
   },
   {
@@ -311,10 +382,35 @@ export const biographies: Biography[] = [
     summary:
       "Uma das vozes mais reconhecidas na defesa do empreendedorismo tecnológico africano.",
     accent: "sage",
+    organization: "AppsTech",
+    organizationUrl: "https://appstech.com/en/",
+    contactUrl: "https://appstech.com/en/#contact",
+    spotlight:
+      "Fundou a AppsTech em 1999. A empresa descreve uma operação internacional de tecnologia empresarial, com clientes em mais de 50 países.",
+    portrait: {
+      src: "/images/profiles/rebecca-enonchong.jpg",
+      alt: "Rebecca Enonchong durante um evento da UNCTAD em 2019",
+      credit: "UNCTAD / Jean Marc Ferré",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:ECommerce_Week_2019_-_Rebecca_Enonchong.jpg",
+      license: "CC BY-SA 2.0",
+      licenseUrl: "https://creativecommons.org/licenses/by-sa/2.0/",
+    },
     body: [
       "Rebecca Enonchong é uma empresária tecnológica camaronense e fundadora da AppsTech, empresa internacional de soluções de software. A sua trajetória cruza negócios, tecnologia e o trabalho de ampliar a presença de empreendedores africanos em conversas globais.",
       "Ao longo da carreira, tornou-se uma referência para fundadores e profissionais que procuram construir tecnologia a partir do continente. A sua participação em redes de empreendedorismo e inovação dá visibilidade a questões como acesso a capital, políticas públicas e colaboração entre ecossistemas.",
       "A história de Enonchong é também um lembrete de que construir tecnologia em África significa navegar por mercados diversos, formar equipas e defender condições para que mais empresas cresçam a partir das suas comunidades.",
+    ],
+    sources: [
+      {
+        title: "AppsTech: soluções empresariais e história da empresa",
+        publisher: "AppsTech",
+        url: "https://appstech.com/en/",
+      },
+      {
+        title: "Ficheiro: Rebecca Enonchong durante a E-Commerce Week 2019",
+        publisher: "Wikimedia Commons / UNCTAD",
+        url: "https://commons.wikimedia.org/wiki/File:ECommerce_Week_2019_-_Rebecca_Enonchong.jpg",
+      },
     ],
   },
   {
@@ -327,10 +423,33 @@ export const biographies: Biography[] = [
     summary:
       "Transformou saber artesanal e materiais locais numa marca etíope com ambição internacional.",
     accent: "clay",
+    organization: "soleRebels",
+    spotlight:
+      "Fundou a soleRebels em 2005, ligando o saber artesanal etíope à criação de uma marca de calçado com ambição internacional.",
+    portrait: {
+      src: "/images/profiles/bethlehem-tilahun-alemu.png",
+      alt: "Bethlehem Tilahun Alemu entrevistada para a NdaniTV",
+      credit: "NdaniTV",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:SoleRebels_Bethlehem_Tilahun_Alemu.png",
+      license: "CC BY 3.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/3.0/",
+    },
     body: [
       "Nascida em Addis Abeba, Bethlehem Tilahun Alemu fundou a soleRebels em 2005. A marca de calçado nasceu da vontade de criar trabalho na sua comunidade e de dar visibilidade internacional ao saber artesanal local.",
       "A proposta da empresa combina técnicas de produção tradicionais, materiais disponíveis na região e uma identidade de marca global. O percurso mostra como um negócio criativo pode aproximar emprego local, conhecimento e acesso a novos mercados.",
       "Alemu também lançou iniciativas ligadas ao couro e ao café etíope. O seu trabalho ajuda a ampliar a conversa sobre empreendedorismo africano para além das narrativas convencionais de tecnologia e capital de risco.",
+    ],
+    sources: [
+      {
+        title: "Heart And Sole",
+        publisher: "Forbes Africa",
+        url: "https://www.forbesafrica.com/life/2015/08/01/heart-and-sole",
+      },
+      {
+        title: "Ficheiro: Bethlehem Tilahun Alemu, fundadora da soleRebels",
+        publisher: "Wikimedia Commons / NdaniTV",
+        url: "https://commons.wikimedia.org/wiki/File:SoleRebels_Bethlehem_Tilahun_Alemu.png",
+      },
     ],
   },
   {
@@ -343,10 +462,33 @@ export const biographies: Biography[] = [
     summary:
       "Construiu uma plataforma de media que coloca histórias africanas no centro da conversa.",
     accent: "gold",
+    organization: "EbonyLife",
+    spotlight:
+      "Fundou a EbonyLife, uma plataforma de televisão e cinema dedicada à produção e circulação de histórias africanas.",
+    portrait: {
+      src: "/images/profiles/mo-abudu.jpg",
+      alt: "Mo Abudu num retrato de 2010",
+      credit: "Nkemonwudiwe",
+      sourceUrl: "https://commons.wikimedia.org/wiki/File:Mosunmola_Abudu_1.jpg",
+      license: "CC BY 3.0",
+      licenseUrl: "https://creativecommons.org/licenses/by/3.0/",
+    },
     body: [
       "Mosunmola Abudu, conhecida como Mo Abudu, é uma empresária nigeriana de media e fundadora da EbonyLife. A sua trajetória está ligada à produção e distribuição de histórias africanas para audiências dentro e fora do continente.",
       "Com televisão, cinema e parcerias de distribuição no seu percurso, Abudu tem defendido que histórias locais podem viajar sem perder a sua especificidade. A estratégia combina desenvolvimento de talento, produção de conteúdos e construção de uma marca reconhecível.",
       "A EbonyLife representa uma parte importante de uma indústria criativa em transformação: uma indústria que procura novas fontes de financiamento, melhores estruturas para remunerar criadores e maior controlo sobre a circulação das suas próprias narrativas.",
+    ],
+    sources: [
+      {
+        title: "The Blockbuster Named Nollywood",
+        publisher: "Forbes Africa",
+        url: "https://www.forbesafrica.com/cover-story/2020/10/08/the-blockbuster-named-nollywood",
+      },
+      {
+        title: "Ficheiro: Mo Abudu",
+        publisher: "Wikimedia Commons",
+        url: "https://commons.wikimedia.org/wiki/File:Mosunmola_Abudu_1.jpg",
+      },
     ],
   },
 ];

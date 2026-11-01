@@ -19,6 +19,7 @@ export function SiteFooter() {
             <Link href="/biografias">Biografias</Link>
             <Link href="/entidades">Entidades</Link>
             <Link href="/autores">Autores</Link>
+            <Link href="/planos">Planos</Link>
             <Link href="/pesquisa">Pesquisar</Link>
             <Link href="/sobre">A nossa missão</Link>
           </div>
