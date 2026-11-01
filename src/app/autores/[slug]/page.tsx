@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/json-ld";
 import { getPublicAuthor } from "@/lib/public-content";
 import { getLocale } from "@/lib/locale.server";
 import { createSocialPreviewUrl } from "@/lib/page-metadata";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-dynamic";
 type Props = { params: Promise<{ slug: string }> };
@@ -51,7 +52,7 @@ export default async function AuthorPage({ params }: Props) {
   if (!author) notFound();
   const locale = await getLocale();
   const en = locale === "en";
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
+  const siteUrl = getSiteUrl();
   const url = new URL(`/autores/${slug}`, siteUrl).toString();
   return (
     <article className="author-detail section-pad">
@@ -67,13 +68,13 @@ export default async function AuthorPage({ params }: Props) {
           ...(author.imageUrl ? { image: author.imageUrl } : {}),
           ...(author.countryCode ? { homeLocation: { "@type": "Place", addressCountry: author.countryCode } } : {}),
         },
-        publisher: { "@id": `${siteUrl}#organization` },
+        publisher: { "@id": `${siteUrl.origin}#organization` },
       }} />
       <JsonLd data={{
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: en ? "Home" : "Início", item: siteUrl },
+          { "@type": "ListItem", position: 1, name: en ? "Home" : "Início", item: siteUrl.origin },
           { "@type": "ListItem", position: 2, name: en ? "Contributors" : "Autores", item: new URL("/autores", siteUrl).toString() },
           { "@type": "ListItem", position: 3, name: author.name, item: url },
         ],

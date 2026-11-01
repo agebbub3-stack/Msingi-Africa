@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/json-ld";
 import { translate } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale.server";
 import { createPageMetadata } from "@/lib/page-metadata";
+import { getSiteUrl } from "@/lib/site-url";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -23,6 +24,7 @@ const dmSerifDisplay = DM_Serif_Display({
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
+  const siteUrl = getSiteUrl();
   const title = locale === "en"
     ? "Kioo Africa — African markets, ideas and people"
     : "Kioo Africa — Mercados, inovação e perfis africanos";
@@ -38,7 +40,7 @@ export async function generateMetadata(): Promise<Metadata> {
       path: "/",
       eyebrow: locale === "en" ? "PEOPLE · IDEAS · MARKETS" : "PESSOAS · IDEIAS · MERCADOS",
     }),
-    metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"),
+    metadataBase: siteUrl,
     applicationName: "Kioo Africa",
     title: { default: title, template: "%s — Kioo Africa" },
     keywords: locale === "en"
@@ -57,6 +59,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = await getLocale();
+  const siteUrl = getSiteUrl();
   return (
     <html lang={locale === "en" ? "en" : "pt"} className={`${dmSans.variable} ${dmSerifDisplay.variable}`} suppressHydrationWarning>
       <body>
@@ -66,32 +69,32 @@ export default async function RootLayout({
         <JsonLd data={{
           "@context": "https://schema.org",
           "@type": "Organization",
-          "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"}#organization`,
+          "@id": `${siteUrl.origin}#organization`,
           name: "Kioo Africa",
           alternateName: "Kioo",
           slogan: "Pessoas, ideias e mercados africanos.",
-          url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa",
-          logo: new URL("/brand-mark.svg", process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa").toString(),
+          url: siteUrl.origin,
+          logo: new URL("/brand-mark.svg", siteUrl).toString(),
           description: locale === "en"
             ? "Independent editorial and research group focused on African people, ideas and markets."
             : "Grupo editorial e de pesquisa independente dedicado a pessoas, ideias e mercados africanos.",
-          publishingPrinciples: new URL("/sobre#principios", process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa").toString(),
+          publishingPrinciples: new URL("/sobre#principios", siteUrl).toString(),
           areaServed: { "@type": "Continent", name: "África" },
         }} />
         <JsonLd data={{
           "@context": "https://schema.org",
           "@type": "WebSite",
-          "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"}#website`,
+          "@id": `${siteUrl.origin}#website`,
           name: "Kioo Africa",
           alternateName: "Kioo",
-          url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa",
+          url: siteUrl.origin,
           inLanguage: locale === "en" ? "en" : ["pt-AO", "pt-PT"],
-          publisher: { "@id": `${process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"}#organization` },
+          publisher: { "@id": `${siteUrl.origin}#organization` },
           potentialAction: {
             "@type": "SearchAction",
             target: {
               "@type": "EntryPoint",
-              urlTemplate: new URL("/pesquisa?q={search_term_string}", process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa").toString(),
+              urlTemplate: new URL("/pesquisa?q={search_term_string}", siteUrl).toString(),
             },
             "query-input": "required name=search_term_string",
           },
@@ -105,7 +108,7 @@ export default async function RootLayout({
         <SiteHeader locale={locale} />
         {locale === "en" && (
           <p className="locale-content-notice" role="note">
-            English interface · Editorial stories remain in their original language.
+            English interface and selected editorial stories are translated. Other editorial and contributor content remains in its original language.
           </p>
         )}
         <main>{children}</main>

@@ -3,6 +3,7 @@ import { and, eq, gt, isNull, or } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth-session";
 import { payments, subscriptions } from "@/lib/db/schema";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const runtime = "nodejs";
 
@@ -23,8 +24,8 @@ export async function POST() {
 
   const secret = process.env.FLW_SECRET_KEY;
   const planId = process.env.FLW_PAYMENT_PLAN_ID;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  if (!process.env.DATABASE_URL || !secret || !planId || !siteUrl) {
+  const hasPublicOrigin = Boolean(process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL);
+  if (!process.env.DATABASE_URL || !secret || !planId || !hasPublicOrigin) {
     return NextResponse.json({ error: "A assinatura ainda não está configurada. Contacte a redação." }, { status: 503 });
   }
   if (!/^\d{1,20}$/.test(planId)) {
@@ -34,7 +35,7 @@ export async function POST() {
 
   let origin: URL;
   try {
-    origin = new URL(siteUrl);
+    origin = getSiteUrl();
   } catch {
     console.error("NEXT_PUBLIC_SITE_URL must be an absolute URL.");
     return NextResponse.json({ error: "A configuração do checkout precisa de revisão." }, { status: 503 });

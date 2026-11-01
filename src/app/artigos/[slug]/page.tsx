@@ -11,6 +11,9 @@ import { getApprovedArticleComments, getPublishedArticle, getPublishedArticles }
 import { getStorySeo } from "@/lib/story-seo";
 import { getLocale } from "@/lib/locale.server";
 import { localizeCategory } from "@/lib/i18n";
+import { createSocialPreviewUrl } from "@/lib/page-metadata";
+import { hasEnglishArticleCopy, localizeArticle } from "@/lib/localized-editorial";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-dynamic";
 type Props = { params: Promise<{ slug: string }> };
@@ -46,24 +49,42 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const article = await getPublishedArticle(slug);
   if (!article) return { title: "Artigo não encontrado", robots: { index: false, follow: false } };
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
-  const seo = getStorySeo(article);
+  const [locale] = await Promise.all([getLocale()]);
+  const en = locale === "en";
+  const localizedArticle = localizeArticle(article, locale);
+  const hasEnglishCopy = hasEnglishArticleCopy(article.slug);
+  const seo = getStorySeo(en && hasEnglishCopy
+    ? { ...localizedArticle, seoTitle: null, seoDescription: null }
+    : article);
+  const siteUrl = getSiteUrl();
   const canonical = new URL(article.canonicalUrl?.trim() || `/artigos/${article.slug}`, siteUrl).toString();
+  const socialImage = createSocialPreviewUrl({
+    locale,
+    kind: "article",
+    eyebrow: en ? "AFRICAN MARKETS · ANALYSIS" : "MERCADOS AFRICANOS · ANÁLISE",
+    title: seo.title,
+    description: seo.description,
+    image: article.image,
+  });
   return {
     title: seo.title,
     description: seo.description,
-    keywords: seo.keywords,
+    keywords: en && hasEnglishCopy
+      ? [seo.title, localizeCategory(article.category, locale), "African markets", "Africa"]
+      : seo.keywords,
     alternates: { canonical },
     openGraph: {
       type: "article",
       title: seo.title,
       description: seo.description,
       url: canonical,
-      images: [{ url: article.image, alt: article.imageAlt }],
+      siteName: "Kioo Africa",
+      locale: en ? "en_GB" : "pt_AO",
+      images: [{ url: socialImage, width: 1200, height: 630, alt: seo.title }],
       ...(article.publishedAt ? { publishedTime: article.publishedAt } : {}),
       ...(article.modifiedAt ? { modifiedTime: article.modifiedAt } : {}),
     },
-    twitter: { card: "summary_large_image", title: seo.title, description: seo.description, images: [article.image] },
+    twitter: { card: "summary_large_image", title: seo.title, description: seo.description, images: [socialImage] },
   };
 }
 
@@ -74,34 +95,38 @@ export default async function ArticlePage({ params }: Props) {
 
   const [allArticles, locale] = await Promise.all([getPublishedArticles(), getLocale()]);
   const en = locale === "en";
+  const displayArticle = localizeArticle(article, locale);
+  const hasEnglishCopy = hasEnglishArticleCopy(article.slug);
   const relatedArticles = allArticles.filter((item) => item.slug !== slug).slice(0, 3);
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
+  const siteUrl = getSiteUrl();
   const articleUrl = new URL(article.canonicalUrl?.trim() || `/artigos/${article.slug}`, siteUrl).toString();
   const initialComments = article.id
     ? await getApprovedArticleComments(article.id)
     : { comments: [], totalCount: 0 };
-  const content = getArticleContent(article);
+  const content = getArticleContent(displayArticle);
   const seo = getStorySeo(article);
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
-    headline: article.title,
+    headline: displayArticle.title,
     alternativeHeadline: seo.title,
-    description: seo.description,
-    keywords: seo.keywords,
+    description: displayArticle.standfirst,
+    keywords: en && hasEnglishCopy
+      ? [seo.title, localizeCategory(article.category, locale), "African markets", "Africa"]
+      : seo.keywords,
     image: [article.image],
-    inLanguage: "pt-AO",
-    articleSection: article.category,
+    inLanguage: en && hasEnglishCopy ? "en" : "pt-AO",
+    articleSection: localizeCategory(article.category, locale),
     wordCount: content.trim().split(/\s+/).filter(Boolean).length,
     isAccessibleForFree: true,
     mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
     author: article.authorSlug
       ? { "@type": "Person", name: article.author, url: new URL(`/autores/${article.authorSlug}`, siteUrl).toString() }
-      : { "@id": `${siteUrl}#organization` },
+      : { "@id": `${siteUrl.origin}#organization` },
     publisher: {
       "@type": "Organization",
       name: "Kioo Africa",
-      url: siteUrl,
+      url: siteUrl.origin,
       logo: { "@type": "ImageObject", url: new URL("/brand-mark.svg", siteUrl).toString() },
     },
     ...(article.publishedAt ? { datePublished: article.publishedAt } : {}),
@@ -115,20 +140,20 @@ export default async function ArticlePage({ params }: Props) {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: en ? "Home" : "Início", item: siteUrl },
+          { "@type": "ListItem", position: 1, name: en ? "Home" : "Início", item: siteUrl.origin },
           { "@type": "ListItem", position: 2, name: en ? "Articles" : "Artigos", item: new URL("/artigos", siteUrl).toString() },
-          { "@type": "ListItem", position: 3, name: article.title, item: articleUrl },
+          { "@type": "ListItem", position: 3, name: displayArticle.title, item: articleUrl },
         ],
       }} />
       <div className="story-breadcrumb"><Link href="/artigos"><ArrowLeft size={14} /> {en ? "All articles" : "Todos os artigos"}</Link><span> / </span><span>{localizeCategory(article.category, locale)}</span></div>
       <header className="story-header">
         <span className="category-label">{article.isSponsored ? (en ? "Sponsored" : "Patrocinado") : localizeCategory(article.category, locale)}</span>
-        <h1>{article.title}</h1>
-        <p className="story-standfirst">{article.standfirst}</p>
+        <h1>{displayArticle.title}</h1>
+        <p className="story-standfirst">{displayArticle.standfirst}</p>
         <div className="story-byline">
-          <div className="byline-avatar" aria-hidden="true">{article.author.trim().slice(0, 1).toUpperCase()}</div>
+          <div className="byline-avatar" aria-hidden="true">{displayArticle.author.trim().slice(0, 1).toUpperCase()}</div>
           <div>
-            <strong>{article.authorSlug ? <Link href={`/autores/${article.authorSlug}`}>{article.author}</Link> : article.author}</strong>
+            <strong>{article.authorSlug ? <Link href={`/autores/${article.authorSlug}`}>{displayArticle.author}</Link> : displayArticle.author}</strong>
             <span>{article.kind === "biography"
               ? (en ? "Biographical profile" : "Perfil biográfico")
               : article.isSponsored
@@ -136,17 +161,18 @@ export default async function ArticlePage({ params }: Props) {
                 : (en ? "Kioo Africa Editorial" : "Redação Kioo Africa")}</span>
           </div>
           <span className="byline-divider" />
-          <div className="story-date">{formatStoryDate(article, locale)}</div>
-          <span className="reading-time"><Clock3 size={14} /> {article.readingTime.replace(/min de leitura/i, en ? "min read" : "min de leitura")}</span>
+          <div className="story-date">{formatStoryDate(displayArticle, locale)}</div>
+          <span className="reading-time"><Clock3 size={14} /> {displayArticle.readingTime.replace(/min de leitura/i, en ? "min read" : "min de leitura")}</span>
         </div>
       </header>
       <figure className="story-cover">
-        <Image src={article.image} alt={article.imageAlt} fill priority sizes="100vw" unoptimized={Boolean(article.id)} />
-        <figcaption>{article.imageAlt} · {en ? "Illustrative image." : "Imagem ilustrativa."}</figcaption>
+        <Image src={article.image} alt={displayArticle.imageAlt} fill priority sizes="100vw" unoptimized={Boolean(article.id)} />
+        <figcaption>{displayArticle.imageAlt} · {en ? "Illustrative image." : "Imagem ilustrativa."}</figcaption>
       </figure>
       <div className="story-body-layout">
         <aside className="story-aside"><span>KIOO / JOURNAL</span><span>{en ? <>READING<br />WITH CONTEXT.</> : <>UMA LEITURA<br />COM CONTEXTO.</>}</span><Link href="/sobre">{en ? "Our principles" : "Os nossos princípios"} <ArrowUpRight size={14} /></Link></aside>
         <div className="story-body">
+          {en && !hasEnglishCopy && <p className="original-language-note">This article is available in its original language.</p>}
           <ArticleMarkdown content={content} />
           {article.sources && article.sources.length > 0 && (
             <section className="article-sources">
@@ -174,7 +200,7 @@ export default async function ArticlePage({ params }: Props) {
       <div className="section-pad">
         <ArticleInteractions
           articleId={article.id}
-          title={article.title}
+          title={displayArticle.title}
           shareUrl={articleUrl}
           returnPath={`/artigos/${article.slug}`}
           initialComments={initialComments.comments}

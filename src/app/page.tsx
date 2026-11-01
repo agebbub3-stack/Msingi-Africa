@@ -6,8 +6,14 @@ import { ProfileCard } from "@/components/profile-card";
 import { ScrollReveal } from "@/components/scroll-reveal";
 import { imageForCategory } from "@/lib/content";
 import { getPublishedArticles, getPublishedBiographies } from "@/lib/public-content";
-import { localizeCategory, translate } from "@/lib/i18n";
+import { localizeCategory, localizeCountry, translate } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale.server";
+import {
+  hasEnglishArticleCopy,
+  hasEnglishBiographyCopy,
+  localizeArticle,
+  localizeBiography,
+} from "@/lib/localized-editorial";
 
 export const dynamic = "force-dynamic";
 
@@ -23,26 +29,34 @@ export default async function HomePage() {
   );
   const gsmaSource = digitalEconomyArticle?.sources?.find((source) => source.publisher === "GSMA");
   const carouselStories = [
-    ...publishedArticles.slice(0, 3).map((article) => ({
-      href: `/artigos/${article.slug}`,
-      title: article.title,
-      description: article.standfirst,
-      image: article.image,
-      imageAlt: article.imageAlt,
-      label: localizeCategory(article.category, locale),
-      byline: article.author,
-      date: article.date,
-    })),
-    ...biographies.slice(0, 1).map((profile) => ({
-      href: `/biografias/${profile.slug}`,
-      title: profile.name,
-      description: profile.summary,
-      image: profile.portrait?.src ?? imageForCategory[profile.field] ?? imageForCategory.Tecnologia,
-      imageAlt: profile.portrait?.alt ?? `${profile.name}, perfil biográfico`,
-      label: locale === "en" ? `${profile.country} · ${localizeCategory(profile.field, locale)}` : `${profile.country} · ${profile.field}`,
-      byline: locale === "en" ? "Kioo Africa Editorial" : "Redação Kioo Africa",
-      date: "",
-    })),
+    ...publishedArticles.slice(0, 3).map((article) => {
+      const localizedArticle = localizeArticle(article, locale);
+      return {
+        href: `/artigos/${article.slug}`,
+        title: localizedArticle.title,
+        description: localizedArticle.standfirst,
+        image: article.image,
+        imageAlt: localizedArticle.imageAlt,
+        label: localizeCategory(article.category, locale),
+        byline: localizedArticle.author,
+        date: localizedArticle.date,
+        isOriginalLanguage: locale === "en" && !hasEnglishArticleCopy(article.slug),
+      };
+    }),
+    ...biographies.slice(0, 1).map((profile) => {
+      const localizedProfile = localizeBiography(profile, locale);
+      return {
+        href: `/biografias/${profile.slug}`,
+        title: profile.name,
+        description: localizedProfile.summary,
+        image: profile.portrait?.src ?? imageForCategory[profile.field] ?? imageForCategory.Tecnologia,
+        imageAlt: localizedProfile.portrait?.alt ?? `${profile.name}, ${locale === "en" ? "biographical profile" : "perfil biográfico"}`,
+        label: locale === "en" ? `${localizeCountry(localizedProfile.country, locale)} · ${localizeCategory(profile.field, locale)}` : `${profile.country} · ${profile.field}`,
+        byline: locale === "en" ? "Kioo Africa Editorial" : "Redação Kioo Africa",
+        date: "",
+        isOriginalLanguage: locale === "en" && !hasEnglishBiographyCopy(profile.slug),
+      };
+    }),
   ];
 
   return (

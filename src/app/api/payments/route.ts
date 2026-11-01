@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { NextResponse, type NextRequest } from "next/server";
 import { getPromotionPackage, type PromotionPackageId } from "@/lib/paid-promotions";
 import { sponsoredProposals } from "@/lib/db/schema";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const runtime = "nodejs";
 
@@ -37,8 +38,8 @@ function createTransactionReference(packageId: PromotionPackageId, amount: numbe
 
 export async function POST(request: NextRequest) {
   const secret = process.env.FLW_SECRET_KEY;
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL;
-  if (!secret || !siteUrl || !process.env.DATABASE_URL) {
+  const hasPublicOrigin = Boolean(process.env.NEXT_PUBLIC_SITE_URL || process.env.VERCEL_PROJECT_PRODUCTION_URL);
+  if (!secret || !hasPublicOrigin || !process.env.DATABASE_URL) {
     return NextResponse.json(
       { error: "O checkout ainda não está configurado. Fale com a redação para solicitar um orçamento." },
       { status: 503 },
@@ -76,7 +77,7 @@ export async function POST(request: NextRequest) {
 
   let appUrl: URL;
   try {
-    appUrl = new URL(siteUrl);
+    appUrl = getSiteUrl();
   } catch {
     console.error("NEXT_PUBLIC_SITE_URL must be an absolute URL.");
     return NextResponse.json({ error: "A configuração do checkout precisa de revisão." }, { status: 503 });

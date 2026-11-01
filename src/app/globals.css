@@ -370,6 +370,10 @@ img { object-fit: cover; }
 .package-option > strong { font-family: var(--serif); font-size: 15px; font-weight: 400; }
 .package-description { color: #788076; font-size: 8px; line-height: 1.55; }
 .package-includes { margin-top: auto; padding-top: 6px; color: #5a705e; border-top: 1px solid #e4e3d9; font-size: 7px; line-height: 1.6; }
+.selected-package-summary { margin-top: 12px; padding: 14px 15px; display: grid; gap: 5px; background: #eef0e9; border: 1px solid #dfe3d8; border-radius: 12px; }
+.selected-package-summary > span { color: #647064; font-size: 8px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.selected-package-summary > strong { color: #28443a; font-family: var(--serif); font-size: 20px; font-weight: 400; }
+.selected-package-summary > p { margin: 0; color: #657166; font-size: 9px; line-height: 1.6; }
 .submit-button:disabled { opacity: .7; cursor: wait; }
 .payment-state { min-height: 560px; max-width: 720px; margin: 0 auto; padding: 95px 24px 80px; display: flex; flex-direction: column; align-items: flex-start; }
 .payment-icon { margin-bottom: 18px; color: #52775d; }
@@ -945,6 +949,12 @@ html[data-theme="dark"] .story-body h2,
 html[data-theme="dark"] .person-intro h1,
 html[data-theme="dark"] .search-page-header h1,
 html[data-theme="dark"] .search-results-heading h2 { color: #e8eee8; }
+html[data-theme="dark"] .archive-masthead h1 em,
+html[data-theme="dark"] .bio-masthead h1 em,
+html[data-theme="dark"] .submit-masthead h1 em,
+html[data-theme="dark"] .plans-masthead h1 em {
+  color: #d7ad8b;
+}
 html[data-theme="dark"] .featured-section,
 html[data-theme="dark"] .people-section,
 html[data-theme="dark"] .archive-content,
@@ -1228,7 +1238,7 @@ html[data-theme="dark"] .about-masthead { background: radial-gradient(ellipse at
 .african-lights-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
 .african-lights-heading h2 { margin: 12px 0 0; font-family: var(--serif); font-size: clamp(41px, 5vw, 58px); font-weight: 400; line-height: 1; letter-spacing: -.05em; }
 .african-lights-heading h2 em { color: #a66c47; }
-.african-lights-heading p { max-width: 620px; margin: 14px 0 0; color: #717970; font-size: 11px; line-height: 1.8; }
+.african-lights-heading p { max-width: 620px; margin: 14px 0 0; color: #5f685f; font-size: 12px; line-height: 1.8; }
 .african-lights-mark { color: #b67a50; font-size: 37px; }
 .african-lights-grid { margin-top: 29px; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 13px; }
 .african-light-card { min-width: 0; overflow: hidden; background: var(--white); border: 1px solid #e2e0d7; border-radius: 18px; transition: transform .24s ease, box-shadow .24s ease; }
@@ -1240,17 +1250,17 @@ html[data-theme="dark"] .about-masthead { background: radial-gradient(ellipse at
 .african-light-portrait > span:not(.african-light-index) { font-family: var(--serif); font-size: 44px; }
 .african-light-index { position: absolute; z-index: 1; right: 12px; bottom: 11px; left: 12px; color: #fff; font-size: 7px; font-weight: 650; letter-spacing: .14em; }
 .african-light-copy { padding: 17px 16px 15px; }
-.african-light-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 5px; color: #898c82; font-size: 7px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
+.african-light-meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 5px; color: #687166; font-size: 8px; font-weight: 650; letter-spacing: .08em; text-transform: uppercase; }
 .african-light-copy h3 { margin: 12px 0 3px; font-family: var(--serif); font-size: 22px; font-weight: 400; line-height: 1.08; }
-.african-light-role { min-height: 28px; margin: 0; color: #8b7967; font-size: 9px; line-height: 1.55; }
-.african-light-spotlight { min-height: 81px; margin: 13px 0 0; color: #626d63; font-size: 9px; line-height: 1.7; }
+.african-light-role { min-height: 28px; margin: 0; color: #755e4a; font-size: 10px; line-height: 1.55; }
+.african-light-spotlight { min-height: 81px; margin: 13px 0 0; color: #505d54; font-size: 10px; line-height: 1.7; }
 .african-light-links { min-height: 45px; margin-top: 12px; padding-top: 11px; display: flex; flex-wrap: wrap; align-items: flex-start; justify-content: space-between; gap: 8px; border-top: 1px solid #e7e5dd; }
 .african-light-links .text-link { font-size: 9px; }
 .african-light-links > a:not(.text-link) { display: inline-flex; align-items: center; gap: 5px; color: #54705b; font-size: 8px; font-weight: 600; }
 .african-light-unavailable { max-width: 135px; color: #8c887d; font-size: 8px; line-height: 1.5; }
-.african-light-source, .african-light-credit { margin: 9px 0 0; color: #929087; font-size: 7px; line-height: 1.55; }
+.african-light-source, .african-light-credit { margin: 9px 0 0; color: #696a61; font-size: 8px; line-height: 1.55; }
 .african-light-source a, .african-light-credit a { color: #536b58; text-decoration: underline; text-underline-offset: 2px; }
-.african-lights-disclosure { margin: 17px 0 0; color: #7d8277; font-size: 8px; line-height: 1.7; }
+.african-lights-disclosure { margin: 17px 0 0; color: #616960; font-size: 9px; line-height: 1.7; }
 .entity-directory { margin-top: 67px; }
 .entity-directory .section-heading { margin-bottom: 24px; }
 .entity-directory .section-heading h2 { margin: 12px 0 0; font-family: var(--serif); font-size: clamp(38px, 4.5vw, 52px); font-weight: 400; line-height: 1.02; letter-spacing: -.04em; }
@@ -1260,7 +1270,7 @@ html[data-theme="dark"] .about-masthead { background: radial-gradient(ellipse at
 .entity-card, .author-card { position: relative; min-height: 250px; padding: 25px; background: var(--white); border: 1px solid var(--line); }
 .entity-icon { width: 40px; height: 40px; display: grid; place-items: center; margin-bottom: 20px; color: #eab675; background: var(--green-deep); border-radius: 50%; }
 .entity-card h2, .author-card h2 { margin: 10px 0; font-family: var(--serif); font-size: 26px; font-weight: 400; }
-.entity-card > p, .author-card > p { color: #747d75; font-size: 11px; line-height: 1.75; }
+.entity-card > p, .author-card > p { color: #59645b; font-size: 12px; line-height: 1.75; }
 .entity-card .text-link, .author-card .text-link { margin-top: 14px; }
 .entity-detail, .author-detail { padding-top: 25px; padding-bottom: 85px; }
 .entity-detail-header, .author-detail-header { max-width: 850px; margin: 35px auto 55px; padding: 45px; background: var(--white); border: 1px solid var(--line); }
@@ -2037,6 +2047,131 @@ html[data-theme="dark"] .admin-source-remove { color: #e2a18c; border-color: #45
 html[data-theme="dark"] .locale-content-notice {
   color: #b2bdb3;
   background: #1b241e;
+}
+html[data-theme="dark"] .archive-masthead,
+html[data-theme="dark"] .submit-masthead,
+html[data-theme="dark"] .plans-masthead {
+  background-color: #1b241e;
+}
+html[data-theme="dark"] .african-lights {
+  color: #e4ece4;
+  background: #1b241e;
+  border-color: #354138;
+}
+html[data-theme="dark"] .african-lights-heading h2,
+html[data-theme="dark"] .african-lights-heading h2 em,
+html[data-theme="dark"] .entity-directory .section-heading h2,
+html[data-theme="dark"] .entity-directory .section-heading h2 em,
+html[data-theme="dark"] .african-light-copy h3,
+html[data-theme="dark"] .entity-card h2,
+html[data-theme="dark"] .entity-detail-header h1 {
+  color: #e4ece4;
+}
+html[data-theme="dark"] .african-lights-heading p,
+html[data-theme="dark"] .african-lights-disclosure,
+html[data-theme="dark"] .african-light-spotlight,
+html[data-theme="dark"] .african-light-meta,
+html[data-theme="dark"] .african-light-unavailable,
+html[data-theme="dark"] .african-light-source,
+html[data-theme="dark"] .african-light-credit,
+html[data-theme="dark"] .entity-card > p,
+html[data-theme="dark"] .entity-detail-header > p,
+html[data-theme="dark"] .entity-product-offer > span {
+  color: #b2bdb3;
+}
+html[data-theme="dark"] .african-light-card,
+html[data-theme="dark"] .entity-detail-header {
+  color: #e4ece4;
+  background: #1d2620;
+  border-color: #354138;
+}
+html[data-theme="dark"] .african-light-links,
+html[data-theme="dark"] .entity-product-offer {
+  background: #202c24;
+  border-color: #354138;
+}
+html[data-theme="dark"] .entity-product-offer strong {
+  color: #d9e7da;
+}
+html[data-theme="dark"] .african-light-role,
+html[data-theme="dark"] .african-light-links > a:not(.text-link),
+html[data-theme="dark"] .african-light-source a,
+html[data-theme="dark"] .african-light-credit a {
+  color: #c1d2c2;
+}
+html[data-theme="dark"] .archive-grid .article-card {
+  color: #e4ece4;
+  background: #1d2620;
+  border-color: #354138;
+}
+html[data-theme="dark"] .article-sources,
+html[data-theme="dark"] .original-language-note {
+  color: #d3ddd4;
+  background: #202c24;
+  border-color: #354138;
+}
+html[data-theme="dark"] .article-sources li,
+html[data-theme="dark"] .article-sources a {
+  color: #c3d0c4;
+}
+html[data-theme="dark"] .proposal-form .field-label,
+html[data-theme="dark"] .proposal-form .form-section-head h2 {
+  color: #dbe5dc;
+}
+html[data-theme="dark"] .proposal-form .form-section-head p,
+html[data-theme="dark"] .proposal-form .form-privacy {
+  color: #b2bdb3;
+}
+html[data-theme="dark"] .editorial-disclosure {
+  color: #c2cec3;
+  background: #26342b;
+}
+html[data-theme="dark"] .editorial-disclosure strong {
+  color: #e2ece2;
+}
+html[data-theme="dark"] .disclosure-sponsored {
+  background: #392e25;
+}
+html[data-theme="dark"] .package-option {
+  color: #e1e9e1;
+  background: #202c24;
+  border-color: #3a493e;
+}
+html[data-theme="dark"] .package-option-active {
+  background: #2b3b30;
+  border-color: #91aa91;
+  box-shadow: inset 0 0 0 1px #91aa91;
+}
+html[data-theme="dark"] .package-description,
+html[data-theme="dark"] .package-includes {
+  color: #b8c5b9;
+}
+html[data-theme="dark"] .package-includes {
+  border-color: #3b493e;
+}
+html[data-theme="dark"] .selected-package-summary {
+  background: #26362c;
+  border-color: #425346;
+}
+html[data-theme="dark"] .selected-package-summary > span,
+html[data-theme="dark"] .selected-package-summary > p {
+  color: #becbbe;
+}
+html[data-theme="dark"] .selected-package-summary > strong {
+  color: #e2ece2;
+}
+html[data-theme="dark"] .submit-aside-card {
+  color: #e4ece4;
+  background: #1d2620;
+  border-color: #354138;
+}
+html[data-theme="dark"] .submit-aside-card li,
+html[data-theme="dark"] .submit-help {
+  color: #b2bdb3;
+}
+html[data-theme="dark"] .submit-aside-card > a,
+html[data-theme="dark"] .submit-help a {
+  color: #c5d5c6;
 }
 
 @media (max-width: 760px) {

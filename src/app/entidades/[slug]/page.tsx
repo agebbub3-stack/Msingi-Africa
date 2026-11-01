@@ -7,6 +7,8 @@ import { JsonLd } from "@/components/json-ld";
 import { getArticlesForEntity, getPublicEntity } from "@/lib/public-content";
 import { getLocale } from "@/lib/locale.server";
 import { createSocialPreviewUrl } from "@/lib/page-metadata";
+import { getSiteUrl } from "@/lib/site-url";
+import { localizeEntity } from "@/lib/localized-entities";
 
 export const dynamic = "force-dynamic";
 type Props = { params: Promise<{ slug: string }> };
@@ -15,33 +17,36 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const entity = await getPublicEntity(slug);
   if (!entity) return { title: "Entidade não encontrada", robots: { index: false, follow: false } };
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
   const locale = await getLocale();
+  const localizedEntity = localizeEntity(entity, locale);
+  const siteUrl = getSiteUrl();
   const fallbackImage = createSocialPreviewUrl({
     locale,
     kind: entity.type === "product" ? "product" : "entities",
     eyebrow: entity.type === "product"
       ? (locale === "en" ? "KIOO AFRICA PRODUCT" : "PRODUTO KIOO AFRICA")
       : (locale === "en" ? "AFRICAN ECOSYSTEM" : "ECOSSISTEMA AFRICANO"),
-    title: entity.name,
-    description: entity.description,
+    title: localizedEntity.name,
+    description: localizedEntity.description,
   });
   const image = entity.imageUrl ?? fallbackImage;
   return {
-    title: entity.name,
-    description: entity.description,
+    title: localizedEntity.name,
+    description: localizedEntity.description,
     alternates: { canonical: new URL(`/entidades/${slug}`, siteUrl).toString() },
     openGraph: {
       type: "website",
-      title: entity.name,
-      description: entity.description,
+      siteName: "Kioo Africa",
+      locale: locale === "en" ? "en_GB" : "pt_AO",
+      title: localizedEntity.name,
+      description: localizedEntity.description,
       url: new URL(`/entidades/${slug}`, siteUrl).toString(),
       images: [image],
     },
     twitter: {
       card: "summary_large_image",
-      title: entity.name,
-      description: entity.description,
+      title: localizedEntity.name,
+      description: localizedEntity.description,
       images: [image],
     },
   };
@@ -53,8 +58,9 @@ export default async function EntityPage({ params }: Props) {
   if (!entity) notFound();
 
   const locale = await getLocale();
+  const localizedEntity = localizeEntity(entity, locale);
   const en = locale === "en";
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
+  const siteUrl = getSiteUrl();
   const entityUrl = new URL(`/entidades/${entity.slug}`, siteUrl).toString();
   const schemaType = entity.type === "person"
     ? "Person"
@@ -84,8 +90,8 @@ export default async function EntityPage({ params }: Props) {
       <JsonLd data={{
         "@context": "https://schema.org",
         "@type": schemaType,
-        name: entity.name,
-        description: entity.description,
+        name: localizedEntity.name,
+        description: localizedEntity.description,
         url: entityUrl,
         ...(entity.imageUrl ? { image: entity.imageUrl } : {}),
         ...(entity.countryCode ? { areaServed: { "@type": "Country", identifier: entity.countryCode } } : {}),
@@ -97,7 +103,7 @@ export default async function EntityPage({ params }: Props) {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: en ? "Home" : "Início", item: siteUrl },
+          { "@type": "ListItem", position: 1, name: en ? "Home" : "Início", item: siteUrl.origin },
           { "@type": "ListItem", position: 2, name: en ? "Organisations" : "Entidades", item: new URL("/entidades", siteUrl).toString() },
           { "@type": "ListItem", position: 3, name: entity.name, item: entityUrl },
         ],
@@ -109,8 +115,8 @@ export default async function EntityPage({ params }: Props) {
         <span className="section-kicker">{(en
           ? ({ person: "PERSON", company: "COMPANY", organization: "ORGANISATION", market: "MARKET", product: "PRODUCT" } as const)[entity.type]
           : entity.type.toUpperCase())}{entity.verified ? <><BadgeCheck size={14} /> {en ? "REVIEWED PROFILE" : "PERFIL REVISTO"}</> : null}</span>
-        <h1>{entity.name}</h1>
-        <p>{entity.description}</p>
+        <h1>{localizedEntity.name}</h1>
+        <p>{localizedEntity.description}</p>
         {entity.countryCode && <span className="entity-country">{en ? "AREA OF OPERATION" : "ÁREA DE ATUAÇÃO"} · {entity.countryCode}</span>}
         {entity.websiteUrl && <a className="text-link" href={entity.websiteUrl} target="_blank" rel="noopener noreferrer">{en ? "Official website" : "Website oficial"} <ArrowUpRight size={14} /></a>}
         {entity.type === "product" && entity.slug === "creator-plus" && (

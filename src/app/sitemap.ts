@@ -1,10 +1,11 @@
 import type { MetadataRoute } from "next";
 import { getPublicAuthors, getPublicEntities, getPublishedArticles, getPublishedBiographies } from "@/lib/public-content";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const siteUrl = new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa");
+  const siteUrl = getSiteUrl();
   const staticPages = ["", "/artigos", "/biografias", "/autores", "/entidades", "/sobre", "/contacto"];
   const [articles, biographies, entities, authors] = await Promise.all([
     getPublishedArticles(),

@@ -15,6 +15,7 @@ export type HomeHeroSlide = {
   label: string;
   byline: string;
   date: string;
+  isOriginalLanguage?: boolean;
 };
 
 export function HomeHeroCarousel({ items, locale }: { items: HomeHeroSlide[]; locale: Locale }) {
@@ -66,7 +67,9 @@ export function HomeHeroCarousel({ items, locale }: { items: HomeHeroSlide[]; lo
       <div className="hero-feature-layout">
         <div className="hero-slide-content" key={activeItem.href}>
           <div className="hero-slide-kickers">
-            <span className="hero-slide-edition">{locale === "en" ? "PORTUGUESE ORIGINAL" : "EDIÇÃO DE HOJE"}</span>
+            <span className="hero-slide-edition">{locale === "en"
+              ? (activeItem.isOriginalLanguage ? "ORIGINAL LANGUAGE" : "ENGLISH EDITION")
+              : "EDIÇÃO DE HOJE"}</span>
             <span className="hero-slide-label">{activeItem.label}</span>
           </div>
           <h1><Link href={activeItem.href}>{activeItem.title}</Link></h1>

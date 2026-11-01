@@ -2,6 +2,7 @@ import "server-only";
 import { and, asc, count, desc, eq, ilike, inArray, ne, or, sql } from "drizzle-orm";
 import { articles as sampleArticles, biographies, imageForCategory } from "@/lib/content";
 import type { Article, Biography } from "@/lib/content";
+import { getSiteUrl } from "@/lib/site-url";
 
 function formatPublishedDate(date: Date | null) {
   if (!date) return "";
@@ -279,7 +280,7 @@ const sampleEntities: PublicEntity[] = [
     name: "Kioo Africa",
     description: "Grupo editorial e de pesquisa independente dedicado a pessoas, ideias e mercados africanos.",
     countryCode: "AO",
-    websiteUrl: "https://msingi.africa",
+    websiteUrl: getSiteUrl().origin,
     imageUrl: null,
     verified: true,
   },

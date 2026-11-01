@@ -13,6 +13,7 @@ import { getStorySeo } from "@/lib/story-seo";
 import { articles as editorialArticles, biographies as editorialBiographies } from "@/lib/content";
 import { getLocale } from "@/lib/locale.server";
 import { localizeCategory } from "@/lib/i18n";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-dynamic";
 type Props = { params: Promise<{ slug: string }> };
@@ -21,7 +22,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const profile = await getPublishedArticle(slug, "biography");
   if (!profile) return { title: "Perfil não encontrado", robots: { index: false, follow: false } };
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
+  const siteUrl = getSiteUrl();
   const seo = getStorySeo(profile);
   const canonical = profile.canonicalUrl?.trim() || `/biografias/${profile.slug}`;
   return {
@@ -50,7 +51,7 @@ export default async function BiographyPage({ params }: Props) {
   if (!profile) notFound();
   const en = locale === "en";
 
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
+  const siteUrl = getSiteUrl();
   const pageUrl = new URL(`/biografias/${slug}`, siteUrl).toString();
   const relatedProfiles = biographies.filter((item) => item.slug !== slug).slice(0, 3);
   const editorialProfile = editorialBiographies.find((item) => item.slug === slug);
@@ -90,13 +91,13 @@ export default async function BiographyPage({ params }: Props) {
             },
           } : {}),
         },
-        publisher: { "@type": "Organization", name: "Kioo Africa", url: siteUrl },
+        publisher: { "@type": "Organization", name: "Kioo Africa", url: siteUrl.origin },
       }} />
       <JsonLd data={{
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
         itemListElement: [
-          { "@type": "ListItem", position: 1, name: en ? "Home" : "Início", item: siteUrl },
+          { "@type": "ListItem", position: 1, name: en ? "Home" : "Início", item: siteUrl.origin },
           { "@type": "ListItem", position: 2, name: en ? "Biographies" : "Biografias", item: new URL("/biografias", siteUrl).toString() },
           { "@type": "ListItem", position: 3, name: profile.title, item: pageUrl },
         ],

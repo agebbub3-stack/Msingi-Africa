@@ -4,6 +4,7 @@ import { drizzleAdapter } from "@better-auth/drizzle-adapter";
 import { db } from "@/lib/db";
 import { sendTransactionalEmail } from "@/lib/email";
 import { account, session, user, verification } from "@/lib/db/schema";
+import { getSiteUrl } from "@/lib/site-url";
 
 const secret = process.env.BETTER_AUTH_SECRET;
 if (!secret || secret.length < 32) {
@@ -12,7 +13,7 @@ if (!secret || secret.length < 32) {
 
 export const auth = betterAuth({
   appName: "Kioo Africa",
-  baseURL: process.env.BETTER_AUTH_URL,
+  baseURL: process.env.BETTER_AUTH_URL ?? getSiteUrl().origin,
   secret,
   database: drizzleAdapter(db, {
     provider: "pg",
@@ -45,5 +46,9 @@ export const auth = betterAuth({
       role: { type: "string", required: true, defaultValue: "user", input: false },
     },
   },
-  trustedOrigins: [process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000"],
+  trustedOrigins: [...new Set([
+    getSiteUrl().origin,
+    ...(process.env.BETTER_AUTH_URL ? [process.env.BETTER_AUTH_URL] : []),
+    ...(process.env.NEXT_PUBLIC_SITE_URL ? [process.env.NEXT_PUBLIC_SITE_URL] : []),
+  ])],
 });

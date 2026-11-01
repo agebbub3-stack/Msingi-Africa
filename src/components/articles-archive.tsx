@@ -6,6 +6,7 @@ import { useState } from "react";
 import { ArticleCard } from "@/components/article-card";
 import type { Article } from "@/lib/content";
 import { localizeCategory, translate, type Locale } from "@/lib/i18n";
+import { localizeArticle } from "@/lib/localized-editorial";
 
 export function ArticlesArchive({ articles, locale = "en" }: { articles: Article[]; locale?: Locale }) {
   const [activeTopic, setActiveTopic] = useState("");
@@ -13,10 +14,11 @@ export function ArticlesArchive({ articles, locale = "en" }: { articles: Article
   const topics = [...new Set(articles.map((article) => article.category))];
   const normalizedQuery = query.trim().toLocaleLowerCase(locale);
   const filteredArticles = articles.filter((article) => {
+    const localizedArticle = localizeArticle(article, locale);
     const matchesTopic = !activeTopic || article.category === activeTopic;
     const matchesQuery =
       !normalizedQuery ||
-      `${article.title} ${article.standfirst} ${article.author} ${article.category} ${article.seoKeywords?.join(" ")}`
+      `${localizedArticle.title} ${localizedArticle.standfirst} ${localizedArticle.author} ${localizeCategory(article.category, locale)} ${article.title} ${article.standfirst} ${article.seoKeywords?.join(" ")}`
         .toLocaleLowerCase(locale)
         .includes(normalizedQuery);
     return matchesTopic && matchesQuery;

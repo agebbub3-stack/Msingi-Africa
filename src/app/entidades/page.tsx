@@ -6,17 +6,22 @@ import { JsonLd } from "@/components/json-ld";
 import { getPublicEntities, getPublishedBiographies } from "@/lib/public-content";
 import { getLocale } from "@/lib/locale.server";
 import { createPageMetadata } from "@/lib/page-metadata";
+import { getSiteUrl } from "@/lib/site-url";
+import { localizeEntity } from "@/lib/localized-entities";
+import { localizeBiography } from "@/lib/localized-editorial";
+import { localizeCategory, localizeCountry } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
+  const en = locale === "en";
   return createPageMetadata({
     locale,
     kind: "entities",
     path: "/entidades",
     eyebrow: locale === "en" ? "AFRICAN COMPANIES · PEOPLE · PRODUCTS" : "EMPRESAS · PESSOAS · PRODUTOS AFRICANOS",
-    title: locale === "en" ? "African companies, people and products" : "Empresas, pessoas e produtos africanos",
-    description: locale === "en"
+    title: en ? "African companies, people and products" : "Empresas, pessoas e produtos africanos",
+    description: en
       ? "Explore profiles and organisations connected to the stories and markets followed by Kioo Africa."
       : "Explore perfis e entidades ligadas às histórias e aos mercados acompanhados pela Kioo Africa.",
   });
@@ -32,7 +37,7 @@ export default async function EntitiesPage() {
   ]);
   const en = locale === "en";
   const featuredPeople = publishedBiographies.filter((person) => person.spotlight);
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
+  const siteUrl = getSiteUrl();
   return (
     <section className="archive-content section-pad entities-page">
       <JsonLd data={{
@@ -59,8 +64,8 @@ export default async function EntitiesPage() {
                 name: person.name,
                 url: new URL(`/biografias/${person.slug}`, siteUrl).toString(),
                 image: person.portrait ? new URL(person.portrait.src, siteUrl).toString() : undefined,
-                jobTitle: person.role,
-                homeLocation: { "@type": "Place", name: person.country },
+                jobTitle: localizeBiography(person, locale).role,
+                homeLocation: { "@type": "Place", name: localizeCountry(person.country, locale) },
                 ...(person.organizationUrl ? { sameAs: person.organizationUrl } : {}),
               },
             })),
@@ -89,13 +94,15 @@ export default async function EntitiesPage() {
             <span className="african-lights-mark" aria-hidden="true">✳</span>
           </div>
           <div className="african-lights-grid">
-            {featuredPeople.map((person, index) => (
+            {featuredPeople.map((person, index) => {
+              const localizedPerson = localizeBiography(person, locale);
+              return (
               <article className="african-light-card" key={person.slug}>
-                <Link className="african-light-portrait" href={`/biografias/${person.slug}`} aria-label={`Ler a biografia de ${person.name}`}>
+                <Link className="african-light-portrait" href={`/biografias/${person.slug}`} aria-label={`${en ? "Read" : "Ler"} ${en ? `${person.name}'s biography` : `a biografia de ${person.name}`}`}>
                   {person.portrait ? (
                     <Image
                       src={person.portrait.src}
-                      alt={person.portrait.alt}
+                      alt={localizedPerson.portrait?.alt ?? person.portrait.alt}
                       fill
                       sizes="(max-width: 760px) 100vw, (max-width: 1000px) 50vw, 25vw"
                     />
@@ -105,10 +112,10 @@ export default async function EntitiesPage() {
                   <span className="african-light-index">0{index + 1} / {en ? "PROFILE" : "PERFIL"}</span>
                 </Link>
                 <div className="african-light-copy">
-                  <div className="african-light-meta"><span>{person.country}</span><span>{person.field}</span></div>
+                  <div className="african-light-meta"><span>{localizeCountry(person.country, locale)}</span><span>{localizeCategory(person.field, locale)}</span></div>
                   <h3><Link href={`/biografias/${person.slug}`}>{person.name}</Link></h3>
-                  <p className="african-light-role">{person.role}</p>
-                  <p className="african-light-spotlight">{person.spotlight}</p>
+                  <p className="african-light-role">{localizedPerson.role}</p>
+                  <p className="african-light-spotlight">{localizedPerson.spotlight}</p>
                   <div className="african-light-links">
                     <Link href={`/biografias/${person.slug}`} className="text-link">{en ? "Read biography" : "Ler biografia"} <ArrowUpRight size={14} /></Link>
                     {person.contactUrl || person.organizationUrl ? (
@@ -131,7 +138,8 @@ export default async function EntitiesPage() {
                   )}
                 </div>
               </article>
-            ))}
+              );
+            })}
           </div>
           <p className="african-lights-disclosure">{en
             ? "Achievements are summarised from the sources linked to each profile. If an official contact channel could not be confirmed, this is stated on the card."
@@ -141,7 +149,8 @@ export default async function EntitiesPage() {
       {entities.length === 0 ? <p className="workspace-empty">{en ? "No organisations have been published yet." : "Ainda não há entidades publicadas."}</p> : (
         <section className="entity-directory" aria-labelledby="entity-directory-title">
           <div className="section-heading"><div><span className="section-kicker">{en ? "ORGANISATIONS · COMPANIES · PRODUCTS" : "ORGANIZAÇÕES · EMPRESAS · PRODUTOS"}</span><h2 id="entity-directory-title">{en ? <>The ecosystem<br /><em>in perspective.</em></> : <>O ecossistema<br /><em>em perspetiva.</em></>}</h2></div></div>
-          <div className="entity-grid">{entities.map((entity) => {
+          <div className="entity-grid">{entities.map((sourceEntity) => {
+          const entity = localizeEntity(sourceEntity, locale);
           const Icon = icons[entity.type];
           return (
             <article className="entity-card" key={entity.slug}>

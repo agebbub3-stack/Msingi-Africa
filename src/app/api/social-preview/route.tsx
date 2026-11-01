@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og";
 import type { NextRequest } from "next/server";
 
+/* eslint-disable @next/next/no-img-element -- ImageResponse renders the validated remote cover as an OG background. */
 export const runtime = "edge";
 
 const previewKinds = new Set([
@@ -15,6 +16,8 @@ const previewKinds = new Set([
   "entities",
   "profile",
   "product",
+  "article",
+  "publish",
 ]);
 
 const accentByKind: Record<string, string> = {
@@ -29,10 +32,28 @@ const accentByKind: Record<string, string> = {
   entities: "#8bb9a5",
   profile: "#a7bd9a",
   product: "#a8a4d6",
+  article: "#d7a671",
+  publish: "#c5a1d9",
 };
 
 function getText(searchParams: URLSearchParams, key: string, fallback: string, maxLength: number) {
   return (searchParams.get(key)?.trim() || fallback).slice(0, maxLength);
+}
+
+function getAllowedCoverImage(searchParams: URLSearchParams) {
+  const value = searchParams.get("image");
+  if (!value || value.length > 2048) return null;
+  try {
+    const image = new URL(value);
+    return image.protocol === "https:" &&
+      image.hostname === "images.unsplash.com" &&
+      !image.username &&
+      !image.password
+      ? image.toString()
+      : null;
+  } catch {
+    return null;
+  }
 }
 
 export async function GET(request: NextRequest) {
@@ -56,6 +77,7 @@ export async function GET(request: NextRequest) {
   );
   const eyebrow = getText(searchParams, "eyebrow", "KIOO AFRICA", 64);
   const accent = accentByKind[kind];
+  const coverImage = kind === "article" ? getAllowedCoverImage(searchParams) : null;
   const headers = { "Cache-Control": "public, max-age=3600, s-maxage=86400, stale-while-revalidate=604800" };
 
   return new ImageResponse(
@@ -75,6 +97,31 @@ export async function GET(request: NextRequest) {
           fontFamily: "Arial, sans-serif",
         }}
       >
+        {coverImage && (
+          <img
+            src={coverImage}
+            alt=""
+            width={1200}
+            height={630}
+            style={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              opacity: 0.28,
+            }}
+          />
+        )}
+        {coverImage && (
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: "linear-gradient(90deg, rgba(20,39,32,.98) 0%, rgba(20,39,32,.88) 58%, rgba(20,39,32,.42) 100%)",
+            }}
+          />
+        )}
         <div
           style={{
             position: "absolute",
