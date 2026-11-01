@@ -117,7 +117,7 @@ export default async function HomePage() {
               {translate(locale, "readFullAnalysis")} <ArrowUpRight size={16} />
             </Link>
           </div>
-          <div className="market-metrics"           aria-label={translate(locale, "mobileAccessIndicators")}>
+          <div className="market-metrics" aria-label={translate(locale, "mobileAccessIndicators")}>
             <article className="market-metric">
               <span className="metric-index">01 / {translate(locale, "access")}</span>
               <strong>{translate(locale, "almostOneBillion")}</strong>

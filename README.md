@@ -1,6 +1,6 @@
 # Kioo Africa
 
-Revista digital e grupo independente de pesquisa sobre pessoas, ideias e mercados africanos. A plataforma combina artigos e biografias editoriais com propostas de criadores, perfis, comentários, newsletter, revisão pela redação e oportunidades de divulgação patrocinada. Conteúdo pago é identificado e não compra aprovação editorial.
+Revista digital e grupo independente de pesquisa sobre pessoas, ideias e mercados africanos. A plataforma combina artigos e biografias editoriais com propostas de criadores, perfis, comentários moderados com respostas, reações, partilha social, notificações, newsletter, revisão pela redação e oportunidades de divulgação patrocinada. Conteúdo pago é identificado e não compra aprovação editorial.
 
 ## Stack
 

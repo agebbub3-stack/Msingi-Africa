@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { redirect } from "next/navigation";
 import { CreatorWorkspace } from "@/components/creator-workspace";
+import { NotificationInbox } from "@/components/notification-inbox";
 import { SignOutButton } from "@/components/sign-out-button";
 import { creatorProfiles, articles, subscriptions } from "@/lib/db/schema";
 import { and, desc, eq, gt, isNull, or } from "drizzle-orm";
@@ -58,6 +59,7 @@ export default async function CreatorDashboardPage() {
         <p>Prepare as suas histórias e acompanhe o trabalho editorial num só lugar.</p>
         <div className="dashboard-account-meta"><span>{session.user.email}</span><SignOutButton /></div>
       </header>
+      <NotificationInbox />
       {!session.user.emailVerified && <div className="verification-notice">Confirme o seu endereço de e-mail para submeter artigos e comentar. A mensagem de verificação foi enviada no registo.</div>}
       <CreatorWorkspace
         profile={profile ?? null}

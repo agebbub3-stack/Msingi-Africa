@@ -1,8 +1,8 @@
-import { and, asc, eq } from "drizzle-orm";
+import { and, asc, count, eq } from "drizzle-orm";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { getSession } from "@/lib/auth-session";
-import { articles, comments, user } from "@/lib/db/schema";
+import { articles, comments, creatorProfiles, user } from "@/lib/db/schema";
 
 export const runtime = "nodejs";
 
@@ -20,18 +20,26 @@ export async function GET(_request: NextRequest, { params }: Props) {
     .where(and(eq(articles.id, articleId), eq(articles.status, "published"))).limit(1);
   if (!article) return NextResponse.json({ error: "Artigo não encontrado." }, { status: 404 });
 
-  const rows = await db.select({
-    id: comments.id,
-    parentId: comments.parentId,
-    body: comments.body,
-    createdAt: comments.createdAt,
-    author: user.name,
-  }).from(comments)
-    .innerJoin(user, eq(comments.authorId, user.id))
-    .where(and(eq(comments.articleId, articleId), eq(comments.status, "approved")))
-    .orderBy(asc(comments.createdAt))
-    .limit(100);
-  return NextResponse.json({ comments: rows });
+  const filters = and(eq(comments.articleId, articleId), eq(comments.status, "approved"));
+  const [rows, [result]] = await Promise.all([
+    db.select({
+      id: comments.id,
+      parentId: comments.parentId,
+      body: comments.body,
+      createdAt: comments.createdAt,
+      author: user.name,
+      authorSlug: creatorProfiles.slug,
+    }).from(comments)
+      .innerJoin(user, eq(comments.authorId, user.id))
+      .leftJoin(creatorProfiles, eq(creatorProfiles.userId, user.id))
+      .where(filters)
+      .orderBy(asc(comments.createdAt))
+      .limit(100),
+    db.select({ count: count() }).from(comments).where(filters),
+  ]);
+  return NextResponse.json({ comments: rows, totalCount: result.count }, {
+    headers: { "Cache-Control": "private, no-store" },
+  });
 }
 
 export async function POST(request: NextRequest, { params }: Props) {
@@ -51,17 +59,27 @@ export async function POST(request: NextRequest, { params }: Props) {
   if (!parsed.success) return NextResponse.json({ error: "Os comentários devem ter entre 3 e 2 000 caracteres." }, { status: 400 });
 
   const { db } = await import("@/lib/db");
+  const [account] = await db.select({
+    emailVerified: user.emailVerified,
+    banned: user.banned,
+  }).from(user).where(eq(user.id, session.user.id)).limit(1);
+  if (!account || !account.emailVerified) {
+    return NextResponse.json({ error: "Confirme o seu e-mail antes de comentar." }, { status: 403 });
+  }
+  if (account.banned) return NextResponse.json({ error: "Esta conta não pode comentar." }, { status: 403 });
+
   const [article] = await db.select({ id: articles.id }).from(articles)
     .where(and(eq(articles.id, articleId), eq(articles.status, "published"))).limit(1);
   if (!article) return NextResponse.json({ error: "Artigo não encontrado." }, { status: 404 });
   if (parsed.data.parentId) {
-    const [parent] = await db.select({ id: comments.id }).from(comments)
+    const [parent] = await db.select({ id: comments.id, parentId: comments.parentId }).from(comments)
       .where(and(
         eq(comments.id, parsed.data.parentId),
         eq(comments.articleId, articleId),
         eq(comments.status, "approved"),
       )).limit(1);
     if (!parent) return NextResponse.json({ error: "O comentário respondido não está disponível." }, { status: 400 });
+    if (parent.parentId) return NextResponse.json({ error: "Responda ao comentário principal desta conversa." }, { status: 400 });
   }
 
   const [created] = await db.insert(comments).values({

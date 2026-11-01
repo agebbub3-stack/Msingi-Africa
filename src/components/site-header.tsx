@@ -152,11 +152,11 @@ export function SiteHeader({ locale }: { locale: Locale }) {
           <ThemeToggle locale={locale} />
           <LanguageSwitcher locale={locale} />
           <Link
-            href="/entrar"
+            href="/painel"
             className={`nav-link nav-account-link${pathname.startsWith("/entrar") || pathname.startsWith("/painel") ? " nav-link-active" : ""}`}
             onClick={closeNavigation}
           >
-            <UserRound size={15} /><span>{translate(locale, "signIn")}</span>
+            <UserRound size={15} /><span>{translate(locale, "dashboard")}</span>
           </Link>
           <Link
             href="/publicar"

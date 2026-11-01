@@ -2,7 +2,7 @@ import { and, eq } from "drizzle-orm";
 import { NextResponse, type NextRequest } from "next/server";
 import { z } from "zod";
 import { getStaffSession } from "@/lib/staff";
-import { comments, moderationEvents } from "@/lib/db/schema";
+import { articles, comments, moderationEvents, userNotifications } from "@/lib/db/schema";
 
 export const runtime = "nodejs";
 type Props = { params: Promise<{ commentId: string }> };
@@ -26,20 +26,66 @@ export async function PATCH(request: NextRequest, { params }: Props) {
 
   const { db } = await import("@/lib/db");
   const result = await db.transaction(async (tx) => {
-    const [comment] = await tx.select({ id: comments.id, articleId: comments.articleId })
-      .from(comments).where(and(eq(comments.id, commentId), eq(comments.status, "pending"))).limit(1);
+    const [comment] = await tx.select({
+      id: comments.id,
+      articleId: comments.articleId,
+      authorId: comments.authorId,
+      parentId: comments.parentId,
+      articleAuthorId: articles.authorId,
+    }).from(comments)
+      .innerJoin(articles, eq(comments.articleId, articles.id))
+      .where(and(eq(comments.id, commentId), eq(comments.status, "pending"))).limit(1);
     if (!comment) return false;
-    await tx.update(comments).set({
+    const [updated] = await tx.update(comments).set({
       status: parsed.data.action,
       moderatedBy: session.user.id,
       moderatedAt: new Date(),
-    }).where(eq(comments.id, commentId));
+    }).where(and(eq(comments.id, commentId), eq(comments.status, "pending")))
+      .returning({ id: comments.id });
+    if (!updated) return false;
     await tx.insert(moderationEvents).values({
       commentId: comment.id,
       articleId: comment.articleId,
       moderatorId: session.user.id,
       action: `comment_${parsed.data.action}`,
     });
+    if (parsed.data.action === "approved") {
+      await tx.insert(userNotifications).values({
+        userId: comment.authorId,
+        articleId: comment.articleId,
+        commentId: comment.id,
+        kind: "comment_approved",
+      });
+
+      if (comment.parentId) {
+        const [parent] = await tx.select({ authorId: comments.authorId })
+          .from(comments).where(eq(comments.id, comment.parentId)).limit(1);
+        if (parent && parent.authorId !== comment.authorId) {
+          await tx.insert(userNotifications).values({
+            userId: parent.authorId,
+            actorId: comment.authorId,
+            articleId: comment.articleId,
+            commentId: comment.id,
+            kind: "comment_reply",
+          });
+        }
+      } else if (comment.articleAuthorId !== comment.authorId) {
+        await tx.insert(userNotifications).values({
+          userId: comment.articleAuthorId,
+          actorId: comment.authorId,
+          articleId: comment.articleId,
+          commentId: comment.id,
+          kind: "article_comment",
+        });
+      }
+    } else {
+      await tx.insert(userNotifications).values({
+        userId: comment.authorId,
+        articleId: comment.articleId,
+        commentId: comment.id,
+        kind: "comment_rejected",
+      });
+    }
     return true;
   });
   if (!result) return NextResponse.json({ error: "Este comentário já foi revisto ou não existe." }, { status: 404 });

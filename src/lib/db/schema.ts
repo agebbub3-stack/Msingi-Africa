@@ -29,6 +29,13 @@ export const articleStatus = pgEnum("article_status", [
 ]);
 export const articleKind = pgEnum("article_kind", ["article", "biography", "sponsored"]);
 export const moderationStatus = pgEnum("moderation_status", ["pending", "approved", "rejected", "hidden"]);
+export const notificationKind = pgEnum("notification_kind", [
+  "article_like",
+  "comment_approved",
+  "comment_rejected",
+  "article_comment",
+  "comment_reply",
+]);
 export const entityType = pgEnum("entity_type", ["person", "company", "organization", "market", "product"]);
 export const subscriptionStatus = pgEnum("subscription_status", [
   "inactive",
@@ -253,6 +260,22 @@ export const articleLikes = pgTable("article_likes", {
   index("article_likes_user_created_idx").on(table.userId, table.createdAt),
 ]);
 
+export const userNotifications = pgTable("user_notifications", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: text("user_id").notNull().references(() => user.id, { onDelete: "cascade" }),
+  actorId: text("actor_id").references(() => user.id, { onDelete: "set null" }),
+  articleId: uuid("article_id").notNull().references(() => articles.id, { onDelete: "cascade" }),
+  commentId: uuid("comment_id").references(() => comments.id, { onDelete: "set null" }),
+  kind: notificationKind("kind").notNull(),
+  readAt: timestamp("read_at", { withTimezone: true }),
+  createdAt: createdAt(),
+}, (table) => [
+  index("user_notifications_inbox_idx").on(table.userId, table.readAt, table.createdAt),
+  uniqueIndex("user_notifications_article_like_unique")
+    .on(table.userId, table.actorId, table.articleId)
+    .where(sql`${table.kind} = 'article_like'`),
+]);
+
 export const subscriptions = pgTable("subscriptions", {
   id: uuid("id").defaultRandom().primaryKey(),
   userId: text("user_id").notNull().unique().references(() => user.id, { onDelete: "cascade" }),
@@ -353,6 +376,8 @@ export const newsletterSubscribers = pgTable("newsletter_subscribers", {
 export const userRelations = relations(user, ({ many, one }) => ({
   authoredArticles: many(articles),
   comments: many(comments),
+  notifications: many(userNotifications, { relationName: "notificationRecipient" }),
+  sentNotifications: many(userNotifications, { relationName: "notificationActor" }),
   subscription: one(subscriptions),
   profile: one(creatorProfiles),
 }));
@@ -363,6 +388,13 @@ export const articleRelations = relations(articles, ({ many, one }) => ({
   comments: many(comments),
   likes: many(articleLikes),
   entities: many(articleEntities),
+}));
+
+export const userNotificationRelations = relations(userNotifications, ({ one }) => ({
+  recipient: one(user, { fields: [userNotifications.userId], references: [user.id], relationName: "notificationRecipient" }),
+  actor: one(user, { fields: [userNotifications.actorId], references: [user.id], relationName: "notificationActor" }),
+  article: one(articles, { fields: [userNotifications.articleId], references: [articles.id] }),
+  comment: one(comments, { fields: [userNotifications.commentId], references: [comments.id] }),
 }));
 
 export const creatorRelations = relations(creatorProfiles, ({ one }) => ({

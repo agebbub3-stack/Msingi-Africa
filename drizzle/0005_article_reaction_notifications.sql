@@ -1,0 +1,2 @@
+ALTER TYPE "public"."notification_kind" ADD VALUE 'article_like' BEFORE 'comment_approved';--> statement-breakpoint
+CREATE UNIQUE INDEX "user_notifications_article_like_unique" ON "user_notifications" USING btree ("user_id","actor_id","article_id") WHERE "user_notifications"."kind" = 'article_like';

@@ -8,7 +8,7 @@ import { ArticleMarkdown } from "@/components/article-markdown";
 import { ArticleCard } from "@/components/article-card";
 import { JsonLd } from "@/components/json-ld";
 import { ProfileCard } from "@/components/profile-card";
-import { getPublishedArticle, getPublishedBiographies } from "@/lib/public-content";
+import { getApprovedArticleComments, getPublishedArticle, getPublishedBiographies } from "@/lib/public-content";
 import { getStorySeo } from "@/lib/story-seo";
 import { articles as editorialArticles, biographies as editorialBiographies } from "@/lib/content";
 
@@ -54,6 +54,9 @@ export default async function BiographyPage({ params }: Props) {
   const relatedArticles = editorialArticles.filter((item) => relatedArticleSlugs.has(item.slug));
   const portrait = editorialProfile?.portrait;
   const seo = getStorySeo(profile);
+  const initialComments = profile.id
+    ? await getApprovedArticleComments(profile.id)
+    : { comments: [], totalCount: 0 };
 
   return (
     <article className="person-page">
@@ -138,7 +141,16 @@ export default async function BiographyPage({ params }: Props) {
           <div className="story-disclosure"><span>✳</span><p>Este perfil foi revisto pela redação. A publicação biográfica não está à venda. <Link href="/sobre#principios">Conheça os nossos princípios.</Link></p></div>
         </div>
       </section>
-      <div className="section-pad"><ArticleInteractions articleId={profile.id} title={profile.title} /></div>
+      <div className="section-pad">
+        <ArticleInteractions
+          articleId={profile.id}
+          title={profile.title}
+          shareUrl={pageUrl}
+          returnPath={`/biografias/${profile.slug}`}
+          initialComments={initialComments.comments}
+          initialCommentCount={initialComments.totalCount}
+        />
+      </div>
       {relatedArticles.length > 0 && (
         <section className="related-stories section-pad">
           <div className="section-heading">

@@ -2,7 +2,7 @@ import { and, count, eq } from "drizzle-orm";
 import { NextResponse } from "next/server";
 import { z } from "zod";
 import { getSession } from "@/lib/auth-session";
-import { articleLikes, articles } from "@/lib/db/schema";
+import { articleLikes, articles, user, userNotifications } from "@/lib/db/schema";
 
 export const runtime = "nodejs";
 type Props = { params: Promise<{ articleId: string }> };
@@ -29,23 +29,38 @@ export async function POST(_request: Request, { params }: Props) {
   if (!z.uuid().safeParse(articleId).success) return NextResponse.json({ error: "Artigo inválido." }, { status: 400 });
 
   const { db } = await import("@/lib/db");
-  const [article] = await db.select({ id: articles.id }).from(articles)
+  const [account] = await db.select({ banned: user.banned }).from(user)
+    .where(eq(user.id, session.user.id)).limit(1);
+  if (!account || account.banned) return NextResponse.json({ error: "Esta conta não pode reagir." }, { status: 403 });
+  const [article] = await db.select({ id: articles.id, authorId: articles.authorId }).from(articles)
     .where(and(eq(articles.id, articleId), eq(articles.status, "published"))).limit(1);
   if (!article) return NextResponse.json({ error: "Artigo não encontrado." }, { status: 404 });
 
-  const [inserted] = await db.insert(articleLikes)
-    .values({ articleId, userId: session.user.id })
-    .onConflictDoNothing()
-    .returning({ articleId: articleLikes.articleId });
-  const liked = Boolean(inserted);
-  if (!liked) {
-    await db.delete(articleLikes).where(and(
-      eq(articleLikes.articleId, articleId),
-      eq(articleLikes.userId, session.user.id),
-    ));
-  }
+  const result = await db.transaction(async (tx) => {
+    const [inserted] = await tx.insert(articleLikes)
+      .values({ articleId, userId: session.user.id })
+      .onConflictDoNothing()
+      .returning({ articleId: articleLikes.articleId });
+    const liked = Boolean(inserted);
+    if (liked) {
+      if (article.authorId !== session.user.id) {
+        await tx.insert(userNotifications).values({
+          userId: article.authorId,
+          actorId: session.user.id,
+          articleId,
+          kind: "article_like",
+        }).onConflictDoNothing();
+      }
+    } else {
+      await tx.delete(articleLikes).where(and(
+        eq(articleLikes.articleId, articleId),
+        eq(articleLikes.userId, session.user.id),
+      ));
+    }
 
-  const [result] = await db.select({ count: count() }).from(articleLikes)
-    .where(eq(articleLikes.articleId, articleId));
-  return NextResponse.json({ liked, count: result.count });
+    const [reactionCount] = await tx.select({ count: count() }).from(articleLikes)
+      .where(eq(articleLikes.articleId, articleId));
+    return { liked, count: reactionCount.count };
+  });
+  return NextResponse.json(result);
 }

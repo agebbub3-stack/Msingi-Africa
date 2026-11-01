@@ -1,5 +1,5 @@
 import "server-only";
-import { and, count, desc, eq, ilike, inArray, ne, or, sql } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, inArray, ne, or, sql } from "drizzle-orm";
 import { articles as sampleArticles, biographies, imageForCategory } from "@/lib/content";
 import type { Article, Biography } from "@/lib/content";
 
@@ -159,6 +159,54 @@ export async function getPublishedArticle(slug: string, kind: "article" | "biogr
   }
   const [article] = await getFromDatabase(slug, kind);
   return article;
+}
+
+export type PublicArticleComment = {
+  id: string;
+  parentId: string | null;
+  body: string;
+  author: string;
+  authorSlug: string | null;
+  createdAt: string;
+};
+
+export async function getApprovedArticleComments(articleId: string) {
+  const { db } = await import("@/lib/db");
+  const { articles, comments, creatorProfiles, user } = await import("@/lib/db/schema");
+  const filters = and(
+    eq(comments.articleId, articleId),
+    eq(comments.status, "approved"),
+    eq(articles.status, "published"),
+    eq(articles.noIndex, false),
+  );
+  const [rows, [result]] = await Promise.all([
+    db.select({
+      id: comments.id,
+      parentId: comments.parentId,
+      body: comments.body,
+      author: user.name,
+      authorSlug: creatorProfiles.slug,
+      createdAt: comments.createdAt,
+    })
+      .from(comments)
+      .innerJoin(articles, eq(comments.articleId, articles.id))
+      .innerJoin(user, eq(comments.authorId, user.id))
+      .leftJoin(creatorProfiles, eq(creatorProfiles.userId, user.id))
+      .where(filters)
+      .orderBy(asc(comments.createdAt))
+      .limit(100),
+    db.select({ count: count() })
+      .from(comments)
+      .innerJoin(articles, eq(comments.articleId, articles.id))
+      .where(filters),
+  ]);
+  return {
+    comments: rows.map((comment): PublicArticleComment => ({
+      ...comment,
+      createdAt: comment.createdAt.toISOString(),
+    })),
+    totalCount: result.count,
+  };
 }
 
 export async function getPublishedBiographies() {

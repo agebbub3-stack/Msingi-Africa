@@ -7,7 +7,7 @@ import { ArticleInteractions } from "@/components/article-interactions";
 import { ArticleMarkdown } from "@/components/article-markdown";
 import { ArticleCard } from "@/components/article-card";
 import { JsonLd } from "@/components/json-ld";
-import { getPublishedArticle, getPublishedArticles } from "@/lib/public-content";
+import { getApprovedArticleComments, getPublishedArticle, getPublishedArticles } from "@/lib/public-content";
 import { getStorySeo } from "@/lib/story-seo";
 
 export const dynamic = "force-dynamic";
@@ -53,6 +53,9 @@ export default async function ArticlePage({ params }: Props) {
   const relatedArticles = allArticles.filter((item) => item.slug !== slug).slice(0, 3);
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
   const articleUrl = new URL(article.canonicalUrl?.trim() || `/artigos/${article.slug}`, siteUrl).toString();
+  const initialComments = article.id
+    ? await getApprovedArticleComments(article.id)
+    : { comments: [], totalCount: 0 };
   const content = getArticleContent(article);
   const seo = getStorySeo(article);
   const jsonLd: Record<string, unknown> = {
@@ -136,7 +139,16 @@ export default async function ArticlePage({ params }: Props) {
           </div>
         </div>
       </div>
-      <div className="section-pad"><ArticleInteractions articleId={article.id} title={article.title} /></div>
+      <div className="section-pad">
+        <ArticleInteractions
+          articleId={article.id}
+          title={article.title}
+          shareUrl={articleUrl}
+          returnPath={`/artigos/${article.slug}`}
+          initialComments={initialComments.comments}
+          initialCommentCount={initialComments.totalCount}
+        />
+      </div>
       <section className="related-stories section-pad">
         <div className="section-heading"><div><span className="section-kicker">CONTINUE A EXPLORAR</span><h2>Mais histórias,<br />mais <em>perspetivas.</em></h2></div><Link href="/artigos" className="text-link">Todos os artigos <ArrowUpRight size={15} /></Link></div>
         <div className="article-grid">{relatedArticles.map((item) => <ArticleCard key={item.slug} article={item} />)}</div>
