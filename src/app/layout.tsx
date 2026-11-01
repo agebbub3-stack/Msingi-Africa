@@ -21,24 +21,40 @@ export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"),
   applicationName: "Msingi Africa",
   title: {
-    default: "Msingi Africa — Um continente, muitas histórias",
+    default: "Msingi Africa — Mercados, inovação e perfis africanos",
     template: "%s — Msingi Africa",
   },
   description:
-    "Jornalismo independente, perfis e pesquisa original para entender os mercados, as ideias e as pessoas a transformar África.",
+    "Jornalismo independente, artigos, biografias e pesquisa sobre mercados, tecnologia, energia limpa e pessoas a transformar África.",
+  keywords: [
+    "Msingi Africa",
+    "Msingi Africa Angola",
+    "Msingi Angola",
+    "mercados africanos",
+    "Africa forum",
+    "Modern Africa",
+    "Africa future",
+    "African technology",
+    "clean energy Africa",
+    "inovação em África",
+    "negócios em Angola",
+  ],
+  ...(process.env.GOOGLE_SITE_VERIFICATION
+    ? { verification: { google: process.env.GOOGLE_SITE_VERIFICATION } }
+    : {}),
   icons: { icon: [{ url: "/brand-mark.svg", type: "image/svg+xml" }] },
   openGraph: {
-    title: "Msingi Africa — Um continente, muitas histórias",
+    title: "Msingi Africa — Mercados, inovação e perfis africanos",
     description:
-      "Ideias claras para entender o que está a mudar nos mercados africanos.",
+      "Artigos, biografias e análise independente sobre o futuro dos mercados africanos.",
     siteName: "Msingi Africa",
     locale: "pt_PT",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Msingi Africa — Um continente, muitas histórias",
-    description: "Ideias claras para entender o que está a mudar nos mercados africanos.",
+    title: "Msingi Africa — Mercados, inovação e perfis africanos",
+    description: "Artigos, biografias e análise independente sobre o futuro dos mercados africanos.",
   },
 };
 

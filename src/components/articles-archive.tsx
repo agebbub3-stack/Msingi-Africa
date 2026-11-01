@@ -16,7 +16,7 @@ export function ArticlesArchive({ articles }: { articles: Article[] }) {
       const matchesTopic = activeTopic === "Todos" || article.category === activeTopic;
       const matchesQuery =
         !normalizedQuery ||
-        `${article.title} ${article.standfirst} ${article.author} ${article.category}`
+        `${article.title} ${article.standfirst} ${article.author} ${article.category} ${article.seoKeywords?.join(" ")}`
           .toLocaleLowerCase("pt")
           .includes(normalizedQuery);
       return matchesTopic && matchesQuery;

@@ -1,5 +1,5 @@
 import "server-only";
-import { and, count, desc, eq, ilike, inArray, ne, or } from "drizzle-orm";
+import { and, count, desc, eq, ilike, inArray, ne, or, sql } from "drizzle-orm";
 import { articles as sampleArticles, biographies, imageForCategory } from "@/lib/content";
 import type { Article, Biography } from "@/lib/content";
 
@@ -30,6 +30,7 @@ function legacyBiographyAsArticle(slug: string): Article | undefined {
     personCountry: profile.country,
     personField: profile.field,
     personRole: profile.role,
+    seoKeywords: profile.seoKeywords,
     markdown: profile.body.map((paragraph) => paragraph).join("\n\n"),
     sources: profile.sources ?? [],
   };
@@ -60,6 +61,7 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
       ilike(articles.category, `%${searchPattern}%`),
       ilike(articles.bodyMarkdown, `%${searchPattern}%`),
       ilike(user.name, `%${searchPattern}%`),
+      ilike(sql`array_to_string(${articles.seoKeywords}, ' ')`, `%${searchPattern}%`),
     )!] : []),
   ];
 
@@ -203,7 +205,7 @@ export async function searchPublishedArticles(query: string) {
   if (!process.env.DATABASE_URL) {
     const normalized = search.toLocaleLowerCase("pt");
     return sampleArticles.filter((article) =>
-      `${article.title} ${article.standfirst} ${article.category} ${article.author} ${article.body?.map((part) => part.text).join(" ")}`
+      `${article.title} ${article.standfirst} ${article.category} ${article.author} ${article.seoKeywords?.join(" ")} ${article.body?.map((part) => part.text).join(" ")}`
         .toLocaleLowerCase("pt")
         .includes(normalized),
     );
@@ -273,6 +275,16 @@ const sampleEntities: PublicEntity[] = [
     imageUrl: null,
     verified: true,
   },
+  {
+    slug: "sunculture",
+    type: "company",
+    name: "SunCulture",
+    description: "Empresa de tecnologia climática que combina energia solar, bombagem de água e irrigação para agricultores.",
+    countryCode: "KE",
+    websiteUrl: "https://sunculture.io/",
+    imageUrl: null,
+    verified: true,
+  },
 ];
 
 export async function getPublicEntities(): Promise<PublicEntity[]> {
@@ -309,6 +321,7 @@ export async function getArticlesForEntity(slug: string) {
       lifebank: ["logistica-saude-acesso-sangue", "temie-giwa-tubosun"],
       andela: ["iyinoluwa-aboyeji"],
       flutterwave: ["iyinoluwa-aboyeji"],
+      sunculture: ["energia-solar-irrigacao-agricultura-africa", "samir-ibrahim"],
     };
     const stories = relatedSlugs[slug];
     if (!stories) return sampleArticles.slice(0, 3);

@@ -245,6 +245,119 @@ export const researchArticles: Article[] = [
       },
     ],
   },
+  {
+    slug: "energia-solar-irrigacao-agricultura-africa",
+    title: "Como a energia solar pode apoiar a agricultura africana?",
+    standfirst:
+      "Bombas solares e irrigação gota a gota podem reduzir a dependência da chuva. O impacto depende do custo, da água disponível e do apoio ao agricultor.",
+    category: "Startups & Inovação",
+    author: "Redação Msingi",
+    date: "1 nov. 2026",
+    readingTime: "6 min de leitura",
+    image:
+      "https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Campo agrícola irrigado sob luz natural",
+    seoTitle: "Energia solar e irrigação em África: oportunidade e limites",
+    seoDescription:
+      "Como sistemas solares de irrigação podem apoiar pequenos agricultores africanos, e que custos, riscos hídricos e condições de financiamento precisam ser considerados.",
+    seoKeywords: [
+      "energia solar para agricultura em África",
+      "irrigação solar África",
+      "agricultura sustentável africana",
+      "SunCulture",
+      "pequenos agricultores africanos",
+      "energia limpa em África",
+    ],
+    sources: [
+      {
+        title: "Africa Energy Outlook 2022",
+        publisher: "Agência Internacional de Energia",
+        url: "https://www.iea.org/reports/africa-energy-outlook-2022",
+      },
+      {
+        title: "About SunCulture",
+        publisher: "SunCulture",
+        url: "https://sunculture.io/about-us/",
+      },
+      {
+        title: "Samir Ibrahim",
+        publisher: "Forbes",
+        url: "https://www.forbes.com/profile/samir-ibrahim/",
+      },
+    ],
+    body: [
+      {
+        text: "Como a energia solar pode ajudar pequenos agricultores em África? Uma resposta possível está em sistemas que ligam painéis solares, bombagem de água e irrigação eficiente. Mas instalar equipamento não resolve, por si só, os desafios de acesso à água, financiamento, manutenção e comercialização das colheitas.",
+      },
+      {
+        heading: "Da energia à água na exploração agrícola",
+        text: "A SunCulture apresenta sistemas solares fora da rede que podem combinar bombagem de água, irrigação gota a gota, iluminação e carregamento de telemóveis. A empresa também oferece uma modalidade de pagamento parcelado. Estas são características descritas pela própria organização; os resultados variam conforme a exploração e não devem ser tratados como garantias universais.",
+      },
+      {
+        text: "A Agência Internacional de Energia destaca a ligação entre energia acessível, desenvolvimento e transição para fontes mais limpas no seu Africa Energy Outlook 2022. Para uma exploração rural, eletricidade pode apoiar tarefas produtivas, mas a solução precisa de corresponder à dimensão da atividade, aos recursos hídricos e à capacidade de pagar e manter o sistema.",
+      },
+      {
+        heading: "A oportunidade e os limites da irrigação solar",
+        text: "A irrigação pode reduzir a dependência de períodos de chuva, mas bombear água sem gestão adequada também pode pressionar aquíferos e fontes locais. Uma análise responsável considera a origem da água, a eficiência do sistema, as regras de captação e os custos completos de instalação, financiamento e reparação.",
+      },
+      {
+        text: "O perfil da Forbes sobre Samir Ibrahim documenta a cofundação da SunCulture e os sistemas de irrigação solar da empresa numa publicação de 2017. Os indicadores de produtividade e poupança de água ali mencionados eram estimativas reportadas pela empresa naquele momento, não resultados independentes nem métricas atuais.",
+      },
+      {
+        text: "A oportunidade de negócio está em combinar equipamento adequado, crédito compreensível, assistência técnica local e gestão sustentável da água. É essa combinação — e não apenas a tecnologia solar — que determina se a inovação melhora de forma duradoura a vida e a produtividade de quem cultiva.",
+      },
+    ],
+  },
+  {
+    slug: "energia-limpa-africa-acesso-economico",
+    title: "Energia limpa em África precisa de ser também acessível",
+    standfirst:
+      "A transição energética só será inclusiva se expandir o acesso moderno sem ignorar preço, infraestrutura e prioridades de desenvolvimento.",
+    category: "Mercados",
+    author: "Redação Msingi",
+    date: "1 nov. 2026",
+    readingTime: "5 min de leitura",
+    image:
+      "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Turbinas eólicas a produzir energia numa paisagem aberta",
+    seoTitle: "Energia limpa em África: acesso, custo e transição justa",
+    seoDescription:
+      "O que significa uma transição energética justa em África? A IEA analisa acesso, acessibilidade, infraestrutura, investimento e fontes mais limpas.",
+    seoKeywords: [
+      "energia limpa em África",
+      "transição energética africana",
+      "acesso à energia em África",
+      "energia acessível África",
+      "Africa Energy Outlook",
+      "investimento em energia renovável",
+    ],
+    sources: [
+      {
+        title: "Africa Energy Outlook 2022",
+        publisher: "Agência Internacional de Energia",
+        url: "https://www.iea.org/reports/africa-energy-outlook-2022",
+      },
+    ],
+    body: [
+      {
+        text: "O que significa uma transição energética justa em África? Significa avançar para sistemas menos poluentes enquanto se amplia o acesso a serviços modernos e a energia continua financeiramente acessível. Não existe uma única solução para países com redes, recursos e necessidades muito diferentes.",
+      },
+      {
+        heading: "Acesso e descarbonização devem avançar juntos",
+        text: "A Agência Internacional de Energia enquadra a transformação do setor energético africano em torno de objetivos que incluem acesso universal a serviços modernos e acessíveis até 2030, expansão de infraestrutura e cumprimento das metas climáticas nacionais. O relatório Africa Energy Outlook 2022 analisa caminhos possíveis, necessidades de investimento, financiamento e prioridades de política pública.",
+      },
+      {
+        text: "Na prática, a combinação pode incluir expansão de redes, soluções descentralizadas, melhorias de eficiência e fontes renováveis, de acordo com o contexto local. Para famílias e pequenas empresas, a fiabilidade e o preço do serviço importam tanto quanto a origem da eletricidade.",
+      },
+      {
+        heading: "O que investidores e decisores devem perguntar",
+        text: "Um projeto deve ser avaliado pelo custo total, pela capacidade de operar e manter os equipamentos, pelo acesso que cria e pela forma como distribui benefícios e riscos. Também importa perceber se as comunidades participaram no planeamento e como o projeto se integra nas prioridades energéticas e de emprego de cada país.",
+      },
+      {
+        text: "O relatório da IEA é uma análise de 2022, não um retrato estatístico atualizado de 2026. A sua utilidade aqui está no enquadramento das escolhas e dos compromissos envolvidos. Para números atuais sobre cada país, é necessário consultar dados recentes e nacionais.",
+      },
+    ],
+  },
 ];
 
 export const articles: Article[] = [
@@ -421,6 +534,7 @@ export type Biography = {
   organizationUrl?: string;
   contactUrl?: string;
   spotlight?: string;
+  seoKeywords?: string[];
   body: string[];
   sources?: { title: string; publisher: string | null; url: string }[];
   portrait?: {
@@ -662,6 +776,53 @@ export const biographies: Biography[] = [
         title: "Iyinoluwa Aboyeji",
         publisher: "Forbes",
         url: "https://www.forbes.com/profile/iyinoluwa-aboyeji/",
+      },
+    ],
+  },
+  {
+    slug: "samir-ibrahim",
+    name: "Samir Ibrahim",
+    monogram: "SI",
+    country: "Quénia",
+    field: "Energia limpa e agricultura",
+    role: "Cofundador e CEO da SunCulture",
+    summary:
+      "Ajuda a desenvolver sistemas solares de bombagem e irrigação pensados para os desafios diários de pequenos agricultores.",
+    accent: "sage",
+    organization: "SunCulture",
+    organizationUrl: "https://sunculture.io/about-us/",
+    spotlight:
+      "Cofundou uma empresa que combina energia solar, bombagem de água e soluções de irrigação para explorações agrícolas.",
+    seoKeywords: [
+      "Samir Ibrahim",
+      "SunCulture",
+      "empreendedores do Quénia",
+      "energia limpa em África",
+      "irrigação solar",
+      "inovação agrícola africana",
+      "Msingi Africa",
+    ],
+    body: [
+      "Samir Ibrahim é um empreendedor ligado à energia limpa e à agricultura no Quénia. É cofundador da SunCulture, empresa que desenvolve sistemas solares fora da rede para responder a necessidades como acesso à água, irrigação e energia em pequenas explorações.",
+      "A página institucional da SunCulture descreve sistemas que combinam bombagem solar e irrigação gota a gota, e apresenta modalidades de pagamento parcelado e serviços de instalação e apoio. Estas características são reportadas pela própria empresa; o desempenho e o retorno dependem das condições de cada exploração.",
+      "Um perfil publicado pela Forbes em 2017 identifica Ibrahim como cofundador da SunCulture e descreve os sistemas solares de irrigação da empresa. Os números de produtividade e poupança de água citados naquele perfil eram estimativas da empresa naquele período, não medições independentes nem resultados atuais.",
+      "O percurso de Ibrahim mostra como energia, agricultura e financiamento podem convergir num produto orientado para necessidades quotidianas. Também evidencia as perguntas que acompanham a inovação: quem consegue pagar o equipamento, como é feita a manutenção, de onde vem a água e que evidência existe sobre os resultados a longo prazo.",
+    ],
+    sources: [
+      {
+        title: "Samir Ibrahim",
+        publisher: "Forbes",
+        url: "https://www.forbes.com/profile/samir-ibrahim/",
+      },
+      {
+        title: "About SunCulture",
+        publisher: "SunCulture",
+        url: "https://sunculture.io/about-us/",
+      },
+      {
+        title: "Africa Energy Outlook 2022",
+        publisher: "Agência Internacional de Energia",
+        url: "https://www.iea.org/reports/africa-energy-outlook-2022",
       },
     ],
   },

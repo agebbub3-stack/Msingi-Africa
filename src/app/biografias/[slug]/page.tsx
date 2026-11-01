@@ -48,7 +48,8 @@ export default async function BiographyPage({ params }: Props) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa";
   const pageUrl = new URL(`/biografias/${slug}`, siteUrl).toString();
   const relatedProfiles = biographies.filter((item) => item.slug !== slug).slice(0, 3);
-  const portrait = editorialBiographies.find((item) => item.slug === slug)?.portrait;
+  const editorialProfile = editorialBiographies.find((item) => item.slug === slug);
+  const portrait = editorialProfile?.portrait;
   const seo = getStorySeo(profile);
 
   return (
@@ -68,7 +69,16 @@ export default async function BiographyPage({ params }: Props) {
           description: seo.description,
           jobTitle: profile.personRole ?? undefined,
           knowsAbout: profile.personField ?? profile.category,
+          url: pageUrl,
+          ...(profile.image ? { image: profile.image } : {}),
           homeLocation: profile.personCountry ? { "@type": "Place", name: profile.personCountry } : undefined,
+          ...(editorialProfile?.organization ? {
+            worksFor: {
+              "@type": "Organization",
+              name: editorialProfile.organization,
+              ...(editorialProfile.organizationUrl ? { url: editorialProfile.organizationUrl } : {}),
+            },
+          } : {}),
         },
         publisher: { "@type": "Organization", name: "Msingi Africa", url: siteUrl },
       }} />

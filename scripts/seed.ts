@@ -112,7 +112,14 @@ async function seed() {
         readingMinutes: readingMinutes(bodyMarkdown),
         seoTitle: `${profile.name}: ${profile.role}`,
         seoDescription: profile.summary,
-        seoKeywords: [profile.name, profile.role, profile.field, profile.country, "inovadores africanos"],
+        seoKeywords: profile.seoKeywords ?? [
+          profile.name,
+          profile.role,
+          profile.field,
+          profile.country,
+          "Msingi Africa",
+          "inovadores africanos",
+        ],
         publishedAt: new Date(),
         noIndex: false,
         submittedWithPlan: "editorial",
@@ -187,6 +194,15 @@ async function seed() {
       websiteUrl: "https://flutterwave.com/",
       isVerified: true,
     },
+    {
+      slug: "sunculture",
+      type: "company" as const,
+      name: "SunCulture",
+      description: "Empresa de tecnologia climática que combina energia solar, bombagem de água e irrigação para agricultores.",
+      countryCode: "KE",
+      websiteUrl: "https://sunculture.io/",
+      isVerified: true,
+    },
   ];
   for (const entity of entityRows) {
     await db.insert(schema.entities).values(entity).onConflictDoUpdate({
@@ -215,6 +231,8 @@ async function seed() {
     { entitySlug: "lifebank", storySlug: "temie-giwa-tubosun", role: "subject" },
     { entitySlug: "andela", storySlug: "iyinoluwa-aboyeji", role: "mentions" },
     { entitySlug: "flutterwave", storySlug: "iyinoluwa-aboyeji", role: "subject" },
+    { entitySlug: "sunculture", storySlug: "energia-solar-irrigacao-agricultura-africa", role: "subject" },
+    { entitySlug: "sunculture", storySlug: "samir-ibrahim", role: "subject" },
   ];
   for (const relation of entityStoryRelations) {
     const [entity] = await db.select({ id: schema.entities.id }).from(schema.entities)
