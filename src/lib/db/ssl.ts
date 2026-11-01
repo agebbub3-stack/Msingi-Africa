@@ -11,11 +11,11 @@ export function getPostgresSslConfig(hostname: string) {
   const isSupabaseHost = hostname.endsWith(".supabase.com") || hostname.endsWith(".supabase.co");
   const providerCa =
     hostname === aivenServiceHost ? aivenProjectCa : isSupabaseHost ? supabaseRootCa : undefined;
-  const ca = configuredCa || providerCa;
+  const ca = isSupabaseHost ? supabaseRootCa : configuredCa || providerCa;
 
   return {
-    // Supabase recommends SSL=require for serverless pooler connections; provide
-    // a root certificate through DATABASE_CA_CERT to enable strict verification.
+    // Prefer the provider root CA so a project-specific Supabase CA cannot
+    // override the certificate needed to verify the pooler connection.
     rejectUnauthorized: !isSupabaseHost || Boolean(ca),
     ...(ca ? { ca } : {}),
   };
