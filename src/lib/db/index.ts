@@ -3,6 +3,7 @@ import { attachDatabasePool } from "@vercel/functions";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import * as schema from "@/lib/db/schema";
+import { getPostgresSslConfig } from "@/lib/db/ssl";
 
 const connectionString = process.env.DATABASE_URL;
 
@@ -20,10 +21,7 @@ const poolOptions = {
   max: process.env.NODE_ENV === "production" ? 5 : 10,
   idleTimeoutMillis: 5_000,
   connectionTimeoutMillis: 10_000,
-  ssl: {
-    rejectUnauthorized: true,
-    ...(process.env.DATABASE_CA_CERT ? { ca: process.env.DATABASE_CA_CERT.replace(/\\n/g, "\n") } : {}),
-  },
+  ssl: getPostgresSslConfig(databaseUrl.hostname),
 };
 
 const globalForDatabase = globalThis as typeof globalThis & { msingiPool?: Pool };

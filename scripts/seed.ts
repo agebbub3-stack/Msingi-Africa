@@ -4,6 +4,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { articles as sampleArticles, biographies, imageForCategory } from "../src/lib/content";
 import * as schema from "../src/lib/db/schema";
+import { getPostgresSslConfig } from "../src/lib/db/ssl";
 
 if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is required to seed the editorial database.");
 
@@ -13,10 +14,7 @@ const pool = new Pool({
   connectionString: databaseUrl.toString(),
   max: 2,
   connectionTimeoutMillis: 10_000,
-  ssl: {
-    rejectUnauthorized: true,
-    ...(process.env.DATABASE_CA_CERT ? { ca: process.env.DATABASE_CA_CERT.replace(/\\n/g, "\n") } : {}),
-  },
+  ssl: getPostgresSslConfig(databaseUrl.hostname),
 });
 const db = drizzle(pool, { schema });
 const editorId = "msingi-editorial";
