@@ -5,7 +5,7 @@ Revista digital e grupo independente de pesquisa sobre pessoas, ideias e mercado
 ## Stack
 
 - Next.js 16 App Router, React 19 e TypeScript.
-- PostgreSQL (Aiven ou outro fornecedor) com Drizzle ORM e migrações versionadas.
+- PostgreSQL (Supabase, Aiven ou outro fornecedor) com Drizzle ORM e migrações versionadas.
 - Better Auth para contas, sessões, verificação de e-mail e recuperação de palavra-passe.
 - Flutterwave para campanhas avulsas e assinatura Creator Plus (USD 5/mês).
 - Resend para e-mails transacionais.
@@ -25,7 +25,7 @@ Revista digital e grupo independente de pesquisa sobre pessoas, ideias e mercado
    npm run dev
    ```
 
-`db:generate` requer uma variável `DATABASE_URL`, mas não liga ao servidor. `db:migrate` e `db:seed` precisam de acesso real ao PostgreSQL. O comando de migração usa a mesma ligação PostgreSQL e validação TLS da aplicação. Para a instância Aiven configurada neste projeto, o respetivo CA público é selecionado automaticamente pelo hostname e incluído no bundle, mantendo a validação TLS ativa. Para outro PostgreSQL com uma autoridade própria, configure o respetivo PEM em `DATABASE_CA_CERT`; não desative `rejectUnauthorized` para contornar erros de certificado.
+`db:generate` requer uma variável `DATABASE_URL`, mas não liga ao servidor. `db:migrate` e `db:seed` precisam de acesso real ao PostgreSQL. O comando de migração usa a mesma ligação PostgreSQL e validação TLS da aplicação. Os CAs públicos Aiven e Supabase são selecionados pelo hostname e incluídos no bundle, mantendo a validação TLS ativa. Para outro PostgreSQL com uma autoridade própria, configure o respetivo PEM em `DATABASE_CA_CERT`; não desative `rejectUnauthorized` para contornar erros de certificado.
 
 Sem `DATABASE_URL`, as páginas públicas podem apresentar conteúdo de demonstração; autenticação, propostas, pagamentos e operações editoriais precisam de PostgreSQL. Erros de ligação a uma base de dados configurada são apresentados, não ocultados por conteúdo fictício.
 
@@ -54,11 +54,11 @@ npm run db:generate
 npm run db:migrate
 ```
 
-`db:migrate` deve ser executado com credenciais de banco disponíveis e antes de expor a versão nova da aplicação. O comando e o seed carregam `.env.local` (ou `.env`) e verificam TLS com a CA Aiven selecionada automaticamente para o hostname do serviço. Depois de configurar localmente a ligação PostgreSQL, execute `npm run db:migrate` e `npm run db:seed` a partir da raiz do projeto.
+`db:migrate` deve ser executado com credenciais de banco disponíveis e antes de expor a versão nova da aplicação. O comando e o seed carregam `.env.local` (ou `.env`) e verificam TLS com a CA oficial selecionada automaticamente para hostnames Aiven ou Supabase. Depois de configurar localmente a ligação PostgreSQL, execute `npm run db:migrate` e `npm run db:seed` a partir da raiz do projeto.
 
 ### Vercel
 
-Importe o repositório com o preset Next.js. Configure `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_EDITORIAL_EMAIL` e, conforme os recursos ativados, as variáveis `RESEND_*`, `FLW_*` e `ADMIN_EMAIL`. Para a instância Aiven deste projeto, o CA público correspondente é incluído e carregado automaticamente pelo hostname — não é necessário guardar o certificado numa variável do Vercel. Para outro servidor PostgreSQL com uma CA própria, configure o PEM em `DATABASE_CA_CERT`. Aplique migrações ao banco antes de direcionar tráfego para a versão nova. A URL pública deve usar HTTPS e corresponder aos domínios permitidos para autenticação.
+Importe o repositório com o preset Next.js. Configure `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_EDITORIAL_EMAIL` e, conforme os recursos ativados, as variáveis `RESEND_*`, `FLW_*` e `ADMIN_EMAIL`. Para Aiven e Supabase, o CA público correspondente é incluído e selecionado automaticamente pelo hostname — não é necessário guardar o certificado numa variável do Vercel. Para outro servidor PostgreSQL com uma CA própria, configure o PEM em `DATABASE_CA_CERT`. Aplique migrações ao banco antes de direcionar tráfego para a versão nova. A URL pública deve usar HTTPS e corresponder aos domínios permitidos para autenticação.
 
 ### Docker
 
