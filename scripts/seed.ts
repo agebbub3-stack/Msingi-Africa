@@ -119,38 +119,21 @@ async function seed() {
       };
     });
 
+  const insertedStorySlugs = new Set<string>();
   for (const article of [...seedArticles, ...seedBiographies]) {
-    await db.insert(schema.articles).values(article).onConflictDoUpdate({
-      target: schema.articles.slug,
-      set: {
-        kind: article.kind,
-        status: "published",
-        title: article.title,
-        standfirst: article.standfirst,
-        bodyMarkdown: article.bodyMarkdown,
-        category: article.category,
-        personCountry: article.kind === "biography" ? article.personCountry : null,
-        personField: article.kind === "biography" ? article.personField : null,
-        personRole: article.kind === "biography" ? article.personRole : null,
-        coverImageUrl: article.coverImageUrl,
-        readingMinutes: article.readingMinutes,
-        seoTitle: article.seoTitle,
-        seoDescription: article.seoDescription,
-        seoKeywords: article.seoKeywords,
-        publishedAt: article.publishedAt,
-        noIndex: false,
-        updatedAt: new Date(),
-      },
-    });
+    const [inserted] = await db.insert(schema.articles).values(article)
+      .onConflictDoNothing({ target: schema.articles.slug })
+      .returning({ slug: schema.articles.slug });
+    if (inserted) insertedStorySlugs.add(inserted.slug);
   }
 
   for (const sourceStory of [...editorialArticles, ...editorialBiographies]) {
+    if (!insertedStorySlugs.has(sourceStory.slug)) continue;
     const [savedStory] = await db.select({ id: schema.articles.id })
       .from(schema.articles)
       .where(eq(schema.articles.slug, sourceStory.slug))
       .limit(1);
     if (!savedStory) throw new Error(`Seeded story "${sourceStory.slug}" could not be found.`);
-    await db.delete(schema.articleSources).where(eq(schema.articleSources.articleId, savedStory.id));
     await db.insert(schema.articleSources).values(sourceStory.sources!.map((source, position) => ({
       articleId: savedStory.id,
       title: source.title,
@@ -178,6 +161,32 @@ async function seed() {
       description: "Plano mensal para criadores que precisam incluir ligações e fontes verificáveis nas propostas editoriais.",
       isVerified: true,
     },
+    {
+      slug: "lifebank",
+      type: "company" as const,
+      name: "LifeBank",
+      description: "Empresa de cadeia de abastecimento de saúde que coordena a entrega de produtos essenciais a hospitais.",
+      countryCode: "NG",
+      websiteUrl: "https://lifebank.ng/",
+      isVerified: true,
+    },
+    {
+      slug: "andela",
+      type: "company" as const,
+      name: "Andela",
+      description: "Rede global que liga profissionais de tecnologia a oportunidades e equipas de empresas.",
+      websiteUrl: "https://www.andela.com/",
+      isVerified: true,
+    },
+    {
+      slug: "flutterwave",
+      type: "company" as const,
+      name: "Flutterwave",
+      description: "Empresa de tecnologia financeira focada em pagamentos para negócios que operam em mercados africanos.",
+      countryCode: "NG",
+      websiteUrl: "https://flutterwave.com/",
+      isVerified: true,
+    },
   ];
   for (const entity of entityRows) {
     await db.insert(schema.entities).values(entity).onConflictDoUpdate({
@@ -200,6 +209,24 @@ async function seed() {
       entityId: publisher.id,
       role: "publisher",
     }))).onConflictDoNothing();
+  }
+  const entityStoryRelations = [
+    { entitySlug: "lifebank", storySlug: "logistica-saude-acesso-sangue", role: "subject" },
+    { entitySlug: "lifebank", storySlug: "temie-giwa-tubosun", role: "subject" },
+    { entitySlug: "andela", storySlug: "iyinoluwa-aboyeji", role: "mentions" },
+    { entitySlug: "flutterwave", storySlug: "iyinoluwa-aboyeji", role: "subject" },
+  ];
+  for (const relation of entityStoryRelations) {
+    const [entity] = await db.select({ id: schema.entities.id }).from(schema.entities)
+      .where(eq(schema.entities.slug, relation.entitySlug)).limit(1);
+    const [story] = await db.select({ id: schema.articles.id }).from(schema.articles)
+      .where(eq(schema.articles.slug, relation.storySlug)).limit(1);
+    if (!entity || !story) throw new Error(`Could not link entity "${relation.entitySlug}" to "${relation.storySlug}".`);
+    await db.insert(schema.articleEntities).values({
+      articleId: story.id,
+      entityId: entity.id,
+      role: relation.role,
+    }).onConflictDoNothing();
   }
 
   const adminEmail = process.env.ADMIN_EMAIL?.trim().toLowerCase();

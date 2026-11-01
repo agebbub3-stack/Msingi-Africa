@@ -137,6 +137,114 @@ export const researchArticles: Article[] = [
       },
     ],
   },
+  {
+    slug: "logistica-saude-acesso-sangue",
+    title: "Na saúde, a logística também pode decidir o acesso",
+    standfirst:
+      "A segurança do sangue depende de redes coordenadas e entregas oportunas. O caso da LifeBank mostra como tecnologia e operação física se encontram na saúde.",
+    category: "Tecnologia",
+    author: "Redação Msingi",
+    date: "1 nov. 2026",
+    readingTime: "5 min de leitura",
+    image:
+      "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Profissional de saúde a trabalhar numa unidade clínica",
+    seoTitle: "Logística de saúde em África: o caso LifeBank",
+    seoDescription:
+      "Como redes de distribuição, tecnologia e coordenação podem apoiar o acesso a sangue e outros produtos essenciais de saúde em África.",
+    seoKeywords: [
+      "logística de saúde em África",
+      "LifeBank",
+      "distribuição de sangue",
+      "saúde digital africana",
+      "cadeia de abastecimento hospitalar",
+    ],
+    sources: [
+      {
+        title: "Temie Giwa-Tubosun is saving lives, one bag of blood at a time",
+        publisher: "TED",
+        url: "https://www.ted.com/speakers/temie_giwa_tubosun",
+      },
+      {
+        title: "Blood safety and availability",
+        publisher: "Organização Mundial da Saúde",
+        url: "https://www.who.int/news-room/fact-sheets/detail/blood-safety-and-availability",
+      },
+      {
+        title: "LifeBank",
+        publisher: "LifeBank",
+        url: "https://lifebank.ng/",
+      },
+    ],
+    body: [
+      {
+        text: "Quando um hospital precisa de sangue, medicamentos ou equipamento, a existência de um fornecedor não basta: a rede tem de localizar o produto certo, confirmar a sua disponibilidade e fazê-lo chegar a tempo. A logística é parte da infraestrutura clínica, embora muitas vezes fique fora da conversa sobre inovação em saúde.",
+      },
+      {
+        heading: "Uma rede coordenada, não apenas uma aplicação",
+        text: "A Organização Mundial da Saúde recomenda que as atividades de recolha, análise, processamento, armazenamento e distribuição de sangue sejam coordenadas através de redes integradas. Na sua atualização com dados de 2023, a OMS identifica 36 países da Região Africana entre os 55 países que reportaram menos de dez dádivas de sangue por mil habitantes. O indicador descreve a disponibilidade reportada; não explica, por si só, as causas em cada país.",
+      },
+      {
+        text: "A TED descreve a LifeBank como uma empresa fundada por Temie Giwa-Tubosun em 2016 para desenvolver uma cadeia de abastecimento de produtos de saúde, com entregas a hospitais na Nigéria e no Quénia. O perfil refere a utilização de diferentes meios de transporte, incluindo motas, barcos, camiões, triciclos e drones. É um retrato da operação apresentado pela própria organização à TED, não uma avaliação independente dos seus resultados clínicos.",
+      },
+      {
+        heading: "Tecnologia ligada ao trabalho no terreno",
+        text: "O exemplo ajuda a olhar para além do software: inventário, comunicação com hospitais, conservação dos produtos, coordenação de transporte e protocolos de qualidade precisam de funcionar em conjunto. Uma plataforma pode melhorar a visibilidade de uma encomenda, mas a entrega depende também de equipas, infraestrutura e processos adequados a cada território.",
+      },
+      {
+        text: "Para avaliar iniciativas deste tipo, importa perguntar que produtos cobre a rede, como confirma a qualidade e a cadeia de custódia, que zonas consegue servir e que dados sustentam as alegações de impacto. A questão central não é apenas a velocidade da tecnologia, mas a fiabilidade do sistema que ela ajuda a coordenar.",
+      },
+    ],
+  },
+  {
+    slug: "venture-capital-africa-2025-rondas-contexto",
+    title: "O que os números do capital tecnológico africano de 2025 revelam",
+    standfirst:
+      "O financiamento de capital próprio cresceu 8%, mas o número de rondas avançou apenas 1%. A diferença ajuda a separar recuperação de uma nova expansão.",
+    category: "Mercados",
+    author: "Redação Msingi",
+    date: "1 nov. 2026",
+    readingTime: "5 min de leitura",
+    image:
+      "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Gráficos e indicadores financeiros num ecrã de análise",
+    seoTitle: "Capital de risco em África em 2025: rondas e tendências",
+    seoDescription:
+      "A Partech registou US$2,4 mil milhões em capital próprio e 462 rondas na tecnologia africana em 2025. Veja o que esses indicadores mostram — e o que não mostram.",
+    seoKeywords: [
+      "capital de risco África 2025",
+      "venture capital africano",
+      "startups africanas investimento",
+      "Partech Africa Tech Venture Capital Report",
+      "mercado de tecnologia africano",
+    ],
+    sources: [
+      {
+        title: "2025 Africa Tech Venture Capital Report",
+        publisher: "Partech",
+        url: "https://partechpartners.com/africa-reports/2025-africa-tech-venture-capital-report",
+      },
+    ],
+    body: [
+      {
+        text: "O volume de financiamento é uma medida útil, mas incompleta, da saúde de um ecossistema. Para perceber se o mercado está a crescer, também é preciso observar quantas empresas conseguem captar, em que fases, com que dimensão de ronda e com que distribuição entre países e setores.",
+      },
+      {
+        heading: "Mais capital, quase o mesmo número de rondas",
+        text: "No Africa Tech Venture Capital Report de 2025, a Partech registou US$2,4 mil milhões em financiamento de capital próprio para empresas tecnológicas africanas, um aumento de 8% face a 2024. O número de rondas foi 462, apenas 1% acima do ano anterior. Segundo o relatório, a diferença reflete sobretudo bilhetes médios maiores, não um aumento equivalente na quantidade de operações.",
+      },
+      {
+        text: "A Partech descreve 2025 como um período de normalização depois da correção iniciada nos anos anteriores. O relatório assinala maior atividade de crescimento e uma distribuição mais equilibrada dos valores investidos, mas também volatilidade ao longo do ano: o quarto trimestre concentrou US$876 milhões em capital próprio, enquanto o ritmo e os montantes variaram entre trimestres.",
+      },
+      {
+        heading: "Ler o agregado com cautela",
+        text: "Um total continental não mostra, por si só, se o capital está acessível a empresas em fase inicial, a fundadores fora dos principais centros ou a setores que exigem ciclos de retorno mais longos. Também não substitui informação sobre sobrevivência, receitas, emprego criado ou condições de financiamento.",
+      },
+      {
+        text: "O relatório da Partech é uma fonte especializada e abrangente sobre rondas divulgadas, mas continua a ser uma medição construída segundo os critérios da própria organização. A leitura mais prudente é que o mercado de 2025 deixou de encolher de forma acentuada; afirmar que começou um novo ciclo de expansão exige mais evidência e acompanhamento.",
+      },
+    ],
+  },
 ];
 
 export const articles: Article[] = [
@@ -488,6 +596,72 @@ export const biographies: Biography[] = [
         title: "Ficheiro: Mo Abudu",
         publisher: "Wikimedia Commons",
         url: "https://commons.wikimedia.org/wiki/File:Mosunmola_Abudu_1.jpg",
+      },
+    ],
+  },
+  {
+    slug: "temie-giwa-tubosun",
+    name: "Temie Giwa-Tubosun",
+    monogram: "TG",
+    country: "Nigéria",
+    field: "Saúde e logística",
+    role: "Fundadora da LifeBank",
+    summary:
+      "Construiu uma empresa de cadeia de abastecimento de saúde que coordena a entrega de produtos essenciais a hospitais.",
+    accent: "sage",
+    organization: "LifeBank",
+    organizationUrl: "https://lifebank.ng/",
+    spotlight:
+      "Fundou a LifeBank em 2016 para ligar hospitais a produtos essenciais através de uma operação de distribuição que combina tecnologia e logística.",
+    body: [
+      "Temie Giwa-Tubosun é uma empreendedora nigeriana na área da saúde e fundadora da LifeBank. O seu trabalho parte de um problema concreto: produtos essenciais só são úteis quando a rede de abastecimento consegue localizá-los e fazê-los chegar a quem deles precisa.",
+      "A TED descreve a LifeBank como uma empresa fundada em 2016 para construir uma cadeia de abastecimento de produtos de saúde, com hospitais na Nigéria e no Quénia. O perfil refere uma operação que recorre a diferentes meios de transporte e funciona em coordenação com as necessidades dos hospitais. Estas informações são apresentadas pela TED a partir do perfil da fundadora e da empresa.",
+      "A trajetória de Giwa-Tubosun chama a atenção para uma dimensão frequentemente menos visível da inovação: ligar dados, inventário, transporte e equipas no terreno. Na saúde, a eficácia de uma solução depende tanto da fiabilidade operacional como da tecnologia utilizada.",
+      "A Organização Mundial da Saúde recomenda redes integradas e coordenadas para apoiar a segurança e a disponibilidade de sangue. Esse contexto ajuda a compreender a relevância do desafio, mas não deve ser confundido com uma avaliação independente do impacto específico da LifeBank.",
+    ],
+    sources: [
+      {
+        title: "Temie Giwa-Tubosun is saving lives, one bag of blood at a time",
+        publisher: "TED",
+        url: "https://www.ted.com/speakers/temie_giwa_tubosun",
+      },
+      {
+        title: "Blood safety and availability",
+        publisher: "Organização Mundial da Saúde",
+        url: "https://www.who.int/news-room/fact-sheets/detail/blood-safety-and-availability",
+      },
+      {
+        title: "LifeBank",
+        publisher: "LifeBank",
+        url: "https://lifebank.ng/",
+      },
+    ],
+  },
+  {
+    slug: "iyinoluwa-aboyeji",
+    name: "Iyinoluwa Aboyeji",
+    monogram: "IA",
+    country: "Nigéria",
+    field: "Tecnologia e pagamentos",
+    role: "Empreendedor tecnológico e cofundador",
+    summary:
+      "Participou na construção de empresas tecnológicas africanas como Andela e Flutterwave, ligadas a talento e pagamentos digitais.",
+    accent: "clay",
+    organization: "Flutterwave",
+    organizationUrl: "https://flutterwave.com/",
+    spotlight:
+      "O perfil da Forbes regista o seu percurso de cofundador de startups e a criação da Flutterwave em 2017, ligando talento tecnológico e pagamentos digitais.",
+    body: [
+      "Iyinoluwa Aboyeji é um empreendedor nigeriano associado a duas etapas marcantes do ecossistema tecnológico africano: a formação de talento para a indústria digital e a construção de infraestrutura de pagamentos.",
+      "O perfil da Forbes, publicado em 2018, descreve Aboyeji como cofundador de duas startups africanas antes de lançar a Flutterwave em 2017. O mesmo texto identifica a Andela como um dos projetos anteriores e apresenta números de financiamento e atividade referentes àquele momento. Esses valores são históricos e não devem ser lidos como métricas atuais.",
+      "A trajetória entre Andela e Flutterwave reúne duas necessidades distintas do mercado: ligar profissionais a oportunidades de tecnologia e tornar os pagamentos mais acessíveis a negócios que operam entre países. Em ambos os casos, a ambição continental depende de execução em contextos regulatórios, financeiros e linguísticos diferentes.",
+      "A experiência descrita pela Forbes convida a observar como diferentes empresas procuram responder a necessidades complementares do ecossistema. O perfil é um registo de 2018; para avaliar a situação atual das organizações, é necessário consultar informação mais recente.",
+    ],
+    sources: [
+      {
+        title: "Iyinoluwa Aboyeji",
+        publisher: "Forbes",
+        url: "https://www.forbes.com/profile/iyinoluwa-aboyeji/",
       },
     ],
   },

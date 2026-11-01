@@ -910,14 +910,21 @@ img { object-fit: cover; }
 .search-page { padding-top: 60px; padding-bottom: 90px; }
 .search-page-header { max-width: 800px; margin: 0 auto 50px; }
 .search-page-header h1 { font-size: clamp(54px, 7vw, 78px); }
+.search-suggestions { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-top: 15px; color: #777e74; font-size: 10px; }
+.search-suggestions a { padding: 7px 11px; color: #435c4b; background: #eeeee7; border: 1px solid #e3e1d7; border-radius: 999px; transition: background .2s ease, transform .2s ease; }
+.search-suggestions a:hover { background: #e4e6dc; transform: translateY(-1px); }
 .search-page-form { display: flex; align-items: center; gap: 12px; margin-top: 26px; padding: 8px 8px 8px 14px; background: var(--white); border: 1px solid #dcded5; }
 .search-page-form { border-radius: 16px; box-shadow: 0 10px 28px rgba(34, 49, 39, .055); }
 .search-page-form > svg { color: #778078; flex: 0 0 auto; }
 .search-page-form input { width: 100%; min-width: 0; padding: 10px 0; border: 0; outline: 0; background: transparent; color: var(--ink); font: 12px var(--sans); }
 .search-page-form input:focus-visible { outline: 0; }
 .search-results-heading { margin: 0 auto 23px; max-width: 1100px; }
-.search-results-heading h2, .search-entity-results h2 { font-family: var(--serif); font-size: 30px; font-weight: 400; }
+.search-results-heading h2, .search-entity-results h2, .search-profile-results > h2, .search-article-results > h2 { font-family: var(--serif); font-size: 30px; font-weight: 400; }
 .search-entity-results { max-width: 1100px; margin: 0 auto 30px; }
+.search-profile-results, .search-article-results { max-width: 1100px; margin: 0 auto 38px; }
+.search-profile-results > h2, .search-article-results > h2 { margin-bottom: 18px; }
+.search-profile-results .profile-grid { margin-top: 0; }
+.search-article-results .article-grid { margin-top: 0; }
 .search-entity-results ul { display: grid; gap: 10px; padding: 0; list-style: none; }
 .search-entity-results li { display: grid; gap: 5px; padding: 15px 17px; background: rgba(255, 254, 250, .72); border: 1px solid var(--line); border-radius: 14px; transition: border-color .2s ease, transform .2s ease; }
 .search-entity-results li:hover { transform: translateX(3px); border-color: #c7cbbd; }

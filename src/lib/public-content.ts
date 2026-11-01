@@ -243,6 +243,36 @@ const sampleEntities: PublicEntity[] = [
     imageUrl: null,
     verified: true,
   },
+  {
+    slug: "lifebank",
+    type: "company",
+    name: "LifeBank",
+    description: "Empresa de cadeia de abastecimento de saúde que coordena a entrega de produtos essenciais a hospitais.",
+    countryCode: "NG",
+    websiteUrl: "https://lifebank.ng/",
+    imageUrl: null,
+    verified: true,
+  },
+  {
+    slug: "andela",
+    type: "company",
+    name: "Andela",
+    description: "Rede global que liga profissionais de tecnologia a oportunidades e equipas de empresas.",
+    countryCode: null,
+    websiteUrl: "https://www.andela.com/",
+    imageUrl: null,
+    verified: true,
+  },
+  {
+    slug: "flutterwave",
+    type: "company",
+    name: "Flutterwave",
+    description: "Empresa de tecnologia financeira focada em pagamentos para negócios que operam em mercados africanos.",
+    countryCode: "NG",
+    websiteUrl: "https://flutterwave.com/",
+    imageUrl: null,
+    verified: true,
+  },
 ];
 
 export async function getPublicEntities(): Promise<PublicEntity[]> {
@@ -274,7 +304,19 @@ export async function getPublicEntity(slug: string): Promise<PublicEntity | unde
 }
 
 export async function getArticlesForEntity(slug: string) {
-  if (!process.env.DATABASE_URL) return sampleArticles.slice(0, 3);
+  if (!process.env.DATABASE_URL) {
+    const relatedSlugs: Record<string, string[]> = {
+      lifebank: ["logistica-saude-acesso-sangue", "temie-giwa-tubosun"],
+      andela: ["iyinoluwa-aboyeji"],
+      flutterwave: ["iyinoluwa-aboyeji"],
+    };
+    const stories = relatedSlugs[slug];
+    if (!stories) return sampleArticles.slice(0, 3);
+    return stories.flatMap((storySlug) => {
+      const article = legacyArticle(storySlug) ?? legacyBiographyAsArticle(storySlug);
+      return article ? [article] : [];
+    });
+  }
   const { db } = await import("@/lib/db");
   const { articleEntities, articles, entities } = await import("@/lib/db/schema");
   const linkedRows = await db.select({ id: articles.id }).from(articleEntities)
