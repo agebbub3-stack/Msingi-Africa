@@ -6,7 +6,7 @@ import { promotionPackages } from "@/lib/paid-promotions";
 export const metadata: Metadata = {
   title: "Planos para autores e marcas",
   description:
-    "Compare a participação editorial gratuita, a assinatura Creator Plus e os pacotes de conteúdo patrocinado da Bantaba Africa.",
+    "Compare a participação editorial gratuita, a assinatura Creator Plus e os pacotes de conteúdo patrocinado da Kioo Africa.",
   alternates: { canonical: "/planos" },
 };
 

@@ -53,11 +53,11 @@ export default async function HomePage() {
             </p>
             <div className="hero-actions">
               <Link href="/artigos" className="button button-dark">Explorar as histórias <ArrowUpRight size={16} /></Link>
-              <Link href="/sobre" className="text-link">Conheça a Bantaba <ArrowRight size={15} /></Link>
+              <Link href="/sobre" className="text-link">Conheça a Kioo <ArrowRight size={15} /></Link>
             </div>
             <div className="hero-note">
               <span className="hero-note-line" />
-              <p>Bantaba é a imagem de um espaço comum de encontro e conversa.<br />É assim que aproximamos histórias, pesquisa e perspetivas.</p>
+              <p>Uma lente independente sobre África.<br />Contexto para compreender o que vem a seguir.</p>
             </div>
           </div>
           <div className="hero-visual">

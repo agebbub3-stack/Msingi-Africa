@@ -22,6 +22,13 @@
       "when": 1793533131118,
       "tag": "0002_bantaba_brand",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1793533909126,
+      "tag": "0003_kioo_brand",
+      "breakpoints": true
     }
   ]
 }

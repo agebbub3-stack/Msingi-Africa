@@ -8,7 +8,7 @@ import { getPublicEntities, getPublishedBiographies } from "@/lib/public-content
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
   title: "Empresas, pessoas e produtos africanos",
-  description: "Explore perfis e entidades ligadas às histórias e aos mercados acompanhados pela Bantaba Africa.",
+  description: "Explore perfis e entidades ligadas às histórias e aos mercados acompanhados pela Kioo Africa.",
   alternates: { canonical: "/entidades" },
 };
 
@@ -28,7 +28,7 @@ export default async function EntitiesPage() {
         "@graph": [
           {
             "@type": "ItemList",
-            name: "Entidades e produtos Bantaba Africa",
+            name: "Entidades e produtos Kioo Africa",
             itemListElement: entities.map((entity, index) => ({
               "@type": "ListItem",
               position: index + 1,

@@ -71,7 +71,7 @@ export default async function ArticlePage({ params }: Props) {
     author: { "@type": "Person", name: article.author, ...(article.authorSlug ? { url: new URL(`/autores/${article.authorSlug}`, siteUrl).toString() } : {}) },
     publisher: {
       "@type": "Organization",
-      name: "Bantaba Africa",
+      name: "Kioo Africa",
       url: siteUrl,
       logo: { "@type": "ImageObject", url: new URL("/brand-mark.svg", siteUrl).toString() },
     },
@@ -100,7 +100,7 @@ export default async function ArticlePage({ params }: Props) {
           <div className="byline-avatar" aria-hidden="true">{article.author.trim().slice(0, 1).toUpperCase()}</div>
           <div>
             <strong>{article.authorSlug ? <Link href={`/autores/${article.authorSlug}`}>{article.author}</Link> : article.author}</strong>
-            <span>{article.kind === "biography" ? "Perfil biográfico" : article.isSponsored ? "Parceria identificada" : "Redação Bantaba Africa"}</span>
+            <span>{article.kind === "biography" ? "Perfil biográfico" : article.isSponsored ? "Parceria identificada" : "Redação Kioo Africa"}</span>
           </div>
           <span className="byline-divider" />
           <div className="story-date">{article.date}</div>
@@ -112,7 +112,7 @@ export default async function ArticlePage({ params }: Props) {
         <figcaption>{article.imageAlt} · Imagem ilustrativa.</figcaption>
       </figure>
       <div className="story-body-layout">
-        <aside className="story-aside"><span>BA / JOURNAL</span><span>UMA LEITURA<br />COM CONTEXTO.</span><Link href="/sobre">Os nossos princípios <ArrowUpRight size={14} /></Link></aside>
+        <aside className="story-aside"><span>KIOO / JOURNAL</span><span>UMA LEITURA<br />COM CONTEXTO.</span><Link href="/sobre">Os nossos princípios <ArrowUpRight size={14} /></Link></aside>
         <div className="story-body">
           <ArticleMarkdown content={content} />
           {article.sources && article.sources.length > 0 && (
@@ -130,7 +130,7 @@ export default async function ArticlePage({ params }: Props) {
             <span>✳</span>
             <p>{article.isSponsored
               ? article.sponsorDisclosure ?? "Conteúdo patrocinado. A parceria comercial é identificada e não determina decisões de cobertura editorial."
-              : "Reportagem editorial independente. As decisões de cobertura da Bantaba Africa não são influenciadas por anunciantes."}</p>
+              : "Reportagem editorial independente. As decisões de cobertura da Kioo Africa não são influenciadas por anunciantes."}</p>
           </div>
         </div>
       </div>

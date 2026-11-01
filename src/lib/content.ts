@@ -34,7 +34,7 @@ export const researchArticles: Article[] = [
     standfirst:
       "A GSMA estima que quase mil milhões de pessoas em África ainda não usam internet móvel. Preço dos dispositivos, competências digitais e conteúdo relevante continuam a separar cobertura de acesso real.",
     category: "Tecnologia",
-    author: "Redação Bantaba",
+    author: "Redação Kioo",
     date: "1 nov. 2026",
     readingTime: "5 min de leitura",
     image:
@@ -76,7 +76,7 @@ export const researchArticles: Article[] = [
         text: "A GSMA calcula que as tecnologias e os serviços móveis contribuíram com 240 mil milhões de dólares para a economia africana em 2025, equivalentes a 7,8% do PIB do continente. A escala económica é expressiva; o desafio editorial e empresarial é perguntar quem consegue participar nesse crescimento e o que falta para reduzir a distância entre acesso potencial e benefício efetivo.",
       },
       {
-        text: "Os números citados são estimativas e análises da GSMA, não uma medição independente da Bantaba Africa. A inclusão digital deve ser avaliada não só pelo número de ligações, mas também pela qualidade, preço e utilidade do acesso.",
+        text: "Os números citados são estimativas e análises da GSMA, não uma medição independente da Kioo Africa. A inclusão digital deve ser avaliada não só pelo número de ligações, mas também pela qualidade, preço e utilidade do acesso.",
       },
     ],
   },
@@ -86,7 +86,7 @@ export const researchArticles: Article[] = [
     standfirst:
       "O modelo combina uma entrada inicial, pagamentos frequentes e acesso progressivo a serviços. A oportunidade de inclusão depende também de transparência, custo total e proteção do cliente.",
     category: "Startups & Inovação",
-    author: "Redação Bantaba",
+    author: "Redação Kioo",
     date: "1 nov. 2026",
     readingTime: "6 min de leitura",
     image:
@@ -143,7 +143,7 @@ export const researchArticles: Article[] = [
     standfirst:
       "A segurança do sangue depende de redes coordenadas e entregas oportunas. O caso da LifeBank mostra como tecnologia e operação física se encontram na saúde.",
     category: "Tecnologia",
-    author: "Redação Bantaba",
+    author: "Redação Kioo",
     date: "1 nov. 2026",
     readingTime: "5 min de leitura",
     image:
@@ -202,7 +202,7 @@ export const researchArticles: Article[] = [
     standfirst:
       "O financiamento de capital próprio cresceu 8%, mas o número de rondas avançou apenas 1%. A diferença ajuda a separar recuperação de uma nova expansão.",
     category: "Mercados",
-    author: "Redação Bantaba",
+    author: "Redação Kioo",
     date: "1 nov. 2026",
     readingTime: "5 min de leitura",
     image:
@@ -251,7 +251,7 @@ export const researchArticles: Article[] = [
     standfirst:
       "Bombas solares e irrigação gota a gota podem reduzir a dependência da chuva. O impacto depende do custo, da água disponível e do apoio ao agricultor.",
     category: "Startups & Inovação",
-    author: "Redação Bantaba",
+    author: "Redação Kioo",
     date: "1 nov. 2026",
     readingTime: "6 min de leitura",
     image:
@@ -314,7 +314,7 @@ export const researchArticles: Article[] = [
     standfirst:
       "A transição energética só será inclusiva se expandir o acesso moderno sem ignorar preço, infraestrutura e prioridades de desenvolvimento.",
     category: "Mercados",
-    author: "Redação Bantaba",
+    author: "Redação Kioo",
     date: "1 nov. 2026",
     readingTime: "5 min de leitura",
     image:
@@ -368,7 +368,7 @@ export const articles: Article[] = [
     standfirst:
       "Mais do que seguir o próximo grande investimento, vale perceber quem está a financiar o crescimento — e em que condições.",
     category: "Mercados",
-    author: "Redação Bantaba",
+    author: "Redação Kioo",
     date: "31 out. 2026",
     readingTime: "6 min de leitura",
     image:
@@ -398,7 +398,7 @@ export const articles: Article[] = [
       },
       {
         heading: "O que acompanhar a seguir",
-        text: "Investidores locais, fundos regionais, bancos de desenvolvimento e parceiros internacionais cumprem papéis diferentes. Acompanhar a distribuição por país, setor, instrumento financeiro e fase de crescimento ajuda a perceber quem beneficia — e o que ainda não está a ser medido. Os valores aqui citados são estimativas da Partech, não uma medição independente da Bantaba Africa.",
+        text: "Investidores locais, fundos regionais, bancos de desenvolvimento e parceiros internacionais cumprem papéis diferentes. Acompanhar a distribuição por país, setor, instrumento financeiro e fase de crescimento ajuda a perceber quem beneficia — e o que ainda não está a ser medido. Os valores aqui citados são estimativas da Partech, não uma medição independente da Kioo Africa.",
       },
     ],
   },
@@ -408,7 +408,7 @@ export const articles: Article[] = [
     standfirst:
       "Empreendedores e investidores estão a olhar para novas cadeias de valor. O primeiro passo é entender as condições locais.",
     category: "Angola",
-    author: "Redação Bantaba",
+    author: "Redação Kioo",
     date: "29 out. 2026",
     readingTime: "5 min de leitura",
     image:
@@ -485,7 +485,7 @@ export const articles: Article[] = [
     standfirst:
       "Tecnologia e investimento chamam a atenção. A capacidade de formar, reter e apoiar equipas decide o que acontece depois.",
     category: "Tecnologia",
-    author: "Redação Bantaba",
+    author: "Redação Kioo",
     date: "22 out. 2026",
     readingTime: "4 min de leitura",
     image:
@@ -515,7 +515,7 @@ export const articles: Article[] = [
         text: "Uma análise empírica da Brookings mede a digitalização em cinco dimensões, entre elas competências, infraestrutura, finanças e plataformas digitais. O estudo também procura comparar lacunas entre países, em vez de tratar o continente como um mercado uniforme. Essa diferença de contexto importa tanto para governos como para empregadores.",
       },
       {
-        text: "Quando as empresas investem em talento local, os benefícios podem atravessar setores: fornecedores mais capazes, novos serviços e mais conhecimento acumulado. Medir esses efeitos ajuda a ir além do número de vagas anunciadas. Os resultados citados são da análise da Brookings e dos seus autores, não de uma pesquisa própria da Bantaba Africa.",
+        text: "Quando as empresas investem em talento local, os benefícios podem atravessar setores: fornecedores mais capazes, novos serviços e mais conhecimento acumulado. Medir esses efeitos ajuda a ir além do número de vagas anunciadas. Os resultados citados são da análise da Brookings e dos seus autores, não de uma pesquisa própria da Kioo Africa.",
       },
     ],
   },
@@ -808,7 +808,7 @@ export const biographies: Biography[] = [
       "energia limpa em África",
       "irrigação solar",
       "inovação agrícola africana",
-      "Bantaba Africa",
+      "Kioo Africa",
     ],
     body: [
       "Samir Ibrahim é um empreendedor ligado à energia limpa e à agricultura no Quénia. É cofundador da SunCulture, empresa que desenvolve sistemas solares fora da rede para responder a necessidades como acesso à água, irrigação e energia em pequenas explorações.",

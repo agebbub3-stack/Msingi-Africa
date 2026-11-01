@@ -4,7 +4,7 @@ import { AuthForm } from "@/components/auth-form";
 
 export const metadata: Metadata = {
   title: "Criar conta de autor",
-  description: "Crie o seu perfil de autor e submeta artigos à redação Bantaba Africa.",
+  description: "Crie o seu perfil de autor e submeta artigos à redação Kioo Africa.",
   robots: { index: false, follow: false },
 };
 

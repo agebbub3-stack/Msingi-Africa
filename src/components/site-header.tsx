@@ -112,7 +112,7 @@ export function SiteHeader() {
             <div
               id="explore-navigation"
               className="nav-explore-panel"
-              aria-label="Explorar a Bantaba Africa"
+              aria-label="Explorar a Kioo Africa"
               hidden={!isExploreOpen}
             >
               <p className="nav-explore-heading">IDEIAS QUE MOVEM ÁFRICA</p>

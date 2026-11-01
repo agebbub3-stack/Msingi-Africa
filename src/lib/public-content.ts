@@ -21,7 +21,7 @@ function legacyBiographyAsArticle(slug: string): Article | undefined {
     title: profile.name,
     standfirst: profile.summary,
     category: profile.field,
-    author: "Redação Bantaba",
+    author: "Redação Kioo",
     date: "",
     readingTime: "5 min de leitura",
     image: profile.portrait?.src ?? imageForCategory.Tecnologia,
@@ -228,7 +228,7 @@ const sampleEntities: PublicEntity[] = [
   {
     slug: "msingi-africa",
     type: "organization",
-    name: "Bantaba Africa",
+    name: "Kioo Africa",
     description: "Grupo editorial e de pesquisa independente dedicado a pessoas, ideias e mercados africanos.",
     countryCode: "AO",
     websiteUrl: "https://msingi.africa",
@@ -238,7 +238,7 @@ const sampleEntities: PublicEntity[] = [
   {
     slug: "creator-plus",
     type: "product",
-    name: "Bantaba Creator Plus",
+    name: "Kioo Creator Plus",
     description: "Plano mensal para criadores que precisam incluir ligações e fontes verificáveis nas propostas editoriais.",
     countryCode: null,
     websiteUrl: null,

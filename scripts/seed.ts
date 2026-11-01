@@ -39,25 +39,25 @@ async function seed() {
 
   await db.insert(schema.user).values({
     id: editorId,
-    name: "Redação Bantaba Africa",
+    name: "Redação Kioo Africa",
     email: editorEmail,
     emailVerified: true,
   }).onConflictDoUpdate({
     target: schema.user.id,
-    set: { name: "Redação Bantaba Africa", emailVerified: true, updatedAt: new Date() },
+    set: { name: "Redação Kioo Africa", emailVerified: true, updatedAt: new Date() },
   });
 
   await db.insert(schema.creatorProfiles).values({
     userId: editorId,
     slug: "msingi-africa",
-    displayName: "Redação Bantaba Africa",
+    displayName: "Redação Kioo Africa",
     biography: "Grupo independente de pesquisa e jornalismo que acompanha as ideias, os negócios e as pessoas a transformar os mercados africanos.",
     countryCode: "AO",
   }).onConflictDoUpdate({
     target: schema.creatorProfiles.userId,
     set: {
       slug: "msingi-africa",
-      displayName: "Redação Bantaba Africa",
+      displayName: "Redação Kioo Africa",
       biography: "Grupo independente de pesquisa e jornalismo que acompanha as ideias, os negócios e as pessoas a transformar os mercados africanos.",
       countryCode: "AO",
       updatedAt: new Date(),
@@ -117,7 +117,7 @@ async function seed() {
           profile.role,
           profile.field,
           profile.country,
-          "Bantaba Africa",
+          "Kioo Africa",
           "inovadores africanos",
         ],
         publishedAt: new Date(),
@@ -155,7 +155,7 @@ async function seed() {
     {
       slug: "msingi-africa",
       type: "organization" as const,
-      name: "Bantaba Africa",
+      name: "Kioo Africa",
       description: "Grupo editorial e de pesquisa independente dedicado a pessoas, ideias e mercados africanos.",
       countryCode: "AO",
       websiteUrl: "https://msingi.africa",
@@ -164,7 +164,7 @@ async function seed() {
     {
       slug: "creator-plus",
       type: "product" as const,
-      name: "Bantaba Creator Plus",
+      name: "Kioo Creator Plus",
       description: "Plano mensal para criadores que precisam incluir ligações e fontes verificáveis nas propostas editoriais.",
       isVerified: true,
     },

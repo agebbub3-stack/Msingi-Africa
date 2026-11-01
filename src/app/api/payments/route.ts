@@ -123,7 +123,7 @@ export async function POST(request: NextRequest) {
         customer: { email, name },
         meta: { package_id: promotion.id },
         customizations: {
-          title: "Bantaba Africa",
+          title: "Kioo Africa",
           description: `Conteúdo patrocinado — ${promotion.name}`,
           logo: new URL("/brand-mark.svg", appUrl.origin).toString(),
         },

@@ -22,7 +22,7 @@ export default async function EditorialDeskPage() {
   }
   return (
     <section className="dashboard-page section-pad">
-      <header className="dashboard-header"><span className="section-kicker">BA / DESK · {role.toUpperCase()}</span><h1>Decisões com<br /><em>contexto.</em></h1><p>Leia, edite e aprove conteúdo. Nenhuma submissão é publicada automaticamente.</p></header>
+      <header className="dashboard-header"><span className="section-kicker">KIOO / DESK · {role.toUpperCase()}</span><h1>Decisões com<br /><em>contexto.</em></h1><p>Leia, edite e aprove conteúdo. Nenhuma submissão é publicada automaticamente.</p></header>
       <AdminQueue />
     </section>
   );

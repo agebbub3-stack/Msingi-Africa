@@ -40,7 +40,7 @@ export default async function SearchPage({ searchParams }: Props) {
         <h1>O que procura<br /><em>saber?</em></h1>
         <p>Pesquise tendências, empresas, ideias ou pessoas ligadas aos mercados africanos.</p>
         <form className="search-page-form" action="/pesquisa">
-          <label className="sr-only" htmlFor="market-search">Pesquisar Bantaba Africa</label>
+          <label className="sr-only" htmlFor="market-search">Pesquisar Kioo Africa</label>
           <Search size={18} aria-hidden="true" />
           <input id="market-search" name="q" type="search" defaultValue={query} maxLength={100} placeholder="Ex.: investimento em Angola" />
           <button type="submit" className="button button-dark">Pesquisar</button>

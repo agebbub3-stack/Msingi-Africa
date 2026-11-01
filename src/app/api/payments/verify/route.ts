@@ -89,7 +89,7 @@ async function verifyCreatorSubscription(transactionId: string, txRef: string, s
     typeof data.amount !== "number" ||
     data.amount !== payment.amountCents / 100
   ) {
-    console.error("Flutterwave subscription transaction did not match the Bantaba payment.");
+    console.error("Flutterwave subscription transaction did not match the Kioo payment.");
     return NextResponse.json({ error: "Os detalhes do pagamento não correspondem à assinatura." }, { status: 400 });
   }
 
@@ -200,7 +200,7 @@ export async function GET(request: NextRequest) {
     typeof data.amount !== "number" ||
     data.amount !== promotion.price
   ) {
-    console.error("Flutterwave transaction details do not match the signed Bantaba order.", transactionId);
+    console.error("Flutterwave transaction details do not match the signed Kioo order.", transactionId);
     return NextResponse.json({ error: "Os detalhes do pagamento não correspondem ao pedido." }, { status: 400 });
   }
 

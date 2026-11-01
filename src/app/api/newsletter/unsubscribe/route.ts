@@ -52,8 +52,8 @@ export async function POST(request: NextRequest) {
     try {
       await sendTransactionalEmail({
         to: subscriber.email,
-        subject: "Cancelar a newsletter Bantaba Africa",
-        html: `<p>Use esta ligação para cancelar a inscrição na newsletter Bantaba Africa:</p><p><a href="${unsubscribeUrl.toString()}">Cancelar inscrição</a></p><p>Se não pediu este cancelamento, ignore esta mensagem.</p>`,
+        subject: "Cancelar a newsletter Kioo Africa",
+        html: `<p>Use esta ligação para cancelar a inscrição na newsletter Kioo Africa:</p><p><a href="${unsubscribeUrl.toString()}">Cancelar inscrição</a></p><p>Se não pediu este cancelamento, ignore esta mensagem.</p>`,
       });
     } catch (error) {
       const [reset] = await db.update(newsletterSubscribers)

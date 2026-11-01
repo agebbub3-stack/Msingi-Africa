@@ -19,16 +19,16 @@ const dmSerifDisplay = DM_Serif_Display({
 
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa"),
-  applicationName: "Bantaba Africa",
+  applicationName: "Kioo Africa",
   title: {
-    default: "Bantaba Africa — Mercados, inovação e perfis africanos",
-    template: "%s — Bantaba Africa",
+    default: "Kioo Africa — Mercados, inovação e perfis africanos",
+    template: "%s — Kioo Africa",
   },
   description:
-    "Jornalismo independente, artigos, biografias e pesquisa sobre mercados, tecnologia, energia limpa e pessoas a transformar África.",
+    "Kioo: jornalismo independente, biografias e análise de mercados africanos para compreender as raízes e antecipar o que vem a seguir.",
   keywords: [
-    "Bantaba Africa",
-    "Bantaba",
+    "Kioo Africa",
+    "Kioo",
     "mercados africanos",
     "Africa forum",
     "Modern Africa",
@@ -43,16 +43,16 @@ export const metadata: Metadata = {
     : {}),
   icons: { icon: [{ url: "/brand-mark.svg", type: "image/svg+xml" }] },
   openGraph: {
-    title: "Bantaba Africa — Mercados, inovação e perfis africanos",
+    title: "Kioo Africa — Mercados, inovação e perfis africanos",
     description:
       "Artigos, biografias e análise independente sobre o futuro dos mercados africanos.",
-    siteName: "Bantaba Africa",
+    siteName: "Kioo Africa",
     locale: "pt_PT",
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Bantaba Africa — Mercados, inovação e perfis africanos",
+    title: "Kioo Africa — Mercados, inovação e perfis africanos",
     description: "Artigos, biografias e análise independente sobre o futuro dos mercados africanos.",
   },
 };
@@ -68,8 +68,8 @@ export default function RootLayout({
         <JsonLd data={{
           "@context": "https://schema.org",
           "@type": "Organization",
-          name: "Bantaba Africa",
-          alternateName: "Bantaba",
+          name: "Kioo Africa",
+          alternateName: "Kioo",
           slogan: "Pessoas, ideias e mercados africanos.",
           url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa",
           logo: new URL("/brand-mark.svg", process.env.NEXT_PUBLIC_SITE_URL ?? "https://msingi.africa").toString(),
