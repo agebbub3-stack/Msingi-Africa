@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { ArrowUpRight, Eye, Layers3, Search, ShieldCheck } from "lucide-react";
+import { ArrowDown, ArrowUpRight, Eye, Layers3, Search, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Quem somos",
-  description: "Conheça a missão, o método de pesquisa e os princípios editoriais independentes da Msingi Africa.",
+  description: "Conheça as raízes estudantis da Msingi Africa, o movimento independente que liga África do Sul, Angola e Uganda, e o seu compromisso com pesquisa e jornalismo rigorosos.",
 };
 
 const principles = [
@@ -17,14 +17,48 @@ export default function AboutPage() {
   return (
     <>
       <section className="about-masthead">
-        <span className="section-kicker">UMA REDAÇÃO INDEPENDENTE. UMA CURIOSIDADE SEM FRONTEIRAS.</span>
-        <h1>Mais contexto.<br />Menos <em>atalhos.</em></h1>
-        <div className="about-lede"><span>MS / ABOUT</span><p>Somos a Msingi Africa: um grupo independente de pesquisa e jornalismo que acompanha as ideias, os negócios e as pessoas a transformar os mercados africanos.</p></div>
-        <div className="about-asterisk" aria-hidden="true">✳</div>
+        <div className="about-masthead-copy">
+          <span className="section-kicker"><span className="about-live-dot" /> UM MOVIMENTO INDEPENDENTE, COM RAÍZES EM ÁFRICA</span>
+          <h1>Uma ideia que<br />cruzou <em>fronteiras.</em></h1>
+          <p className="about-hero-description">Nascemos da convicção de estudantes universitários de que as histórias africanas merecem ser pesquisadas, contadas e compreendidas a partir das próprias realidades do continente.</p>
+          <div className="about-hero-actions">
+            <Link href="#origens" className="button button-light">Conheça as nossas raízes <ArrowDown size={15} /></Link>
+            <span>INDEPENDÊNCIA · PESQUISA · PERSPECTIVA</span>
+          </div>
+        </div>
+        <div className="about-origin-visual" aria-hidden="true">
+          <div className="about-origin-orbit about-origin-orbit-outer" />
+          <div className="about-origin-orbit about-origin-orbit-inner" />
+          <span className="about-origin-star">✳</span>
+          <span className="about-origin-mark">MS</span>
+          <span className="about-origin-visual-caption">UM CONTINENTE<br />MUITAS PERSPETIVAS</span>
+        </div>
+        <div className="about-hero-footer">
+          <span>AS NOSSAS RAÍZES</span>
+          <div><span>ÁFRICA DO SUL</span><i /><span>ANGOLA</span><i /><span>UGANDA</span></div>
+          <span>UMA CONVERSA SEM FRONTEIRAS <ArrowDown size={13} /></span>
+        </div>
+      </section>
+      <section className="about-origin" id="origens" aria-labelledby="about-origin-title">
+        <div className="about-origin-heading">
+          <span className="section-kicker">DE ONDE VIEMOS · PARA ONDE VAMOS</span>
+          <h2 id="about-origin-title">Três pontos de partida.<br /><em>Uma convicção comum.</em></h2>
+        </div>
+        <div className="about-origin-story">
+          <span className="about-origin-number">01 / AS ORIGENS</span>
+          <p>A história da Msingi Africa começa com estudantes universitários na <strong>África do Sul, em Angola e no Uganda</strong>. Em contextos diferentes, partilhavam a mesma inquietação: demasiadas vezes, o continente era explicado por outros — e as suas próprias ideias, investigação e vozes ficavam à margem.</p>
+          <p>Da aproximação entre esses estudantes nasceu um movimento independente. O que começou como vontade de pesquisar, dialogar e dar espaço a perspetivas africanas foi consolidado numa iniciativa editorial com uma missão mais ampla: aproximar conhecimento, pessoas e mercados sem apagar as diferenças que fazem cada realidade única.</p>
+          <p>Hoje, essa origem continua a orientar o nosso trabalho. Crescer, para nós, significa aprofundar a pesquisa, ampliar a conversa e ganhar a confiança de quem procura compreender África com mais rigor — não falar em nome de um continente diverso.</p>
+        </div>
+        <div className="about-origin-countries" aria-label="Países de origem do movimento">
+          <article><span>01</span><strong>África do Sul</strong><small>RAIZ · INICIATIVA ESTUDANTIL</small></article>
+          <article><span>02</span><strong>Angola</strong><small>RAIZ · INICIATIVA ESTUDANTIL</small></article>
+          <article><span>03</span><strong>Uganda</strong><small>RAIZ · INICIATIVA ESTUDANTIL</small></article>
+        </div>
       </section>
       <section className="about-manifesto">
-        <div className="manifesto-index"><span>01 — MANIFESTO</span><span>FUNDAMENTO<br />PARA O DEBATE.</span></div>
-        <div><p className="manifesto-quote">“Msingi” significa <em>fundamento.</em></p><p className="manifesto-copy">Escolhemos este nome porque acreditamos que decisões melhores começam com informação que explica, não apenas anuncia. A nossa missão é aproximar quem lê dos contextos que moldam o continente — com independência, respeito e curiosidade.</p></div>
+        <div className="manifesto-index"><span>02 — O SIGNIFICADO</span><span>UM FUNDAMENTO<br />PARA AVANÇAR.</span></div>
+        <div><p className="manifesto-quote">“Msingi” significa <em>fundamento.</em></p><p className="manifesto-copy">Escolhemos este nome porque decisões melhores começam com informação que explica, não apenas anuncia. A nossa missão é construir esse fundamento: ligar quem lê aos contextos que moldam o continente, com independência, respeito e curiosidade.</p></div>
       </section>
       <section className="about-principles section-pad" id="principios">
         <div className="section-heading"><div><span className="section-kicker">A NOSSA RESPONSABILIDADE</span><h2>O método é<br /><em>parte da história.</em></h2></div><span className="principle-side-note">OS PRINCÍPIOS NÃO<br />MUDAM COM O TEMA.</span></div>

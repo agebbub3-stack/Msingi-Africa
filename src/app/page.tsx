@@ -2,7 +2,10 @@ import { ArrowDownRight, ArrowRight, ArrowUpRight, Globe2, MoveUpRight } from "l
 import Image from "next/image";
 import Link from "next/link";
 import { ArticleCard } from "@/components/article-card";
+import { HomeStoryCarousel } from "@/components/home-story-carousel";
 import { ProfileCard } from "@/components/profile-card";
+import { ScrollReveal } from "@/components/scroll-reveal";
+import { imageForCategory } from "@/lib/content";
 import { getPublishedArticles, getPublishedBiographies } from "@/lib/public-content";
 
 export const dynamic = "force-dynamic";
@@ -14,9 +17,28 @@ export default async function HomePage() {
     (article) => article.slug === "inclusao-digital-africa-uso-internet-movel",
   );
   const gsmaSource = digitalEconomyArticle?.sources?.find((source) => source.publisher === "GSMA");
+  const carouselStories = [
+    ...latestArticles.slice(0, 4).map((article) => ({
+      href: `/artigos/${article.slug}`,
+      title: article.title,
+      description: article.standfirst,
+      image: article.image,
+      imageAlt: article.imageAlt,
+      label: article.category,
+    })),
+    ...biographies.slice(0, 3).map((profile) => ({
+      href: `/biografias/${profile.slug}`,
+      title: profile.name,
+      description: profile.summary,
+      image: profile.portrait?.src ?? imageForCategory[profile.field] ?? imageForCategory.Tecnologia,
+      imageAlt: profile.portrait?.alt ?? `${profile.name}, perfil biográfico`,
+      label: `${profile.country} · ${profile.field}`,
+    })),
+  ];
 
   return (
     <>
+      <div className="home-scroll-progress" aria-hidden="true"><span /></div>
       <section className="home-hero">
         <div className="hero-topline">
           <span className="eyebrow"><span className="eyebrow-dot" /> A OBSERVAR O CONTINENTE</span>
@@ -65,7 +87,11 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="featured-section section-pad" id="destaque">
+      <ScrollReveal
+        className="featured-section section-pad"
+        id="destaque"
+        selector=".section-heading, .lead-article, .briefing"
+      >
         <div className="section-heading">
           <div>
             <span className="section-kicker">A ESCOLHA DA REDAÇÃO <span>✳</span></span>
@@ -86,10 +112,14 @@ export default async function HomePage() {
             <div className="briefing-index"><span>01</span><span>—</span><span>NOTA EDITORIAL</span></div>
           </aside>
         </div>
-      </section>
+      </ScrollReveal>
 
       {digitalEconomyArticle && gsmaSource && (
-        <section className="market-lens section-pad" aria-labelledby="market-lens-title">
+        <ScrollReveal
+          className="market-lens section-pad"
+          aria-labelledby="market-lens-title"
+          selector=".market-lens-heading, .market-metric, .market-source"
+        >
           <div className="market-lens-heading">
             <div>
               <span className="section-kicker">DADOS EM CONTEXTO <span>✳</span> GSMA · 2025</span>
@@ -126,10 +156,21 @@ export default async function HomePage() {
               Fonte: {gsmaSource.publisher} — {gsmaSource.title} <ArrowUpRight size={13} />
             </a>
           </div>
-        </section>
+        </ScrollReveal>
       )}
 
-      <section className="latest-section section-pad">
+      <ScrollReveal
+        as="div"
+        className="home-carousel-reveal"
+        selector=".home-story-carousel-heading, .home-story-card, .home-story-footer"
+      >
+        <HomeStoryCarousel items={carouselStories} />
+      </ScrollReveal>
+
+      <ScrollReveal
+        className="latest-section section-pad"
+        selector=".section-heading, .article-card, .latest-bottom"
+      >
         <div className="section-heading section-heading-dark">
           <div>
             <span className="section-kicker">IDEIAS EM MOVIMENTO</span>
@@ -141,9 +182,12 @@ export default async function HomePage() {
           {latestArticles.map((article) => <ArticleCard key={article.slug} article={article} />)}
         </div>
         <div className="latest-bottom"><span>LEITURA COM PERSPECTIVA, NÃO COM PRESSA.</span><Link href="/artigos">Mais histórias <ArrowUpRight size={14} /></Link></div>
-      </section>
+      </ScrollReveal>
 
-      <section className="people-section section-pad">
+      <ScrollReveal
+        className="people-section section-pad"
+        selector=".section-heading, .profile-card"
+      >
         <div className="section-heading">
           <div>
             <span className="section-kicker">QUEM ESTÁ A MUDAR O JOGO <span>✳</span></span>
@@ -154,9 +198,12 @@ export default async function HomePage() {
         <div className="profile-grid">
           {biographies.map((profile) => <ProfileCard key={profile.slug} profile={profile} />)}
         </div>
-      </section>
+      </ScrollReveal>
 
-      <section className="contribute-band">
+      <ScrollReveal
+        className="contribute-band"
+        selector=".contribute-copy, .contribute-note"
+      >
         <div className="contribute-orbit" aria-hidden="true"><span>✳</span></div>
         <div className="contribute-copy">
           <span className="section-kicker">AS MELHORES IDEIAS COMEÇAM EM CONJUNTO</span>
@@ -165,7 +212,7 @@ export default async function HomePage() {
           <Link className="button button-light" href="/publicar">Partilhe a sua ideia <ArrowUpRight size={16} /></Link>
         </div>
         <div className="contribute-note"><span>✳</span> A NOSSA REDAÇÃO<br />COMEÇA POR OUVIR.</div>
-      </section>
+      </ScrollReveal>
     </>
   );
 }
