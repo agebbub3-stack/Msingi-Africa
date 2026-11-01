@@ -16,7 +16,7 @@ const englishArticles: Record<string, ArticleCopy> = {
   "softedge-ia-angolana-akira": {
     title: "SoftEdge Corporation and AKIRA: artificial intelligence built in Angola",
     standfirst: "From software engineering to the AKIRA assistant, the Luanda-based company presents digital products focused on Portuguese. Here is what official sources say — and what still needs to be assessed.",
-    imageAlt: "Team collaborating on a technology solution",
+    imageAlt: "Official AKIRA logo, an artificial intelligence assistant by SoftEdge",
     seoKeywords: ["SoftEdge Corporation", "AKIRA AI", "artificial intelligence in Angola", "Angolan AI", "Isaac Quarenta", "technology in Angola"],
   },
   "isaac-nascimento-quarenta": {

@@ -32,6 +32,7 @@ const isaacProfile = biographies.find((profile) => profile.slug === isaacProfile
 if (!partnerArticle || !isaacProfile) {
   throw new Error("The SoftEdge article and Isaac biography must exist in the editorial content source.");
 }
+const partnerArticleCoverImage = partnerArticle.image;
 
 function readingMinutes(content: string) {
   return Math.max(1, Math.ceil(content.trim().split(/\s+/).length / 220));
@@ -336,6 +337,7 @@ async function publish() {
     id: schema.articles.id,
     slug: schema.articles.slug,
     status: schema.articles.status,
+    coverImageUrl: schema.articles.coverImageUrl,
     isFeatured: schema.articles.isFeatured,
     isSponsored: schema.articles.isSponsored,
     sponsorDisclosure: schema.articles.sponsorDisclosure,
@@ -349,9 +351,10 @@ async function publish() {
       || !story.isFeatured
       || !story.isSponsored
       || !story.sponsorDisclosure
+      || (story.slug === partnerArticleSlug && story.coverImageUrl !== partnerArticleCoverImage)
       || story.submittedWithPlan !== "free")
   ) {
-    throw new Error("Post-publication verification failed for the featured partnership records.");
+    throw new Error("Post-publication verification failed for the featured partnership records or AKIRA article cover.");
   }
 
   const sourceRows = await db.select({ id: schema.articleSources.id }).from(schema.articleSources)
