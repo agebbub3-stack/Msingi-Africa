@@ -1,0 +1,1 @@
+ALTER TABLE "articles" ADD COLUMN "seo_keywords" text[] DEFAULT '{}'::text[] NOT NULL;

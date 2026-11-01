@@ -1,0 +1,25 @@
+services:
+  app:
+    build:
+      context: .
+      args:
+        NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+        NEXT_PUBLIC_EDITORIAL_EMAIL: ${NEXT_PUBLIC_EDITORIAL_EMAIL:-editorial@msingi.africa}
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_SITE_URL: ${NEXT_PUBLIC_SITE_URL:-http://localhost:3000}
+      NEXT_PUBLIC_EDITORIAL_EMAIL: ${NEXT_PUBLIC_EDITORIAL_EMAIL:-editorial@msingi.africa}
+      DATABASE_URL: ${DATABASE_URL:-}
+      DATABASE_CA_CERT: ${DATABASE_CA_CERT:-}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:-}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
+      ADMIN_EMAIL: ${ADMIN_EMAIL:-}
+      FLW_SECRET_KEY: ${FLW_SECRET_KEY:-}
+      FLW_SECRET_HASH: ${FLW_SECRET_HASH:-}
+      FLW_PAYMENT_PLAN_ID: ${FLW_PAYMENT_PLAN_ID:-}
+      RESEND_API_KEY: ${RESEND_API_KEY:-}
+      RESEND_FROM_EMAIL: ${RESEND_FROM_EMAIL:-}
+    init: true
+    restart: unless-stopped
