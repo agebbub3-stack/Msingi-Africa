@@ -20,9 +20,7 @@ export type HomeHeroSlide = {
 export function HomeHeroCarousel({ items, locale }: { items: HomeHeroSlide[]; locale: Locale }) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const [isFocused, setIsFocused] = useState(false);
-  const shouldPause = isPaused || isHovered || isFocused;
+  const shouldPause = isPaused;
 
   useEffect(() => {
     if (items.length < 2 || shouldPause) return;
@@ -35,7 +33,7 @@ export function HomeHeroCarousel({ items, locale }: { items: HomeHeroSlide[]; lo
       }
     }, 7500);
     return () => window.clearInterval(interval);
-  }, [items.length, shouldPause]);
+  }, [activeIndex, items.length, shouldPause]);
 
   if (items.length === 0) return null;
 
@@ -48,12 +46,6 @@ export function HomeHeroCarousel({ items, locale }: { items: HomeHeroSlide[]; lo
       className="hero-visual"
       role="region"
       aria-label={translate(locale, "featuredStories")}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      onFocus={() => setIsFocused(true)}
-      onBlur={(event) => {
-        if (!event.currentTarget.contains(event.relatedTarget)) setIsFocused(false);
-      }}
       onKeyDown={(event) => {
         if (event.key === "ArrowLeft") previous();
         if (event.key === "ArrowRight") next();

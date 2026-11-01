@@ -12,9 +12,9 @@
   <rect width="1200" height="630" fill="url(#grid)"/>
   <circle cx="1100" cy="96" r="220" fill="none" stroke="#f3bd63" stroke-opacity=".12" stroke-width="2"/>
   <circle cx="1100" cy="96" r="168" fill="none" stroke="#d58b54" stroke-opacity=".16" stroke-width="2"/>
-  <rect x="84" y="72" width="52" height="52" rx="16" fill="none" stroke="#f3bd63" stroke-width="2"/>
-  <path d="M94 98c5-7 11-10 16-10s11 3 16 10c-5 7-11 10-16 10s-11-3-16-10Z" fill="none" stroke="#f3bd63" stroke-width="2"/>
-  <circle cx="110" cy="98" r="3.5" fill="#d58b54"/>
+  <rect x="84" y="72" width="52" height="52" rx="16" fill="#203a31"/>
+  <path d="M101 84v28m1-14 17-14m-17 14 17 14" fill="none" stroke="#f7f3e9" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m105.5 98 5-4v8l-5-4Z" fill="#d98756"/>
   <text x="154" y="108" fill="#f7f3e9" font-family="Arial, sans-serif" font-size="24" font-weight="700" letter-spacing="4">KIOO AFRICA</text>
   <text x="84" y="266" fill="#f3bd63" font-family="Arial, sans-serif" font-size="19" font-weight="700" letter-spacing="5">PESSOAS · IDEIAS · MERCADOS</text>
   <text x="80" y="370" fill="#f7f3e9" font-family="Georgia, serif" font-size="74">Histórias africanas.</text>
