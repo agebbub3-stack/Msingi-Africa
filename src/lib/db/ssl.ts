@@ -1,5 +1,4 @@
 import { aivenProjectCa } from "./aiven-ca";
-import { supabaseRootCa } from "./supabase-ca";
 
 const aivenServiceHost = "pg-22feb2a7-msing.l.aivencloud.com";
 
@@ -9,15 +8,13 @@ export function getPostgresSslConfig(hostname: string) {
     .replace(/^["']|["']$/g, "")
     .replace(/\\n/g, "\n");
   const isSupabaseHost = hostname.endsWith(".supabase.com") || hostname.endsWith(".supabase.co");
-  const providerCa = hostname === aivenServiceHost
-    ? aivenProjectCa
-    : isSupabaseHost
-      ? supabaseRootCa
-      : undefined;
+  const providerCa = hostname === aivenServiceHost ? aivenProjectCa : undefined;
   const ca = configuredCa || providerCa;
 
   return {
-    rejectUnauthorized: true,
+    // Supabase recommends SSL=require for serverless pooler connections; provide
+    // a root certificate through DATABASE_CA_CERT to enable strict verification.
+    rejectUnauthorized: !isSupabaseHost || Boolean(ca),
     ...(ca ? { ca } : {}),
   };
 }
