@@ -1,10 +1,13 @@
-import "dotenv/config";
+import { config } from "dotenv";
 import { eq, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
 import { articles as sampleArticles, biographies, imageForCategory } from "../src/lib/content";
 import * as schema from "../src/lib/db/schema";
 import { getPostgresSslConfig } from "../src/lib/db/ssl";
+
+config({ path: ".env.local" });
+config();
 
 if (!process.env.DATABASE_URL) throw new Error("DATABASE_URL is required to seed the editorial database.");
 

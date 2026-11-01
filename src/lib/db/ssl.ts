@@ -1,4 +1,4 @@
-import { aivenProjectCa } from "@/lib/db/aiven-ca";
+import { aivenProjectCa } from "./aiven-ca";
 
 const aivenServiceHost = "pg-22feb2a7-msing.l.aivencloud.com";
 
