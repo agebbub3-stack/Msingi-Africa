@@ -3,9 +3,11 @@ import { Search } from "lucide-react";
 import Link from "next/link";
 import { ArticleCard } from "@/components/article-card";
 import { ProfileCard } from "@/components/profile-card";
-import { getPublicEntities, getPublishedBiographies, searchPublishedArticles } from "@/lib/public-content";
+import { getPublicEntities, getPublishedArticles, getPublishedBiographies, searchPublishedArticles } from "@/lib/public-content";
 import { getLocale } from "@/lib/locale.server";
 import { createPageMetadata } from "@/lib/page-metadata";
+import { hasContentForLocale, localizeArticle, localizeBiography } from "@/lib/localized-editorial";
+import { localizeEntity } from "@/lib/localized-entities";
 
 export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
@@ -30,21 +32,28 @@ type Props = { searchParams: Promise<{ q?: string }> };
 export default async function SearchPage({ searchParams }: Props) {
   const { q = "" } = await searchParams;
   const query = q.trim().slice(0, 100);
-  const [results, entities, biographies, locale] = await Promise.all([
-    query ? searchPublishedArticles(query) : Promise.resolve([]),
+  const locale = await getLocale();
+  const [articles, entities, biographies] = await Promise.all([
+    query ? (locale === "en" ? getPublishedArticles() : searchPublishedArticles(query)) : Promise.resolve([]),
     getPublicEntities(),
     query ? getPublishedBiographies() : Promise.resolve([]),
-    getLocale(),
   ]);
   const en = locale === "en";
   const normalize = (value: string) => value.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLocaleLowerCase("pt");
   const normalizedQuery = normalize(query);
-  const matchingEntities = query ? entities.filter((entity) =>
+  const results = query ? articles.filter((article) => {
+    if (!hasContentForLocale(article, locale)) return false;
+    const localizedArticle = localizeArticle(article, locale);
+    return normalize(`${localizedArticle.title} ${localizedArticle.standfirst} ${localizedArticle.category} ${localizedArticle.author} ${localizedArticle.markdown ?? ""} ${localizedArticle.seoKeywords?.join(" ")}`)
+      .includes(normalizedQuery);
+  }) : [];
+  const matchingEntities = query ? entities.map((entity) => localizeEntity(entity, locale)).filter((entity) =>
     normalize(`${entity.name} ${entity.description}`).includes(normalizedQuery),
   ) : [];
-  const matchingBiographies = query ? biographies.filter((profile) =>
-    normalize(`${profile.name} ${profile.summary} ${profile.country} ${profile.field} ${profile.role} ${profile.body.join(" ")}`)
-      .includes(normalizedQuery),
+  const matchingBiographies = query ? biographies.map((profile) => localizeBiography(profile, locale)).filter((profile) =>
+    hasContentForLocale(profile, locale)
+      && normalize(`${profile.name} ${profile.summary} ${profile.country} ${profile.field} ${profile.role} ${profile.body.join(" ")}`)
+        .includes(normalizedQuery),
   ) : [];
   const totalResults = results.length + matchingEntities.length + matchingBiographies.length;
 

@@ -6,14 +6,17 @@ import { useState } from "react";
 import { ArticleCard } from "@/components/article-card";
 import type { Article } from "@/lib/content";
 import { localizeCategory, translate, type Locale } from "@/lib/i18n";
-import { localizeArticle } from "@/lib/localized-editorial";
+import { hasContentForLocale, localizeArticle } from "@/lib/localized-editorial";
 
 export function ArticlesArchive({ articles, locale = "en" }: { articles: Article[]; locale?: Locale }) {
+  const visibleArticles = locale === "en"
+    ? articles.filter((article) => hasContentForLocale(article, locale))
+    : articles;
   const [activeTopic, setActiveTopic] = useState("");
   const [query, setQuery] = useState("");
-  const topics = [...new Set(articles.map((article) => article.category))];
+  const topics = [...new Set(visibleArticles.map((article) => article.category))];
   const normalizedQuery = query.trim().toLocaleLowerCase(locale);
-  const filteredArticles = articles.filter((article) => {
+  const filteredArticles = visibleArticles.filter((article) => {
     const localizedArticle = localizeArticle(article, locale);
     const matchesTopic = !activeTopic || article.category === activeTopic;
     const matchesQuery =
@@ -38,7 +41,7 @@ export function ArticlesArchive({ articles, locale = "en" }: { articles: Article
           <div className="archive-edition-stamp"><span>KIOO / 01</span><span>{locale === "en" ? <>ONE CONTINENT<br />IN MOTION</> : <>UM CONTINENTE<br />EM MOVIMENTO</>}</span><span>54° AFRICA</span></div>
         </div>
         <div className="archive-stats">
-          <span>{locale === "en" ? "ARTICLES" : "ARTIGOS"} <b>{String(articles.length).padStart(2, "0")}</b></span>
+          <span>{locale === "en" ? "ARTICLES" : "ARTIGOS"} <b>{String(visibleArticles.length).padStart(2, "0")}</b></span>
           <span>{locale === "en" ? "CONTEXT" : "CONTEXTO"} <b>{locale === "en" ? "WITHOUT BORDERS" : "SEM FRONTEIRAS"}</b></span>
           <span>{locale === "en" ? "EDITION" : "EDIÇÃO"} <b>{locale === "en" ? "PAN-AFRICAN" : "PAN-AFRICANA"}</b></span>
         </div>

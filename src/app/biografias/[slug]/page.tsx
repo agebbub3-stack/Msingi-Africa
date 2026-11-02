@@ -8,12 +8,13 @@ import { ArticleMarkdown } from "@/components/article-markdown";
 import { ArticleCard } from "@/components/article-card";
 import { JsonLd } from "@/components/json-ld";
 import { ProfileCard } from "@/components/profile-card";
+import { ReadingProgress } from "@/components/reading-progress";
 import { getApprovedArticleComments, getPublishedArticle, getPublishedBiographies } from "@/lib/public-content";
 import { getStorySeo } from "@/lib/story-seo";
 import { articles as editorialArticles, biographies as editorialBiographies } from "@/lib/content";
 import { getLocale } from "@/lib/locale.server";
 import { localizeCategory } from "@/lib/i18n";
-import { hasEnglishArticleCopy, localizeArticle } from "@/lib/localized-editorial";
+import { hasContentForLocale, localizeArticle } from "@/lib/localized-editorial";
 import { getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-dynamic";
@@ -23,9 +24,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const [profile, locale] = await Promise.all([getPublishedArticle(slug, "biography"), getLocale()]);
   if (!profile) return { title: "Perfil não encontrado", robots: { index: false, follow: false } };
+  if (!hasContentForLocale(profile, locale)) {
+    return {
+      title: locale === "en" ? "This biography is not available in English yet" : "Esta biografia ainda não está disponível em português",
+      description: locale === "en"
+        ? "Switch to Portuguese to read this biography in its original language."
+        : "Mude para inglês para ler esta biografia na sua língua original.",
+      robots: { index: false, follow: true },
+    };
+  }
   const siteUrl = getSiteUrl();
   const localizedProfile = localizeArticle(profile, locale);
-  const seo = getStorySeo(locale === "en" && hasEnglishArticleCopy(slug) ? localizedProfile : profile);
+  const seo = getStorySeo(localizedProfile);
   const canonical = profile.canonicalUrl?.trim() || `/biografias/${profile.slug}`;
   return {
     title: seo.title,
@@ -52,26 +62,44 @@ export default async function BiographyPage({ params }: Props) {
   ]);
   if (!profile) notFound();
   const en = locale === "en";
+  if (!hasContentForLocale(profile, locale)) {
+    return (
+      <section className="archive-content section-pad language-unavailable">
+        <span className="section-kicker">KIOO AFRICA · {en ? "LANGUAGE" : "IDIOMA"}</span>
+        <h1>{en ? "This biography is not available in English yet." : "Esta biografia ainda não está disponível em português."}</h1>
+        <p>{en
+          ? "Choose Portuguese in the language menu to read it in its original language."
+          : "Escolha English no menu de idioma para ler esta biografia na sua língua original."}</p>
+        <Link className="button button-dark" href="/biografias">{en ? "Explore available biographies" : "Explorar biografias disponíveis"} <ArrowUpRight size={15} /></Link>
+      </section>
+    );
+  }
   const localizedProfile = localizeArticle(profile, locale);
 
   const siteUrl = getSiteUrl();
   const pageUrl = new URL(`/biografias/${slug}`, siteUrl).toString();
-  const relatedProfiles = biographies.filter((item) => item.slug !== slug).slice(0, 3);
+  const relatedProfiles = biographies
+    .filter((item) => item.slug !== slug && hasContentForLocale(item, locale))
+    .slice(0, 3);
   const editorialProfile = editorialBiographies.find((item) => item.slug === slug);
   const relatedArticleSlugs = new Set(editorialProfile?.relatedArticleSlugs ?? []);
-  const relatedArticles = editorialArticles.filter((item) => relatedArticleSlugs.has(item.slug));
+  const relatedArticles = editorialArticles.filter((item) =>
+    relatedArticleSlugs.has(item.slug) && hasContentForLocale(item, locale),
+  );
   const portrait = editorialProfile?.portrait;
-  const seo = getStorySeo(en && hasEnglishArticleCopy(slug) ? localizedProfile : profile);
+  const seo = getStorySeo(localizedProfile);
   const initialComments = profile.id
     ? await getApprovedArticleComments(profile.id)
     : { comments: [], totalCount: 0 };
 
   return (
     <article className="person-page">
+      <ReadingProgress />
       <JsonLd data={{
         "@context": "https://schema.org",
         "@type": "ProfilePage",
         name: localizedProfile.title,
+        inLanguage: en ? "en" : "pt-AO",
         description: seo.description,
         keywords: seo.keywords,
         url: pageUrl,
@@ -83,11 +111,11 @@ export default async function BiographyPage({ params }: Props) {
           ...(editorialProfile?.alternateName ? { alternateName: editorialProfile.alternateName } : {}),
           description: seo.description,
           jobTitle: localizedProfile.personRole ?? undefined,
-          knowsAbout: profile.personField ?? profile.category,
+          knowsAbout: localizedProfile.personField ?? localizedProfile.category,
           url: pageUrl,
           ...(editorialProfile?.sameAs?.length ? { sameAs: editorialProfile.sameAs } : {}),
           ...(portrait?.src ? { image: new URL(portrait.src, siteUrl).toString() } : {}),
-          homeLocation: profile.personCountry ? { "@type": "Place", name: profile.personCountry } : undefined,
+          homeLocation: localizedProfile.personCountry ? { "@type": "Place", name: localizedProfile.personCountry } : undefined,
           ...(editorialProfile?.organization ? {
             worksFor: {
               "@type": "Organization",

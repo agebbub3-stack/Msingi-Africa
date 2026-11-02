@@ -40,7 +40,7 @@ export default async function AuthorsPage() {
             <span className="byline-avatar" aria-hidden="true">{author.name.slice(0, 1).toUpperCase()}</span>
             <h2><Link href={`/autores/${author.slug}`}>{author.name}</Link></h2>
             {author.countryCode && <span className="profile-location"><MapPin size={13} /> {author.countryCode}</span>}
-            <p>{author.biography || (en ? "Kioo Africa author and contributor." : "Autor e colaborador da Kioo Africa.")}</p>
+            <p>{en ? "Kioo Africa author and contributor." : author.biography || "Autor e colaborador da Kioo Africa."}</p>
             <span className="author-count">{author.articleCount} {author.articleCount === 1
               ? (en ? "published article" : "artigo publicado")
               : (en ? "published articles" : "artigos publicados")}</span>

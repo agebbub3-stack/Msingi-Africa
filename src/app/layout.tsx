@@ -112,11 +112,6 @@ export default async function RootLayout({
           </div>
         </div>
         <SiteHeader locale={locale} />
-        {locale === "en" && (
-          <p className="locale-content-notice" role="note">
-            English interface and selected editorial stories are translated. Other editorial and contributor content remains in its original language.
-          </p>
-        )}
         <main>{children}</main>
         <SiteFooter locale={locale} />
       </body>

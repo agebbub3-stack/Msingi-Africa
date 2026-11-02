@@ -8,6 +8,7 @@ import { getPublicAuthor } from "@/lib/public-content";
 import { getLocale } from "@/lib/locale.server";
 import { createSocialPreviewUrl } from "@/lib/page-metadata";
 import { getSiteUrl } from "@/lib/site-url";
+import { hasContentForLocale, localizeArticle } from "@/lib/localized-editorial";
 
 export const dynamic = "force-dynamic";
 type Props = { params: Promise<{ slug: string }> };
@@ -17,7 +18,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const author = await getPublicAuthor(slug);
   if (!author) return { title: "Autor não encontrado", robots: { index: false, follow: false } };
   const locale = await getLocale();
-  const description = author.biography || `Artigos e perspetivas de ${author.name} na Kioo Africa.`;
+  const description = locale === "en"
+    ? `Articles and perspectives from ${author.name} at Kioo Africa.`
+    : author.biography || `Artigos e perspetivas de ${author.name} na Kioo Africa.`;
   const fallbackImage = createSocialPreviewUrl({
     locale,
     kind: "profile",
@@ -52,6 +55,12 @@ export default async function AuthorPage({ params }: Props) {
   if (!author) notFound();
   const locale = await getLocale();
   const en = locale === "en";
+  const biography = en
+    ? `${author.name} is a Kioo Africa contributor. Explore their published stories and perspectives on African markets.`
+    : author.biography || "Autor e colaborador da Kioo Africa.";
+  const authorArticles = author.articles
+    .filter((article) => hasContentForLocale(article, locale))
+    .map((article) => localizeArticle(article, locale));
   const siteUrl = getSiteUrl();
   const url = new URL(`/autores/${slug}`, siteUrl).toString();
   return (
@@ -64,7 +73,7 @@ export default async function AuthorPage({ params }: Props) {
         mainEntity: {
           "@type": "Person",
           name: author.name,
-          description: author.biography,
+          description: biography,
           ...(author.imageUrl ? { image: author.imageUrl } : {}),
           ...(author.countryCode ? { homeLocation: { "@type": "Place", addressCountry: author.countryCode } } : {}),
         },
@@ -85,14 +94,14 @@ export default async function AuthorPage({ params }: Props) {
         <span className="section-kicker">{en ? "CONTRIBUTOR / KIOO AFRICA" : "AUTOR / KIOO AFRICA"}</span>
         <h1>{author.name}</h1>
         {author.countryCode && <p className="profile-location"><MapPin size={14} /> {author.countryCode}</p>}
-        <p>{author.biography || (en ? "Kioo Africa author and contributor." : "Autor e colaborador da Kioo Africa.")}</p>
+        <p>{biography}</p>
         {author.articleCount > 0 && <span className="author-count">{author.articleCount} {author.articleCount === 1
           ? (en ? "published article" : "artigo publicado")
           : (en ? "published articles" : "artigos publicados")}</span>}
       </header>
       <section className="entity-related">
         <div className="section-heading"><div><span className="section-kicker">{en ? "PUBLISHED BY KIOO AFRICA" : "PUBLICADO NA KIOO AFRICA"}</span><h2>{en ? <>Ideas with<br /><em>context.</em></> : <>Ideias com<br /><em>contexto.</em></>}</h2></div><Link className="text-link" href="/artigos">{en ? "Explore articles" : "Explorar artigos"} <ArrowUpRight size={14} /></Link></div>
-        {author.articles.length > 0 ? <div className="article-grid">{author.articles.map((article) => <ArticleCard key={article.slug} article={article} locale={locale} />)}</div> : <p className="workspace-empty">{en ? "This contributor has not published any articles yet." : "Este autor ainda não tem artigos publicados."}</p>}
+        {authorArticles.length > 0 ? <div className="article-grid">{authorArticles.map((article) => <ArticleCard key={article.slug} article={article} locale={locale} />)}</div> : <p className="workspace-empty">{en ? "No English-language stories are available for this contributor yet." : "Este autor ainda não tem artigos publicados."}</p>}
       </section>
     </article>
   );

@@ -28,6 +28,7 @@ export type Article = {
   personField?: string | null;
   personRole?: string | null;
   sources?: { title: string; publisher: string | null; url: string }[];
+  locale?: string;
 };
 
 export const researchArticles: Article[] = [
@@ -828,6 +829,7 @@ export type Biography = {
   seoKeywords?: string[];
   sameAs?: string[];
   body: string[];
+  locale?: string;
   sources?: { title: string; publisher: string | null; url: string }[];
   portrait?: {
     src: string;
@@ -844,7 +846,7 @@ export const biographies: Biography[] = [
     slug: "isaac-nascimento-quarenta",
     name: "Isaac Nascimento Quarenta",
     alternateName: "Isaac Quarenta",
-    monogram: "IQ",
+    monogram: "INQ",
     country: "Angola",
     field: "Tecnologia",
     role: "Empreendedor tecnológico e fundador da SoftEdge Corporation",

@@ -26,7 +26,7 @@ export function ProfileCard({ profile, locale = "en" }: { profile: Biography; lo
           <>
             <span className="profile-orbit orbit-one" />
             <span className="profile-orbit orbit-two" />
-            <span className="profile-monogram">{localizedProfile.monogram}</span>
+            <span className={`profile-monogram${localizedProfile.monogram.length > 2 ? " profile-monogram-long" : ""}`}>{localizedProfile.monogram}</span>
           </>
         )}
         {localizedProfile.partnerName && localizedProfile.partnerLogoUrl && (

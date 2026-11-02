@@ -7,12 +7,13 @@ import { ArticleInteractions } from "@/components/article-interactions";
 import { ArticleMarkdown } from "@/components/article-markdown";
 import { ArticleCard } from "@/components/article-card";
 import { JsonLd } from "@/components/json-ld";
+import { ReadingProgress } from "@/components/reading-progress";
 import { getApprovedArticleComments, getPublishedArticle, getPublishedArticles } from "@/lib/public-content";
 import { getStorySeo } from "@/lib/story-seo";
 import { getLocale } from "@/lib/locale.server";
 import { localizeCategory } from "@/lib/i18n";
 import { createSocialPreviewUrl } from "@/lib/page-metadata";
-import { hasEnglishArticleCopy, localizeArticle } from "@/lib/localized-editorial";
+import { hasContentForLocale, hasEnglishArticleCopy, localizeArticle } from "@/lib/localized-editorial";
 import { getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-dynamic";
@@ -49,13 +50,20 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const article = await getPublishedArticle(slug);
   if (!article) return { title: "Artigo não encontrado", robots: { index: false, follow: false } };
-  const [locale] = await Promise.all([getLocale()]);
+  const locale = await getLocale();
   const en = locale === "en";
+  if (!hasContentForLocale(article, locale)) {
+    return {
+      title: en ? "This story is not available in English yet" : "Este artigo ainda não está disponível em português",
+      description: en
+        ? "Switch to Portuguese to read this story in its original language."
+        : "Mude para inglês para ler este artigo na sua língua original.",
+      robots: { index: false, follow: true },
+    };
+  }
   const localizedArticle = localizeArticle(article, locale);
   const hasEnglishCopy = hasEnglishArticleCopy(article.slug);
-  const seo = getStorySeo(en && hasEnglishCopy
-    ? { ...localizedArticle, seoTitle: null, seoDescription: null }
-    : article);
+  const seo = getStorySeo(localizedArticle);
   const siteUrl = getSiteUrl();
   const canonical = new URL(article.canonicalUrl?.trim() || `/artigos/${article.slug}`, siteUrl).toString();
   const socialImage = createSocialPreviewUrl({
@@ -95,16 +103,30 @@ export default async function ArticlePage({ params }: Props) {
 
   const [allArticles, locale] = await Promise.all([getPublishedArticles(), getLocale()]);
   const en = locale === "en";
+  if (!hasContentForLocale(article, locale)) {
+    return (
+      <section className="archive-content section-pad language-unavailable">
+        <span className="section-kicker">KIOO AFRICA · {en ? "LANGUAGE" : "IDIOMA"}</span>
+        <h1>{en ? "This story is not available in English yet." : "Este artigo ainda não está disponível em português."}</h1>
+        <p>{en
+          ? "Choose Portuguese in the language menu to read it in its original language."
+          : "Escolha English no menu de idioma para ler este artigo na sua língua original."}</p>
+        <Link className="button button-dark" href="/artigos">{en ? "Explore available stories" : "Explorar artigos disponíveis"} <ArrowUpRight size={15} /></Link>
+      </section>
+    );
+  }
   const displayArticle = localizeArticle(article, locale);
-  const hasEnglishCopy = hasEnglishArticleCopy(article.slug);
-  const relatedArticles = allArticles.filter((item) => item.slug !== slug).slice(0, 3);
+  const hasEnglishCopy = en && hasContentForLocale(article, locale);
+  const relatedArticles = allArticles
+    .filter((item) => item.slug !== slug && hasContentForLocale(item, locale))
+    .slice(0, 3);
   const siteUrl = getSiteUrl();
   const articleUrl = new URL(article.canonicalUrl?.trim() || `/artigos/${article.slug}`, siteUrl).toString();
   const initialComments = article.id
     ? await getApprovedArticleComments(article.id)
     : { comments: [], totalCount: 0 };
   const content = getArticleContent(displayArticle);
-  const seo = getStorySeo(article);
+  const seo = getStorySeo(displayArticle);
   const jsonLd: Record<string, unknown> = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -115,13 +137,13 @@ export default async function ArticlePage({ params }: Props) {
       ? [seo.title, localizeCategory(article.category, locale), "African markets", "Africa"]
       : seo.keywords,
     image: [article.image],
-    inLanguage: en && hasEnglishCopy ? "en" : "pt-AO",
+    inLanguage: en ? "en" : "pt-AO",
     articleSection: localizeCategory(article.category, locale),
     wordCount: content.trim().split(/\s+/).filter(Boolean).length,
     isAccessibleForFree: true,
     mainEntityOfPage: { "@type": "WebPage", "@id": articleUrl },
     author: article.authorSlug
-      ? { "@type": "Person", name: article.author, url: new URL(`/autores/${article.authorSlug}`, siteUrl).toString() }
+      ? { "@type": "Person", name: displayArticle.author, url: new URL(`/autores/${article.authorSlug}`, siteUrl).toString() }
       : { "@id": `${siteUrl.origin}#organization` },
     publisher: {
       "@type": "Organization",
@@ -138,6 +160,7 @@ export default async function ArticlePage({ params }: Props) {
 
   return (
     <article className="story-page">
+      <ReadingProgress />
       <JsonLd data={jsonLd} />
       <JsonLd data={{
         "@context": "https://schema.org",
@@ -192,7 +215,6 @@ export default async function ArticlePage({ params }: Props) {
       <div className="story-body-layout">
         <aside className="story-aside"><span>KIOO / JOURNAL</span><span>{en ? <>READING<br />WITH CONTEXT.</> : <>UMA LEITURA<br />COM CONTEXTO.</>}</span><Link href="/sobre">{en ? "Our principles" : "Os nossos princípios"} <ArrowUpRight size={14} /></Link></aside>
         <div className="story-body">
-          {en && !hasEnglishCopy && <p className="original-language-note">This article is available in its original language.</p>}
           <ArticleMarkdown content={content} />
           {article.sources && article.sources.length > 0 && (
             <section className="article-sources">

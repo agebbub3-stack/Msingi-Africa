@@ -5,6 +5,7 @@ import { ProfileCard } from "@/components/profile-card";
 import { getPublishedBiographies } from "@/lib/public-content";
 import { getLocale } from "@/lib/locale.server";
 import { createPageMetadata } from "@/lib/page-metadata";
+import { hasContentForLocale } from "@/lib/localized-editorial";
 
 export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
@@ -24,6 +25,9 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function BiographiesPage() {
   const [biographies, locale] = await Promise.all([getPublishedBiographies(), getLocale()]);
   const en = locale === "en";
+  const visibleBiographies = en
+    ? biographies.filter((profile) => hasContentForLocale(profile, locale))
+    : biographies;
   return (
     <>
       <section className="bio-masthead">
@@ -39,9 +43,9 @@ export default async function BiographiesPage() {
         </div>
       </section>
       <section className="people-section section-pad bio-archive">
-        <div className="archive-label-row"><span>{en ? "FEATURED" : "EM DESTAQUE"}</span><span>{String(biographies.length).padStart(2, "0")} {en ? "JOURNEYS" : "PERCURSOS"}</span></div>
+        <div className="archive-label-row">        <span>{en ? "FEATURED" : "EM DESTAQUE"}</span><span>{String(visibleBiographies.length).padStart(2, "0")} {en ? "JOURNEYS" : "PERCURSOS"}</span></div>
         <div className="profile-grid">
-          {biographies.map((profile) => <ProfileCard key={profile.slug} profile={profile} locale={locale} />)}
+          {visibleBiographies.map((profile) => <ProfileCard key={profile.slug} profile={profile} locale={locale} />)}
         </div>
         <div className="bio-suggest">
           <div>

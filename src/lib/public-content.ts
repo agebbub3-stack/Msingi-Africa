@@ -85,6 +85,7 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
       personField: articles.personField,
       personRole: articles.personRole,
       bodyMarkdown: articles.bodyMarkdown,
+      locale: articles.locale,
       authorName: user.name,
       authorSlug: creatorProfiles.slug,
       isFeatured: articles.isFeatured,
@@ -158,6 +159,7 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
       personCountry: row.personCountry,
       personField: row.personField,
       personRole: row.personRole,
+      locale: row.locale,
       author: row.authorName,
       authorSlug: row.authorSlug,
       isFeatured: row.isFeatured,
@@ -259,6 +261,7 @@ export async function getPublishedBiographies() {
       country: articles.personCountry,
       role: articles.personRole,
       bodyMarkdown: articles.bodyMarkdown,
+      locale: articles.locale,
       isFeatured: articles.isFeatured,
       isSponsored: articles.isSponsored,
       sponsorDisclosure: articles.sponsorDisclosure,
@@ -283,11 +286,12 @@ export async function getPublishedBiographies() {
       sponsorDisclosure: row.sponsorDisclosure,
       partnerName: editorialProfile?.partnerName,
       partnerLogoUrl: editorialProfile?.partnerLogoUrl,
-      monogram: row.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase(),
+      monogram: editorialProfile?.monogram ?? row.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase(),
       accent: editorialProfile?.accent ?? "sage",
       body: row.bodyMarkdown.split(/\n{2,}/).filter(Boolean),
       portrait: editorialProfile?.portrait,
       sources: editorialProfile?.sources,
+      locale: row.locale,
     };
   });
 }

@@ -11,6 +11,7 @@ import { getLocale } from "@/lib/locale.server";
 import {
   hasEnglishArticleCopy,
   hasEnglishBiographyCopy,
+  hasContentForLocale,
   localizeArticle,
   localizeBiography,
 } from "@/lib/localized-editorial";
@@ -23,13 +24,19 @@ export default async function HomePage() {
     getPublishedBiographies(),
     getLocale(),
   ]);
-  const [lead, ...latestArticles] = publishedArticles;
-  const digitalEconomyArticle = publishedArticles.find(
+  const visibleArticles = locale === "en"
+    ? publishedArticles.filter((article) => hasContentForLocale(article, locale))
+    : publishedArticles;
+  const visibleBiographies = locale === "en"
+    ? biographies.filter((profile) => hasContentForLocale(profile, locale))
+    : biographies;
+  const [lead, ...latestArticles] = visibleArticles;
+  const digitalEconomyArticle = visibleArticles.find(
     (article) => article.slug === "inclusao-digital-africa-uso-internet-movel",
   );
   const gsmaSource = digitalEconomyArticle?.sources?.find((source) => source.publisher === "GSMA");
   const carouselStories = [
-    ...publishedArticles.slice(0, 3).map((article) => {
+    ...visibleArticles.slice(0, 3).map((article) => {
       const localizedArticle = localizeArticle(article, locale);
       return {
         href: `/artigos/${article.slug}`,
@@ -46,7 +53,7 @@ export default async function HomePage() {
         isOriginalLanguage: locale === "en" && !hasEnglishArticleCopy(article.slug),
       };
     }),
-    ...biographies.slice(0, 1).map((profile) => {
+    ...visibleBiographies.slice(0, 1).map((profile) => {
       const localizedProfile = localizeBiography(profile, locale);
       return {
         href: `/biografias/${profile.slug}`,
@@ -191,7 +198,7 @@ export default async function HomePage() {
           <Link className="text-link heading-link" href="/biografias">{translate(locale, "allBiographies")} <ArrowRight size={15} /></Link>
         </div>
         <div className="profile-grid">
-          {biographies.map((profile) => <ProfileCard key={profile.slug} profile={profile} locale={locale} />)}
+          {visibleBiographies.map((profile) => <ProfileCard key={profile.slug} profile={profile} locale={locale} />)}
         </div>
       </ScrollReveal>
 

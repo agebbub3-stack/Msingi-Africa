@@ -4,6 +4,8 @@ import Link from "next/link";
 import { getPublishedArticles } from "@/lib/public-content";
 import { getLocale } from "@/lib/locale.server";
 import { createPageMetadata } from "@/lib/page-metadata";
+import { localizeArticle } from "@/lib/localized-editorial";
+import { localizeCategory } from "@/lib/i18n";
 
 export const dynamic = "force-dynamic";
 
@@ -97,9 +99,9 @@ export default async function DebatesPage() {
               <article className="debate-card" key={article.slug}>
                 <span className="debate-card-index">{String(index + 1).padStart(2, "0")}</span>
                 <div className="debate-card-content">
-                  <span className="section-kicker">{article.category}</span>
+                  <span className="section-kicker">{localizeCategory(article.category, locale)}</span>
                   <h3>{question}</h3>
-                  <p>{en ? "Based on" : "A partir de"}: <Link href={`/artigos/${article.slug}`}>{article.title}</Link></p>
+                  <p>{en ? "Based on" : "A partir de"}: <Link href={`/artigos/${article.slug}`}>{localizeArticle(article, locale).title}</Link></p>
                 </div>
                 <Link className="debate-card-link" href={`/artigos/${article.slug}#comentarios`}>
                   <MessageCircle size={16} aria-hidden="true" />

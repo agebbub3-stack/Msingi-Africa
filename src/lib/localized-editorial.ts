@@ -1,5 +1,5 @@
 import type { Article, Biography } from "@/lib/content";
-import type { Locale } from "@/lib/i18n";
+import { localizeCategory, localizeCountry, type Locale } from "@/lib/i18n";
 
 type ArticleCopy = Pick<Article, "title" | "standfirst" | "imageAlt"> & {
   markdown?: string;
@@ -10,6 +10,9 @@ type ArticleCopy = Pick<Article, "title" | "standfirst" | "imageAlt"> & {
 };
 type BiographyCopy = Pick<Biography, "role" | "summary" | "spotlight"> & {
   portraitAlt?: string;
+  seoTitle?: string;
+  seoDescription?: string;
+  seoKeywords?: string[];
 };
 
 const englishArticles: Record<string, ArticleCopy> = {
@@ -77,6 +80,91 @@ const englishArticles: Record<string, ArticleCopy> = {
     title: "Talent is the invisible infrastructure of the digital economy",
     standfirst: "Technology and investment attract attention. The ability to develop, retain and support teams shapes what happens next.",
     imageAlt: "Team collaborating around a work table",
+  },
+  "afcfta-integracao-mercados-africanos": {
+    title: "AfCFTA: turning trade integration into local opportunities",
+    standfirst: "The continental agreement creates a framework for deeper trade between African countries. Its implementation depends on clear rules, logistics, payments and productive capacity.",
+    imageAlt: "Commercial buildings in an African city",
+    seoTitle: "AfCFTA: trade integration across African countries",
+    seoDescription: "What AfCFTA could change in African trade, and which logistical, regulatory and financing barriers still need attention.",
+    seoKeywords: ["AfCFTA", "intra-African trade", "African market", "African economic integration", "African Continental Free Trade Area"],
+  },
+  "desert-to-power-energia-solar-sahel": {
+    title: "Desert to Power: the Sahel's solar ambition and the work ahead",
+    standfirst: "The African Development Bank initiative sets a 10 GW solar-power target for 2030. It is a long-term goal, not capacity already installed.",
+    imageAlt: "Solar panels under intense sunlight",
+    seoTitle: "Desert to Power: solar energy and development in the Sahel",
+    seoDescription: "The African Development Bank's Desert to Power initiative aims to mobilise 10 GW of solar capacity in the Sahel by 2030.",
+    seoKeywords: ["Desert to Power", "solar energy in the Sahel", "African Development Bank", "electricity in Africa", "African renewable energy"],
+  },
+  "africa-cdc-seguranca-sanitaria-capacidade-local": {
+    title: "Health security in Africa starts with local public capacity",
+    standfirst: "Africa CDC highlights surveillance, health institutions and coordinated response. Lasting preparedness requires funding, community trust and transparency.",
+    imageAlt: "Health professionals in a clinical setting",
+    seoTitle: "Africa CDC and health security in Africa",
+    seoDescription: "An analysis of surveillance, health-system capacity and continental cooperation, based on Africa CDC's public mandate.",
+    seoKeywords: ["Africa CDC", "public health in Africa", "African health security", "epidemic preparedness", "African health systems"],
+  },
+  "ashesi-educacao-lideranca-empreendedorismo-africa": {
+    title: "Ashesi and the ambition to educate entrepreneurial African leaders",
+    standfirst: "The Ghanaian university presents ethics, entrepreneurship and leadership as pillars of its mission. The challenge is turning educational ambition into access and lasting outcomes.",
+    imageAlt: "Students on a university campus",
+    seoTitle: "Ashesi University: education, leadership and innovation in Africa",
+    seoDescription: "Ashesi University's educational model in Ghana emphasises ethical leadership and entrepreneurship, with Patrick Awuah as its founder.",
+    seoKeywords: ["Ashesi University", "higher education in Ghana", "Patrick Awuah", "African entrepreneurship", "ethical leadership in Africa"],
+  },
+  "industria-africana-valor-acrescentado-producao-local": {
+    title: "Local production in Africa: jobs, scale and difficult questions",
+    standfirst: "Industrialisation is often framed around value addition and jobs. Regional conglomerates also raise questions about competition, costs and impact.",
+    imageAlt: "Industrial production facility",
+    seoTitle: "African industrialisation: local production and value addition",
+    seoDescription: "What local production can mean for jobs and value chains, and which evidence helps assess its results.",
+    seoKeywords: ["industrialisation in Africa", "African local production", "value addition", "industrial employment", "Dangote Group"],
+  },
+  "ngozi-okonjo-iweala": {
+    title: "Ngozi Okonjo-Iweala",
+    standfirst: "A profile of the Nigerian economist whose career spans public finance, development and international trade.",
+    imageAlt: "Biographical profile of Ngozi Okonjo-Iweala",
+    personRole: "Economist and international leader",
+    seoTitle: "Ngozi Okonjo-Iweala: economics and global leadership",
+    seoDescription: "A profile of Nigerian economist Ngozi Okonjo-Iweala, whose career includes leading the World Trade Organization.",
+    seoKeywords: ["Ngozi Okonjo-Iweala", "African women economists", "international trade", "Nigeria", "World Trade Organization"],
+  },
+  "aliko-dangote": {
+    title: "Aliko Dangote",
+    standfirst: "A Nigerian businessman associated with the expansion of industrial operations in cement, food and energy.",
+    imageAlt: "Biographical profile of Aliko Dangote",
+    personRole: "Founder of Dangote Group",
+    seoTitle: "Aliko Dangote: industry and local production in Africa",
+    seoDescription: "A profile of Aliko Dangote and the industrial strategy of the group he founded, distinguishing company statements from independent findings.",
+    seoKeywords: ["Aliko Dangote", "Dangote Group", "African business leaders", "industry in Nigeria", "local production in Africa"],
+  },
+  "vera-songwe": {
+    title: "Vera Songwe",
+    standfirst: "A Cameroonian economist whose career includes roles at the World Bank, IFC and the United Nations Economic Commission for Africa.",
+    imageAlt: "Biographical profile of Vera Songwe",
+    personRole: "Economist and development specialist",
+    seoTitle: "Vera Songwe: economics and finance for Africa",
+    seoDescription: "A profile of economist Vera Songwe, focusing on her experience in development, fiscal policy and sustainable finance.",
+    seoKeywords: ["Vera Songwe", "African women economists", "climate finance", "Economic Commission for Africa", "African development"],
+  },
+  "patrick-awuah": {
+    title: "Patrick Awuah",
+    standfirst: "A Ghanaian entrepreneur and educator associated with founding Ashesi University and its mission to develop ethical, entrepreneurial leaders.",
+    imageAlt: "Biographical profile of Patrick Awuah",
+    personRole: "Founder of Ashesi University",
+    seoTitle: "Patrick Awuah: education and leadership in Ghana",
+    seoDescription: "Meet Patrick Awuah, founder of Ashesi University, and the educational mission connecting ethical leadership with entrepreneurship.",
+    seoKeywords: ["Patrick Awuah", "Ashesi University", "education in Ghana", "African entrepreneurship", "ethical leadership"],
+  },
+  "abdulrazak-gurnah": {
+    title: "Abdulrazak Gurnah",
+    standfirst: "The Zanzibar-born writer and Nobel laureate explores colonialism, displacement and the experience of living between cultures.",
+    imageAlt: "Biographical profile of Abdulrazak Gurnah",
+    personRole: "Writer and Nobel Prize laureate in Literature",
+    seoTitle: "Abdulrazak Gurnah: literature, memory and displacement",
+    seoDescription: "A profile of writer Abdulrazak Gurnah, the 2021 Nobel Prize in Literature laureate born in Zanzibar, Tanzania.",
+    seoKeywords: ["Abdulrazak Gurnah", "2021 Nobel Prize in Literature", "African literature", "Zanzibar", "Tanzanian writers"],
   },
 };
 
@@ -251,6 +339,81 @@ Among the projects associated with Isaac, SoftEdge highlights AKIRA, an artifici
 ## Public presence and professional journey
 
 Isaac maintains a GitHub profile with information about his development work and an X profile associated with SoftEdge. His public journey brings together software development, business leadership and the creation of an AI product. As this is an evolving career, this profile distinguishes autobiographical information, company statements and advertised product features from claims that would require independent confirmation.`,
+  "afcfta-integracao-mercados-africanos": `The African Continental Free Trade Area (AfCFTA) is an African Union economic integration agreement. Its goal is to reduce barriers to trade between African countries and support the movement of goods, services and investment. The official portal includes areas such as digital trade and investment protection within the agreement's agenda.
+
+## An agreement is not yet a borderless market
+
+A continental framework does not automatically remove differences in customs procedures, documentation, product standards, rules of origin and port processes. For an exporting business, the actual cost also depends on reliable transport, access to foreign currency, cross-border payments and up-to-date information about requirements in the destination country.
+
+## Continental scale starts with local decisions
+
+Small and medium-sized businesses need to know where to find buyers, how to certify products and what costs to expect before investing in expansion. Chambers of commerce, trade associations and public agencies can make the rules easier to understand, but implementation varies by country and should be assessed with national data.
+
+## What to watch next
+
+AfCFTA identifies digital trade and investment as areas of work. The practical impact will depend on enforceable rules, infrastructure, competition and dispute-resolution mechanisms. A responsible reading distinguishes the agreement's goals and institutional framework from outcomes that still need to be measured.
+
+Integration can widen opportunities, but it does not by itself guarantee that gains will be shared fairly. Businesses, workers and governments will need to track who can access new markets, which sectors face adjustment costs and whether value is retained in local economies.`,
+  "desert-to-power-energia-solar-sahel": `The African Development Bank describes the Desert to Power initiative as an effort to harness the solar potential of Sahel countries. Its stated goal is to mobilise 10 gigawatts of solar generation capacity by 2030 through public and private projects, both on-grid and off-grid.
+
+## A target that depends on complete systems
+
+Panels and power plants are only part of the infrastructure. Electricity must reach users through grids, mini-grids or decentralised solutions that can be maintained. The effort also requires procurement rules, sustainable financing, storage, grid management and local technical capacity.
+
+## What the target does not mean
+
+The 10 GW figure is a 2030 goal announced by the bank, not a claim that this capacity has already been built or is operating. The institutional page brings together different kinds of projects; tracking delivery requires country-level updates, approved financing, completed construction and electricity actually supplied.
+
+## Benefits and safeguards
+
+Solar projects can help increase energy supply, but their value depends on cost, reliability and fit with community needs. Assessment should consider land use, local consultation, hiring and training, equipment maintenance, and the final price for households and businesses.
+
+The Sahel's energy transition is not simply a choice of technology. The challenge is to turn potential and investment into reliable services without confusing announcements, targets and results. The African Development Bank is the source for the target cited here; this analysis is not an independent audit of the portfolio.`,
+  "africa-cdc-seguranca-sanitaria-capacidade-local": `Africa CDC is the African Union's public health agency. It describes its work as strengthening the capacity of health services and institutions to detect and respond to threats, through data-led interventions and cooperation between countries.
+
+## Preparedness that works between crises
+
+Disease surveillance, laboratories, response teams and public communication need to function before an emergency. When these capabilities depend only on temporary funding, continuity can be lost between outbreaks. Investing in health systems includes training, maintenance, usable data and conditions that help health professionals remain in service.
+
+## Regional production and access
+
+Africa CDC also highlights the Partnerships for African Vaccine Manufacturing (PAVM) in its institutional work. Developing regional manufacturing capacity is both an industrial and a public-health issue: it requires regulatory quality, research, predictable investment, sustainable procurement and supply chains. The existence of an initiative does not, by itself, prove that these barriers have been resolved.
+
+## Trust and accountability
+
+An effective response depends on clear information, community participation and trust in services. Transparency about funding, outcomes and limitations helps distinguish confirmed data from projections or institutional statements. Needs and risks vary by country, so a continental initiative does not replace guidance from local health authorities.
+
+This analysis describes the mandate and priorities published by Africa CDC; it is not medical advice or an epidemiological bulletin. For current alerts and recommendations, consult Africa CDC and your country's health authorities.`,
+  "ashesi-educacao-lideranca-empreendedorismo-africa": `Ashesi University in Ghana presents the education of ethical and entrepreneurial leaders as part of its mission. The Ashesi Foundation's institutional page identifies Patrick Awuah as its founder and president and connects the organisation's work with supporting the university's educational mission.
+
+## From education to problem-solving capacity
+
+The idea of combining technical knowledge, ethics and enterprise addresses a practical question: how can students be prepared to create value in diverse economic and social contexts? Curriculum, campus experience, employer links and the ability to afford education all shape both the student experience and opportunities after graduation.
+
+## What needs to be measured
+
+Institutional ambition should be assessed against verifiable indicators: access for students from different backgrounds, course completion, employment and entrepreneurship after graduation, teaching quality and financial sustainability. A narrative of innovation does not replace evidence about these outcomes.
+
+## A conversation about what can be replicated
+
+Educational models do not transfer automatically from one country to another. Scale depends on teachers, accreditation, funding, infrastructure and local priorities. Ashesi's experience can inform debate about African higher education when examined in context, without assuming there is one formula for the continent.
+
+The source used here is institutional and describes the foundation's mission and leadership. Kioo Africa has not independently assessed Ashesi's academic outcomes; impact data should be checked against official publications and independent studies.`,
+  "industria-africana-valor-acrescentado-producao-local": `Producing locally goods that were previously imported can develop skills, suppliers and jobs, but the effect depends on the sector, production costs and access to markets. Dangote Group describes its strategy as focused on local production of essential goods and industrial operations across several sectors. This is the company's position, not an independent impact assessment.
+
+## Business scale and value chains
+
+Large-scale industrial operations can require reliable energy, transport, long-term financing and suppliers able to meet consistent standards. Sourcing raw materials locally and developing suppliers can distribute some value through the economy; there may also be import dependence, market concentration or costs passed on to consumers.
+
+## The continental market as an opportunity
+
+AfCFTA aims to reduce barriers to trade between countries and could expand the potential market for African businesses. Turning that potential into sales still depends on rules of origin, customs, logistics, payments and technical standards. A factory being located on the continent does not automatically mean its products can move easily across it.
+
+## How to assess impact
+
+A full analysis asks how many jobs were created and on what terms, what share of inputs is sourced locally, what taxes are paid, how prices and competition change, and what the environmental costs are. Corporate statements and public targets are starting points; verification requires comparable data and independent sources.
+
+Industrialisation is not just about building factories. It connects production, skills, infrastructure, competition and environmental responsibility to measurable outcomes. This article summarises a business perspective and AfCFTA's framework without presenting promotional claims as verified facts.`,
 };
 
 const englishSourceLabels: Record<string, string> = {
@@ -260,12 +423,44 @@ const englishSourceLabels: Record<string, string> = {
   "Quem somos — Isaac Nascimento Quarenta": "About us — Isaac Nascimento Quarenta",
   "Perfil e descrição profissional de Isaac Quarenta": "Isaac Quarenta's profile and professional description",
   "Isaac Quarenta no X": "Isaac Quarenta on X",
-  "Agência Internacional de Energia": "International Energy Agency",
-  "Organização Mundial da Saúde": "World Health Organization",
-  "Banco Mundial": "World Bank",
   "Angola: visão geral económica": "Angola: economic overview",
   "UNESCO destaca o potencial de crescimento da indústria cinematográfica africana": "UNESCO highlights the growth potential of Africa's film industry",
   "Relatório sobre a indústria cinematográfica em África": "Report on Africa's film industry",
+  "Banco Africano de Desenvolvimento": "African Development Bank",
+  "Organização Mundial do Comércio": "World Trade Organization",
+  "Ficheiro: Bethlehem Tilahun Alemu, fundadora da soleRebels": "Bethlehem Tilahun Alemu, founder of soleRebels",
+  "Ficheiro: Mo Abudu": "Mo Abudu",
+  "Ficheiro: Nelly Cheboi no palco após receber o prémio CNN Hero of the Year": "Nelly Cheboi on stage after receiving the CNN Hero of the Year award",
+  "Ficheiro: Rebecca Enonchong durante a E-Commerce Week 2019": "Rebecca Enonchong at E-Commerce Week 2019",
+  "AppsTech: soluções empresariais e história da empresa": "AppsTech: enterprise solutions and company history",
+  "Digitalização e lacunas de competências digitais em África: um perfil empírico": "Digitalisation and digital skills gaps in Africa: an empirical profile",
+  "Iniciativa para a Economia Digital em África": "Africa Digital Economy Initiative",
+  "The Mobile Economy Africa": "The Mobile Economy Africa",
+  "About SunCulture": "About SunCulture",
+  "Our Impact": "Our Impact",
+  "Our Purpose and Our Story": "Our Purpose and Our Story",
+  "Blood safety and availability": "Blood safety and availability",
+  "Heart And Sole": "Heart and Sole",
+  "The Blockbuster Named Nollywood": "The Blockbuster Named Nollywood",
+  "Parcerias para a Produção de Vacinas em África": "Partnerships for African Vaccine Manufacturing",
+  "Africa Centres for Disease Control and Prevention": "Africa Centres for Disease Control and Prevention",
+  "About Ashesi": "About Ashesi",
+  "Ashesi University Foundation": "Ashesi University Foundation",
+  "About Dangote Industries Limited": "About Dangote Industries Limited",
+  "economistas africanas": "African women economists",
+  "comércio internacional": "international trade",
+  "Nigéria": "Nigeria",
+  "empresários africanos": "African business leaders",
+  "indústria na Nigéria": "industry in Nigeria",
+  "produção local em África": "local production in Africa",
+  "financiamento climático": "climate finance",
+  "Comissão Económica para África": "Economic Commission for Africa",
+  "desenvolvimento africano": "African development",
+  "educação no Gana": "education in Ghana",
+  "empreendedorismo africano": "African entrepreneurship",
+  "liderança ética": "ethical leadership",
+  "Nobel de Literatura 2021": "2021 Nobel Prize in Literature",
+  "literatura africana": "African literature",
 };
 
 const englishBiographies: Record<string, BiographyCopy> = {
@@ -313,6 +508,118 @@ const englishBiographies: Record<string, BiographyCopy> = {
     summary: "He helps develop solar-powered pumping and irrigation systems designed for the everyday challenges facing smallholder farmers.",
     spotlight: "He co-founded a company combining solar power, water pumping and irrigation solutions for farms.",
   },
+  "ngozi-okonjo-iweala": {
+    role: "Economist and international leader",
+    summary: "A Nigerian economist whose career spans public finance, development and international trade.",
+    spotlight: "She became the first woman and first African to lead the World Trade Organization in 2021.",
+    seoTitle: "Ngozi Okonjo-Iweala: economics and global leadership",
+    seoDescription: "A profile of Nigerian economist Ngozi Okonjo-Iweala, whose career includes leading the World Trade Organization.",
+    seoKeywords: ["Ngozi Okonjo-Iweala", "African women economists", "international trade", "Nigeria", "World Trade Organization"],
+  },
+  "aliko-dangote": {
+    role: "Founder of Dangote Group",
+    summary: "A Nigerian businessman associated with the expansion of industrial operations in cement, food and energy.",
+    spotlight: "He founded a diversified group whose operations span cement, food, fertiliser, energy and petrochemicals.",
+    seoTitle: "Aliko Dangote: industry and local production in Africa",
+    seoDescription: "A profile of Aliko Dangote and the industrial strategy of the group he founded, distinguishing company statements from independent findings.",
+    seoKeywords: ["Aliko Dangote", "Dangote Group", "African business leaders", "industry in Nigeria", "local production in Africa"],
+  },
+  "vera-songwe": {
+    role: "Economist and development specialist",
+    summary: "A Cameroonian economist whose career includes roles at the World Bank, IFC and the United Nations Economic Commission for Africa.",
+    spotlight: "Her work spans economic policy, development finance, agriculture and climate-related investment.",
+    seoTitle: "Vera Songwe: economics and finance for Africa",
+    seoDescription: "A profile of economist Vera Songwe, focusing on her experience in development, fiscal policy and sustainable finance.",
+    seoKeywords: ["Vera Songwe", "African women economists", "climate finance", "Economic Commission for Africa", "African development"],
+  },
+  "patrick-awuah": {
+    role: "Founder of Ashesi University",
+    summary: "A Ghanaian entrepreneur and educator associated with founding Ashesi University and its mission to develop ethical, entrepreneurial leaders.",
+    spotlight: "He founded Ashesi University, an institution whose mission emphasises ethical leadership and entrepreneurship.",
+    seoTitle: "Patrick Awuah: education and leadership in Ghana",
+    seoDescription: "Meet Patrick Awuah, founder of Ashesi University, and the educational mission connecting ethical leadership with entrepreneurship.",
+    seoKeywords: ["Patrick Awuah", "Ashesi University", "education in Ghana", "African entrepreneurship", "ethical leadership"],
+  },
+  "abdulrazak-gurnah": {
+    role: "Writer and Nobel Prize laureate in Literature",
+    summary: "The Zanzibar-born writer explores colonialism, displacement and the experience of living between cultures.",
+    spotlight: "The 2021 Nobel Prize in Literature recognised his writing on colonialism and the lives shaped by displacement.",
+    seoTitle: "Abdulrazak Gurnah: literature, memory and displacement",
+    seoDescription: "A profile of writer Abdulrazak Gurnah, the 2021 Nobel Prize in Literature laureate born in Zanzibar, Tanzania.",
+    seoKeywords: ["Abdulrazak Gurnah", "2021 Nobel Prize in Literature", "African literature", "Zanzibar", "Tanzanian writers"],
+  },
+};
+
+const englishBiographyBodies: Record<string, string[]> = {
+  "nelly-cheboi": [
+    "Nelly Cheboi is a Kenyan software engineer and founder of TechLit Africa, a non-profit that introduces digital skills in rural schools. Her work connects education, technology and the belief that access to digital tools can expand opportunities for young people.",
+    "In a 2023 report, CNN described TechLit Africa's work with refurbished computers and students in Mogotio, Kenya. The report also recorded that Cheboi was named CNN Hero of the Year for 2022. These details refer to the period covered by the report, not an update on the programme's current scale.",
+    "The organisation says it sets up computer labs in rural primary schools, offers regular digital lessons and supports students with local teachers. Its institutional page reports the programme's reach and results using its own data.",
+    "Cheboi's journey shifts the conversation about innovation beyond apps and funding rounds. Skills, teachers, equipment and continuity are all part of the infrastructure needed for more people to participate in the digital economy.",
+  ],
+  "rebecca-enonchong": [
+    "Rebecca Enonchong is a Cameroonian technology entrepreneur and founder of AppsTech, an international enterprise software company. Her work brings together business, technology and efforts to broaden African entrepreneurs' presence in global conversations.",
+    "Over the course of her career, she has become a prominent voice for founders and professionals building technology on the continent. Her participation in entrepreneurship and innovation networks highlights issues including access to capital, public policy and cooperation between ecosystems.",
+    "Enonchong's story is also a reminder that building technology in Africa means navigating diverse markets, developing teams and advocating for conditions that allow more companies to grow from their communities.",
+  ],
+  "bethlehem-tilahun-alemu": [
+    "Born in Addis Ababa, Bethlehem Tilahun Alemu founded soleRebels in 2005. The footwear brand grew from a desire to create work in her community and bring local craftsmanship to international audiences.",
+    "The company's proposition combines traditional production techniques, locally available materials and a global brand identity. Her journey shows how a creative business can connect local employment, knowledge and access to new markets.",
+    "Alemu has also launched initiatives connected to leather and Ethiopian coffee. Her work broadens conversations about African entrepreneurship beyond the familiar narratives of technology and venture capital.",
+  ],
+  "mo-abudu": [
+    "Mosunmola Abudu, known as Mo Abudu, is a Nigerian media entrepreneur and founder of EbonyLife. Her work is connected to producing and distributing African stories to audiences on and beyond the continent.",
+    "With television, film and distribution partnerships in her career, Abudu has argued that local stories can travel without losing their specificity. The strategy brings together talent development, content production and the building of a recognisable brand.",
+    "EbonyLife represents part of a changing creative industry: one seeking new sources of financing, stronger structures for paying creators and greater control over how its own stories circulate.",
+  ],
+  "temie-giwa-tubosun": [
+    "Temie Giwa-Tubosun is a Nigerian health entrepreneur and founder of LifeBank. Her work starts from a practical problem: essential products only help when a supply network can locate them and deliver them to the people who need them.",
+    "TED describes LifeBank as a company founded in 2016 to build a healthcare supply chain serving hospitals in Nigeria and Kenya. The profile describes operations using different forms of transport and coordinating deliveries with hospitals' needs. This information is presented by TED in its profile of the founder and company.",
+    "Giwa-Tubosun's work draws attention to a less visible dimension of innovation: connecting data, inventory, transport and teams on the ground. In healthcare, a solution depends as much on operational reliability as on the technology it uses.",
+    "The World Health Organization recommends integrated and coordinated networks to support blood safety and availability. That context helps explain the importance of the challenge, but should not be mistaken for an independent assessment of LifeBank's specific impact.",
+  ],
+  "iyinoluwa-aboyeji": [
+    "Iyinoluwa Aboyeji is a Nigerian entrepreneur associated with two important stages of Africa's technology ecosystem: developing talent for the digital industry and building payments infrastructure.",
+    "A 2018 Forbes profile describes Aboyeji as a co-founder of two African startups before launching Flutterwave in 2017. It identifies Andela as one of his earlier projects and presents funding and activity figures from that time. Those figures are historical, not current metrics.",
+    "The path from Andela to Flutterwave brings together two distinct market needs: connecting professionals with technology opportunities and making payments more accessible to businesses operating across borders. In both cases, continental ambitions depend on execution across different regulatory, financial and linguistic contexts.",
+    "The experience described by Forbes invites readers to consider how different companies address complementary needs in the ecosystem. The profile dates from 2018; current information is needed to assess the organisations today.",
+  ],
+  "samir-ibrahim": [
+    "Samir Ibrahim is an entrepreneur working at the intersection of clean energy and agriculture in Kenya. He co-founded SunCulture, which develops off-grid solar systems to address needs such as water access, irrigation and energy on small farms.",
+    "SunCulture's institutional page describes systems combining solar pumping and drip irrigation, alongside instalment payments, installation and support. These features are reported by the company; performance and returns depend on each farm's conditions.",
+    "A 2017 Forbes profile identifies Ibrahim as a SunCulture co-founder and describes the company's solar irrigation systems. Productivity and water-saving figures cited in that profile were company estimates at the time, not independent measurements or current results.",
+    "Ibrahim's work shows how energy, agriculture and finance can come together in a product aimed at everyday needs. It also raises questions that accompany innovation: who can afford the equipment, how it is maintained, where the water comes from and what evidence exists about long-term outcomes.",
+  ],
+  "ngozi-okonjo-iweala": [
+    "Ngozi Okonjo-Iweala is a Nigerian economist whose career has included public policy, development and international trade. The World Trade Organization records that she took office as its director-general in March 2021, becoming the first woman and first African to hold the role.",
+    "Her career is relevant to discussions about African representation in multilateral institutions and the relationship between trade, finance and development. The WTO's institutional profile brings together information about her mandate and work; roles and dates should be checked against the organisation's latest updates.",
+    "Rather than reducing a career to one position, this profile highlights movement between national and global institutions. Assessing a leader's impact means distinguishing a biography from decisions made by a collective organisation and considering the concrete outcomes of specific policies.",
+    "The sources consulted are institutional. This profile does not attribute economic outcomes involving many actors to the economist alone, nor does it replace analysis of the decisions made during each mandate.",
+  ],
+  "aliko-dangote": [
+    "Aliko Dangote is a Nigerian businessman and founder of Dangote Group. The group's institutional page describes a diversified company operating in sectors including cement, food, fertiliser, energy and petrochemicals, and presents local production as part of its strategy.",
+    "The group dates the beginning of Dangote's commercial career to 1978 and links its growth to a shift from trading to industrial production. These biographical details and the account of the strategy come from the company; they are not an independent audit of operations or their impact.",
+    "Industrial scale raises important economic questions: which local suppliers participate, what jobs are created, how competition changes and how production costs affect consumers. The answers vary by sector and country and require evidence beyond corporate communications.",
+    "Dangote's story is useful for discussing African industrialisation without assuming that company size automatically means inclusive development. Analysis should consider productivity, working conditions, tax, environmental effects and how value is distributed across supply chains.",
+  ],
+  "vera-songwe": [
+    "Vera Songwe is a Cameroonian economist and non-resident fellow with the Africa Growth Initiative at the Brookings Institution. Her institutional profile describes a career that includes chairing the board of the Liquidity and Sustainability Facility and co-leading the Food System Economics Commission.",
+    "Before those roles, Songwe served as a United Nations under-secretary-general and executive secretary of the United Nations Economic Commission for Africa. She also worked at the World Bank and the International Finance Corporation in roles connected to development, economic policy and operations in African countries.",
+    "Brookings associates her work with fiscal policy, financing mechanisms, agriculture, energy and economic governance. These subjects are interconnected: debt and liquidity decisions influence the room available for public investment, while agriculture and energy shape employment and resilience.",
+    "This profile draws on Brookings' professional biography, which may be updated over time. Describing positions is not an independent evaluation of the institutions or policies with which the economist has been associated.",
+  ],
+  "patrick-awuah": [
+    "Patrick Awuah is a Ghanaian educator and entrepreneur associated with founding Ashesi University. The Ashesi Foundation identifies him as its founder and president and presents its work as supporting the university's mission to educate ethical and entrepreneurial leaders.",
+    "Ashesi is often part of discussions about higher education, skills development and innovation on the continent. The institution defines its own mission; assessing its impact requires further information about access, academic quality, graduation and opportunities for alumni.",
+    "Awuah's journey makes it possible to discuss the relationship between individual initiative and lasting institutions. Creating a university takes more than an idea: it requires accreditation, faculty, funding, governance and the trust of students and families.",
+    "This profile distinguishes Ashesi's institutional account from an independent measurement of outcomes. The source may update roles and the foundation's structure, so its information should be read in the context of its publication date.",
+  ],
+  "abdulrazak-gurnah": [
+    "Abdulrazak Gurnah is a writer born in Zanzibar, Tanzania, and the 2021 Nobel Prize in Literature laureate. The Nobel Committee recognised his writing for its treatment of colonialism and the experience of refugees across cultures and continents.",
+    "According to the biography published by the Nobel Prize, Gurnah grew up in Zanzibar and left the island in the 1960s amid the persecution of people of Arab origin. He later settled in England. The Nobel account places displacement and East African history within the context of his work.",
+    "Gurnah's writing invites readers to consider how memory, migration and colonialism shape individual lives. His significance extends beyond representing a region: his novels explore the complexity of identities and experiences that do not fit a single story about Africa.",
+    "This profile summarises biographical information and the prize citation published by the Nobel Prize. To understand the work, readers should engage with the books and literary criticism rather than treating an award as a substitute for interpretation.",
+  ],
 };
 
 const englishMonths: Record<string, string> = {
@@ -340,11 +647,24 @@ function localizeDate(date: string) {
 
 export function localizeArticle(article: Article, locale: Locale): Article {
   if (locale !== "en") return article;
-  const copy = englishArticles[article.slug];
-  if (!copy) return article;
+  const articleCopy = englishArticles[article.slug];
+  const biographyCopy = article.kind === "biography" ? englishBiographies[article.slug] : undefined;
+  if (!articleCopy && !biographyCopy) return article;
   return {
     ...article,
-    ...copy,
+    ...articleCopy,
+    ...(biographyCopy ? {
+      standfirst: biographyCopy.summary,
+      personRole: biographyCopy.role,
+      seoTitle: biographyCopy.seoTitle ?? articleCopy?.seoTitle,
+      seoDescription: biographyCopy.seoDescription ?? articleCopy?.seoDescription,
+      seoKeywords: biographyCopy.seoKeywords ?? articleCopy?.seoKeywords,
+      imageAlt: biographyCopy.portraitAlt ?? article.imageAlt,
+      category: localizeCategory(article.category, locale),
+      personField: localizeCategory(article.personField ?? article.category, locale),
+      personCountry: article.personCountry ? localizeCountry(article.personCountry, locale) : article.personCountry,
+    } : {}),
+    ...(englishBiographyBodies[article.slug] ? { markdown: englishBiographyBodies[article.slug].join("\n\n") } : {}),
     ...(englishArticleBodies[article.slug] ? { markdown: englishArticleBodies[article.slug] } : {}),
     ...(article.partnerName
       ? {
@@ -357,7 +677,10 @@ export function localizeArticle(article: Article, locale: Locale): Article {
           sources: article.sources.map((source) => ({
             ...source,
             title: englishSourceLabels[source.title] ?? source.title,
-            publisher: source.publisher ? englishSourceLabels[source.publisher] ?? source.publisher : null,
+            publisher: source.publisher
+              ? englishSourceLabels[source.publisher]
+                ?? (source.publisher === "Wikimedia Commons / UNCTAD" ? "Wikimedia Commons / UNCTAD" : source.publisher)
+              : null,
           })),
         }
       : {}),
@@ -367,7 +690,14 @@ export function localizeArticle(article: Article, locale: Locale): Article {
 }
 
 export function hasEnglishArticleCopy(slug: string) {
-  return slug in englishArticles;
+  return slug in englishArticles || slug in englishBiographies;
+}
+
+export function hasContentForLocale(content: { slug: string; locale?: string }, locale: Locale) {
+  if (locale === "en") {
+    return hasEnglishArticleCopy(content.slug) || content.locale?.toLowerCase().startsWith("en") === true;
+  }
+  return content.locale === undefined || content.locale.toLowerCase().startsWith("pt");
 }
 
 export function localizeBiography(profile: Biography, locale: Locale): Biography {
@@ -378,6 +708,11 @@ export function localizeBiography(profile: Biography, locale: Locale): Biography
   return {
     ...profile,
     ...localizedCopy,
+    body: englishBiographyBodies[profile.slug]
+      ?? englishArticleBodies[profile.slug]?.split(/\n\n+/).filter(Boolean)
+      ?? profile.body,
+    country: localizeCountry(profile.country, locale),
+    field: localizeCategory(profile.field, locale),
     portrait: profile.portrait && portraitAlt
       ? { ...profile.portrait, alt: portraitAlt }
       : profile.portrait,
