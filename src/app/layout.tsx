@@ -26,11 +26,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const siteUrl = getSiteUrl();
   const title = locale === "en"
-    ? "Kioo Africa — African markets, ideas and people"
-    : "Kioo Africa — Mercados, inovação e perfis africanos";
+    ? "Kioo Africa | African Business, Markets & Biographies"
+    : "Kioo Africa | Negócios, mercados e biografias africanas";
   const description = locale === "en"
-    ? "Independent journalism, biographies and market analysis to understand what is changing across Africa."
-    : "Jornalismo independente, biografias e análise de mercados para compreender o que está a mudar em África.";
+    ? "Independent African journalism and research on business, markets, innovation and the people shaping the continent."
+    : "Jornalismo e pesquisa independente sobre negócios, mercados, inovação e as pessoas que estão a transformar África.";
   const verification: NonNullable<Metadata["verification"]> = {};
   if (process.env.GOOGLE_SITE_VERIFICATION) {
     verification.google = process.env.GOOGLE_SITE_VERIFICATION;
@@ -76,13 +76,15 @@ export default async function RootLayout({
           "@type": "Organization",
           "@id": `${siteUrl.origin}#organization`,
           name: "Kioo Africa",
-          alternateName: "Kioo",
           slogan: "Pessoas, ideias e mercados africanos.",
           url: siteUrl.origin,
           logo: new URL("/brand-mark.svg", siteUrl).toString(),
           description: locale === "en"
-            ? "Independent editorial and research group focused on African people, ideas and markets."
-            : "Grupo editorial e de pesquisa independente dedicado a pessoas, ideias e mercados africanos.",
+            ? "Independent African editorial and research publication covering business, markets, innovation, biographies and ideas."
+            : "Publicação editorial e de pesquisa independente sobre negócios, mercados, inovação, biografias e ideias africanas.",
+          disambiguatingDescription: locale === "en"
+            ? "An independent African business and markets publication, not an entertainment or lifestyle directory."
+            : "Uma publicação independente sobre negócios e mercados africanos, não um diretório de entretenimento ou estilo de vida.",
           publishingPrinciples: new URL("/sobre#principios", siteUrl).toString(),
           areaServed: { "@type": "Continent", name: "África" },
         }} />
@@ -91,7 +93,6 @@ export default async function RootLayout({
           "@type": "WebSite",
           "@id": `${siteUrl.origin}#website`,
           name: "Kioo Africa",
-          alternateName: "Kioo",
           url: siteUrl.origin,
           inLanguage: locale === "en" ? "en" : ["pt-AO", "pt-PT"],
           publisher: { "@id": `${siteUrl.origin}#organization` },
