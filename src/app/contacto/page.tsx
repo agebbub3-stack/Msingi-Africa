@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact-form";
+import { JsonLd } from "@/components/json-ld";
 import { getLocale } from "@/lib/locale.server";
 import { createPageMetadata } from "@/lib/page-metadata";
 import { KIOO_FACEBOOK_URL } from "@/lib/social-links";
+import { getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
@@ -22,8 +24,18 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function ContactPage() {
   const locale = await getLocale();
   const en = locale === "en";
+  const siteUrl = getSiteUrl();
   return (
     <section className="dashboard-page section-pad contact-page">
+      <JsonLd data={{
+        "@context": "https://schema.org",
+        "@type": "ContactPage",
+        "@id": new URL("/contacto#webpage", siteUrl).toString(),
+        url: new URL("/contacto", siteUrl).toString(),
+        name: en ? "Contact Kioo Africa" : "Contactar a redação da Kioo Africa",
+        about: { "@id": `${siteUrl.origin}#organization` },
+        publisher: { "@id": `${siteUrl.origin}#organization` },
+      }} />
       <header className="dashboard-header">
         <span className="section-kicker">{en ? "AN OPEN CONVERSATION" : "UMA CONVERSA ABERTA"}</span>
         <h1>{en ? <>Talk to the<br /><em>newsroom.</em></> : <>Fale com a<br /><em>redação.</em></>}</h1>
@@ -51,7 +63,7 @@ export default async function ContactPage() {
             <span>04</span>
             <div>
               <h3>{en ? "Follow Kioo Africa Angola" : "Siga a Kioo Africa Angola"}</h3>
-              <p><a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">Facebook <span aria-hidden="true">↗</span></a></p>
+              <p><a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer" aria-label={en ? "Official Kioo Africa Angola Facebook page" : "Página oficial da Kioo Africa Angola no Facebook"}>{en ? "Official Facebook page" : "Página oficial no Facebook"} <span aria-hidden="true">↗</span></a></p>
             </div>
           </div>
         </aside>

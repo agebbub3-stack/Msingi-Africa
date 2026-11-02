@@ -77,6 +77,7 @@ export default async function RootLayout({
           "@type": "Organization",
           "@id": `${siteUrl.origin}#organization`,
           name: "Kioo Africa",
+          alternateName: "Kioo Africa Angola",
           slogan: "Pessoas, ideias e mercados africanos.",
           url: siteUrl.origin,
           sameAs: [KIOO_FACEBOOK_URL],

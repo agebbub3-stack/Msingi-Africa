@@ -32,7 +32,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <Link href="/contacto">{translate(locale, "contactEditorial")} <ArrowUpRight size={13} /></Link>
             <Link href="/newsletter/cancelar">{translate(locale, "cancelNewsletter")}</Link>
             <Link href="/sobre#principios">{translate(locale, "editorialPrinciples")}</Link>
-            <a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">Facebook · Kioo Africa Angola <ArrowUpRight size={13} /></a>
+            <a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer" aria-label={locale === "en" ? "Official Kioo Africa Angola Facebook page" : "Página oficial da Kioo Africa Angola no Facebook"}>{locale === "en" ? "Facebook · Kioo Africa Angola" : "Facebook · Kioo Africa Angola"} <ArrowUpRight size={13} /></a>
           </div>
         </div>
         <div className="footer-newsletter">
