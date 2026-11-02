@@ -1,10 +1,16 @@
-import { createSign } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
+import { createServer } from "node:http";
+import { readFile, readdir, writeFile } from "node:fs/promises";
+import { resolve } from "node:path";
 import { config } from "dotenv";
 
 config({ path: ".env.local" });
 config();
 
 type JsonRecord = Record<string, unknown>;
+
+const searchConsoleScope = "https://www.googleapis.com/auth/webmasters.readonly";
+const defaultSiteUrl = "https://kioo-africa.vercel.app/";
 
 function isRecord(value: unknown): value is JsonRecord {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -15,65 +21,202 @@ function stringValue(record: JsonRecord | undefined, key: string) {
   return typeof value === "string" ? value : null;
 }
 
-function requireServiceAccount() {
-  const value = process.env.GOOGLE_SERVICE_ACCOUNT_JSON?.trim();
-  if (!value) {
-    throw new Error("Set GOOGLE_SERVICE_ACCOUNT_JSON to a service-account JSON value.");
-  }
+type OAuthClient = {
+  clientId: string;
+  clientSecret: string;
+  authUri: string;
+  tokenUri: string;
+};
 
+async function findOAuthClientFile() {
+  const configuredFile = process.env.GOOGLE_OAUTH_CLIENT_FILE?.trim();
+  if (configuredFile) return resolve(configuredFile);
+
+  const matches = (await readdir(process.cwd()))
+    .filter((name) => name.startsWith("client_secret_") && name.endsWith(".json"));
+  if (matches.length === 1) return resolve(matches[0]);
+  if (matches.length > 1) {
+    throw new Error("More than one OAuth client JSON was found. Set GOOGLE_OAUTH_CLIENT_FILE to the Desktop client file.");
+  }
+  throw new Error("Download the OAuth Desktop client JSON to the project root, or set GOOGLE_OAUTH_CLIENT_FILE.");
+}
+
+async function requireOAuthClient() {
+  const file = await findOAuthClientFile();
   let parsed: unknown;
   try {
-    parsed = JSON.parse(value);
+    parsed = JSON.parse(await readFile(file, "utf8"));
   } catch {
-    throw new Error("GOOGLE_SERVICE_ACCOUNT_JSON must contain valid JSON.");
+    throw new Error("The OAuth client file must contain valid JSON.");
   }
-  if (!isRecord(parsed)) throw new Error("Google service-account configuration must be a JSON object.");
+  if (!isRecord(parsed)) throw new Error("The OAuth client file must contain a JSON object.");
 
-  const clientEmail = stringValue(parsed, "client_email");
-  const privateKey = stringValue(parsed, "private_key");
-  if (!clientEmail || !privateKey) {
-    throw new Error("Google service-account JSON must include client_email and private_key.");
+  const installed = isRecord(parsed.installed) ? parsed.installed : null;
+  if (!installed) {
+    throw new Error("Create an OAuth client with application type Desktop app and use its downloaded JSON file.");
   }
-  return { clientEmail, privateKey };
+
+  const clientId = stringValue(installed, "client_id");
+  const clientSecret = stringValue(installed, "client_secret");
+  if (!clientId || !clientSecret) {
+    throw new Error("OAuth Desktop client JSON must include client_id and client_secret.");
+  }
+  return {
+    file,
+    clientId,
+    clientSecret,
+    authUri: stringValue(installed, "auth_uri") ?? "https://accounts.google.com/o/oauth2/v2/auth",
+    tokenUri: stringValue(installed, "token_uri") ?? "https://oauth2.googleapis.com/token",
+  } satisfies OAuthClient & { file: string };
 }
 
-function encodeBase64Url(value: string) {
-  return Buffer.from(value).toString("base64url");
-}
-
-async function getAccessToken() {
-  const account = requireServiceAccount();
-  const issuedAt = Math.floor(Date.now() / 1000);
-  const header = encodeBase64Url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
-  const claims = encodeBase64Url(JSON.stringify({
-    iss: account.clientEmail,
-    scope: "https://www.googleapis.com/auth/webmasters.readonly",
-    aud: "https://oauth2.googleapis.com/token",
-    iat: issuedAt,
-    exp: issuedAt + 3600,
-  }));
-  const unsignedToken = `${header}.${claims}`;
-  const signer = createSign("RSA-SHA256");
-  signer.update(unsignedToken);
-  signer.end();
-  const assertion = `${unsignedToken}.${signer.sign(account.privateKey).toString("base64url")}`;
-  const response = await fetch("https://oauth2.googleapis.com/token", {
+async function exchangeToken(tokenUri: string, values: Record<string, string>) {
+  const response = await fetch(tokenUri, {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      grant_type: "urn:ietf:params:oauth:grant-type:jwt-bearer",
-      assertion,
-    }),
+    body: new URLSearchParams(values),
     signal: AbortSignal.timeout(15_000),
   });
   if (!response.ok) {
     throw new Error(`Google OAuth token request failed with HTTP ${response.status}.`);
   }
   const payload: unknown = await response.json();
-  if (!isRecord(payload) || typeof payload.access_token !== "string") {
-    throw new Error("Google OAuth response did not contain an access token.");
+  if (!isRecord(payload)) throw new Error("Google OAuth returned an invalid token response.");
+  return payload;
+}
+
+async function saveLocalEnvironment(values: Record<string, string>) {
+  const envFile = resolve(".env.local");
+  let contents = "";
+  try {
+    contents = await readFile(envFile, "utf8");
+  } catch (error) {
+    if (!isRecord(error) || error.code !== "ENOENT") throw error;
   }
-  return payload.access_token;
+
+  for (const [key, value] of Object.entries(values)) {
+    const encodedValue = JSON.stringify(value);
+    const line = `${key}=${encodedValue}`;
+    const pattern = new RegExp(`^${key}=.*$`, "m");
+    contents = pattern.test(contents)
+      ? contents.replace(pattern, line)
+      : `${contents}${contents.endsWith("\n") || contents.length === 0 ? "" : "\n"}${line}\n`;
+  }
+  await writeFile(envFile, contents, "utf8");
+}
+
+async function authorizeLocalUser() {
+  const client = await requireOAuthClient();
+  const state = randomBytes(32).toString("hex");
+  const verifier = randomBytes(32).toString("base64url");
+  const challenge = createHash("sha256").update(verifier).digest("base64url");
+  let authorizationError: Error | undefined;
+  let callbackTimeout: NodeJS.Timeout | undefined;
+
+  const server = createServer();
+  const callback = new Promise<string>((resolveCallback, rejectCallback) => {
+    callbackTimeout = setTimeout(() => {
+      rejectCallback(new Error("OAuth authorization timed out. Run the command again and complete Google sign-in."));
+    }, 5 * 60 * 1000);
+    server.on("request", (request, response) => {
+      const requestUrl = new URL(request.url ?? "/", "http://127.0.0.1");
+      const code = requestUrl.searchParams.get("code");
+      const returnedState = requestUrl.searchParams.get("state");
+      const error = requestUrl.searchParams.get("error");
+
+      if (requestUrl.pathname !== "/oauth2callback") {
+        response.writeHead(404).end("Not found");
+        return;
+      }
+      if (error || returnedState !== state || !code) {
+        authorizationError = new Error(error
+          ? `Google authorization was denied (${error}).`
+          : "Google OAuth callback was invalid. Run the authorization command again.");
+        response.writeHead(400, { "Content-Type": "text/plain; charset=utf-8" })
+          .end("Authorization failed. Return to the terminal for details.");
+        rejectCallback(authorizationError);
+        return;
+      }
+
+      const address = server.address();
+      if (!address || typeof address === "string") {
+        response.writeHead(500).end("Could not read the local callback address.");
+        rejectCallback(new Error("Could not determine the OAuth callback address."));
+        return;
+      }
+      response.writeHead(200, { "Content-Type": "text/plain; charset=utf-8" })
+        .end("Google authorization complete. You can return to the terminal.");
+      resolveCallback(code);
+    });
+  });
+
+  try {
+    await new Promise<void>((resolveListen, rejectListen) => {
+      server.once("error", rejectListen);
+      server.listen(0, "127.0.0.1", resolveListen);
+    });
+
+    const address = server.address();
+    if (!address || typeof address === "string") throw new Error("Could not start the local OAuth callback server.");
+    const redirectUri = `http://127.0.0.1:${address.port}/oauth2callback`;
+    const authorizationUrl = new URL(client.authUri);
+    authorizationUrl.search = new URLSearchParams({
+      client_id: client.clientId,
+      redirect_uri: redirectUri,
+      response_type: "code",
+      scope: searchConsoleScope,
+      access_type: "offline",
+      prompt: "consent",
+      state,
+      code_challenge: challenge,
+      code_challenge_method: "S256",
+    }).toString();
+
+    console.info("Open this URL in your browser and authorize with the Google account that owns the Search Console property:");
+    console.info(authorizationUrl.toString());
+    const code = await callback;
+    const token = await exchangeToken(client.tokenUri, {
+      client_id: client.clientId,
+      client_secret: client.clientSecret,
+      code,
+      code_verifier: verifier,
+      grant_type: "authorization_code",
+      redirect_uri: redirectUri,
+    });
+    const refreshToken = stringValue(token, "refresh_token");
+    if (!refreshToken) {
+      throw new Error("Google did not return a refresh token. Revoke the app's access in your Google Account and run --auth again.");
+    }
+
+    await saveLocalEnvironment({
+      GOOGLE_OAUTH_CLIENT_FILE: client.file,
+      GOOGLE_OAUTH_REFRESH_TOKEN: refreshToken,
+      GOOGLE_SEARCH_CONSOLE_SITE_URL: process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL?.trim() || defaultSiteUrl,
+    });
+    console.info("OAuth authorization saved in .env.local. Keep that file private.");
+  } catch (error) {
+    throw authorizationError ?? error;
+  } finally {
+    if (callbackTimeout) clearTimeout(callbackTimeout);
+    if (server.listening) server.close();
+  }
+}
+
+async function getAccessToken() {
+  const refreshToken = process.env.GOOGLE_OAUTH_REFRESH_TOKEN?.trim();
+  if (!refreshToken) {
+    throw new Error("First create a Desktop OAuth client, then run: npm run seo:gsc -- --auth");
+  }
+  const client = await requireOAuthClient();
+  const token = await exchangeToken(client.tokenUri, {
+    client_id: client.clientId,
+    client_secret: client.clientSecret,
+    refresh_token: refreshToken,
+    grant_type: "refresh_token",
+  });
+  const accessToken = stringValue(token, "access_token");
+  if (!accessToken) throw new Error("Google OAuth response did not contain an access token.");
+  return accessToken;
 }
 
 async function postGoogleJson(url: string, token: string, body: JsonRecord): Promise<unknown> {
@@ -114,16 +257,33 @@ function isoDate(date: Date) {
 }
 
 async function main() {
-  const target = process.argv[2];
-  const property = process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL?.trim();
-  if (!target) throw new Error("Usage: npm run seo:gsc -- https://kioo-africa.vercel.app/biografias/example");
-  if (!property) throw new Error("Set GOOGLE_SEARCH_CONSOLE_SITE_URL to the verified Search Console property.");
-
-  const inspectedUrl = new URL(target);
-  if (inspectedUrl.protocol !== "https:") throw new Error("The inspected URL must use HTTPS.");
-  assertUrlBelongsToProperty(inspectedUrl, property);
+  const args = process.argv.slice(2);
+  if (args[0] === "--auth") {
+  await authorizeLocalUser();
+  return;
+  }
+  const sitePerformance = args[0] === "--site-performance";
+  const targets = sitePerformance ? [] : args;
+  if (targets.length === 0 && !sitePerformance) {
+  throw new Error("Usage: npm run seo:gsc -- --auth | --site-performance | https://kioo-africa.vercel.app/artigos/example");
+  }
+  const property = process.env.GOOGLE_SEARCH_CONSOLE_SITE_URL?.trim() || defaultSiteUrl;
+  const inspectedUrls = targets.map((target) => {
+  const url = new URL(target);
+  if (url.protocol !== "https:") throw new Error("Inspected URLs must use HTTPS.");
+  assertUrlBelongsToProperty(url, property);
+  return url;
+  });
 
   const token = await getAccessToken();
+  const endDate = new Date();
+  endDate.setUTCDate(endDate.getUTCDate() - 3);
+  const startDate = new Date(endDate);
+  startDate.setUTCDate(startDate.getUTCDate() - 27);
+
+  const sitePath = `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(property)}/searchAnalytics/query`;
+  const results = [];
+  for (const inspectedUrl of inspectedUrls) {
   const inspectionPayload = await postGoogleJson(
     "https://searchconsole.googleapis.com/v1/urlInspection/index:inspect",
     token,
@@ -136,13 +296,8 @@ async function main() {
   const indexStatus = isRecord(inspection?.indexStatusResult)
     ? inspection.indexStatusResult
     : undefined;
-
-  const endDate = new Date();
-  endDate.setUTCDate(endDate.getUTCDate() - 3);
-  const startDate = new Date(endDate);
-  startDate.setUTCDate(startDate.getUTCDate() - 27);
   const analyticsPayload = await postGoogleJson(
-    `https://www.googleapis.com/webmasters/v3/sites/${encodeURIComponent(property)}/searchAnalytics/query`,
+    sitePath,
     token,
     {
       startDate: isoDate(startDate),
@@ -158,24 +313,8 @@ async function main() {
       rowLimit: 100,
     },
   );
-  const analyticsResponse = isRecord(analyticsPayload) ? analyticsPayload : undefined;
-  const rows = Array.isArray(analyticsResponse?.rows) ? analyticsResponse.rows : [];
-  const queries = rows.flatMap((row) => {
-    if (!isRecord(row)) return [];
-    const query = Array.isArray(row.keys) && typeof row.keys[0] === "string" ? row.keys[0] : null;
-    if (!query) return [];
-    return [{
-      query,
-      clicks: typeof row.clicks === "number" ? row.clicks : 0,
-      impressions: typeof row.impressions === "number" ? row.impressions : 0,
-      ctr: typeof row.ctr === "number" ? row.ctr : 0,
-      averagePosition: typeof row.position === "number" ? row.position : null,
-    }];
-  });
-
-  console.log(JSON.stringify({
+  results.push({
     url: inspectedUrl.toString(),
-    property,
     inspectionLink: stringValue(inspectionResponse, "inspectionResultLink"),
     indexStatus: {
       verdict: stringValue(indexStatus, "verdict"),
@@ -190,12 +329,53 @@ async function main() {
     searchAnalytics: {
       startDate: isoDate(startDate),
       endDate: isoDate(endDate),
-      queries,
+      queries: extractQueries(analyticsPayload),
     },
-  }, null, 2));
+  });
+  }
+
+  if (sitePerformance) {
+  const analyticsPayload = await postGoogleJson(
+    sitePath,
+    token,
+    {
+      startDate: isoDate(startDate),
+      endDate: isoDate(endDate),
+      dimensions: ["query"],
+      rowLimit: 100,
+    },
+  );
+  results.push({
+    property,
+    searchAnalytics: {
+      startDate: isoDate(startDate),
+      endDate: isoDate(endDate),
+      queries: extractQueries(analyticsPayload),
+    },
+  });
+  }
+
+  console.log(JSON.stringify(results.length === 1 ? results[0] : { property, results }, null, 2));
+}
+
+function extractQueries(payload: unknown) {
+  const analyticsResponse = isRecord(payload) ? payload : undefined;
+  const rows = Array.isArray(analyticsResponse?.rows) ? analyticsResponse.rows : [];
+  return rows.flatMap((row) => {
+  if (!isRecord(row)) return [];
+  const query = Array.isArray(row.keys) && typeof row.keys[0] === "string" ? row.keys[0] : null;
+  if (!query) return [];
+  return [{
+    query,
+    clicks: typeof row.clicks === "number" ? row.clicks : 0,
+    impressions: typeof row.impressions === "number" ? row.impressions : 0,
+    ctr: typeof row.ctr === "number" ? row.ctr : 0,
+    averagePosition: typeof row.position === "number" ? row.position : null,
+  }];
+  });
 }
 
 main().catch((error: unknown) => {
-  console.error("Google Search Console inspection failed.", error);
+  console.error("Google Search Console operation failed.", error);
   process.exitCode = 1;
 });

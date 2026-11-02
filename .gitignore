@@ -7,6 +7,8 @@ coverage
 *.tsbuildinfo
 .env*
 !.env.example
+optimum-spring-476307-c6-c91a55d9d0f5.json
+client_secret_*.json
 npm-debug.log*
 yarn-debug.log*
 pnpm-debug.log*
