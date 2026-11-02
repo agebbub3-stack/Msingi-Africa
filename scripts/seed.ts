@@ -228,6 +228,56 @@ async function seed() {
       imageUrl: "/images/partners/akira-web.png",
       isVerified: true,
     },
+    {
+      slug: "afcfta",
+      type: "organization" as const,
+      name: "Zona de Comércio Livre Continental Africana",
+      description: "Acordo de integração económica da União Africana que procura facilitar o comércio de bens e serviços entre países africanos.",
+      websiteUrl: "https://au-afcfta.org/",
+      isVerified: true,
+    },
+    {
+      slug: "desert-to-power",
+      type: "organization" as const,
+      name: "Desert to Power",
+      description: "Iniciativa do Banco Africano de Desenvolvimento que visa mobilizar energia solar nos países do Sahel, com objetivo anunciado de 10 GW até 2030.",
+      websiteUrl: "https://www.afdb.org/en/topics-and-sectors/initiatives-partnerships/desert-power-initiative",
+      isVerified: true,
+    },
+    {
+      slug: "africa-cdc",
+      type: "organization" as const,
+      name: "Africa Centres for Disease Control and Prevention",
+      description: "Agência de saúde pública da União Africana dedicada a reforçar a prevenção, preparação e resposta a ameaças de saúde no continente.",
+      websiteUrl: "https://africacdc.org/",
+      isVerified: true,
+    },
+    {
+      slug: "partnership-african-vaccine-manufacturing",
+      type: "organization" as const,
+      name: "Partnerships for African Vaccine Manufacturing",
+      description: "Iniciativa apresentada pela Africa CDC para apoiar o desenvolvimento da capacidade de produção de vacinas em África.",
+      websiteUrl: "https://africacdc.org/event/partnerships-for-african-vaccine-manufacturing-pavm/",
+      isVerified: true,
+    },
+    {
+      slug: "ashesi-university",
+      type: "organization" as const,
+      name: "Ashesi University",
+      description: "Universidade no Gana cuja missão institucional destaca a formação de líderes éticos e empreendedores.",
+      countryCode: "GH",
+      websiteUrl: "https://ashesi.org/",
+      isVerified: true,
+    },
+    {
+      slug: "dangote-group",
+      type: "company" as const,
+      name: "Dangote Group",
+      description: "Grupo empresarial nigeriano com operações industriais em setores como cimento, alimentos, fertilizantes e energia.",
+      countryCode: "NG",
+      websiteUrl: "https://www.dangote.com/",
+      isVerified: true,
+    },
   ];
   for (const entity of entityRows) {
     await db.insert(schema.entities).values(entity).onConflictDoUpdate({
@@ -261,6 +311,14 @@ async function seed() {
     { entitySlug: "softedge-corporation", storySlug: "softedge-ia-angolana-akira", role: "partner" },
     { entitySlug: "softedge-corporation", storySlug: "isaac-nascimento-quarenta", role: "partner" },
     { entitySlug: "akira", storySlug: "softedge-ia-angolana-akira", role: "subject" },
+    { entitySlug: "afcfta", storySlug: "afcfta-integracao-mercados-africanos", role: "subject" },
+    { entitySlug: "desert-to-power", storySlug: "desert-to-power-energia-solar-sahel", role: "subject" },
+    { entitySlug: "africa-cdc", storySlug: "africa-cdc-seguranca-sanitaria-capacidade-local", role: "subject" },
+    { entitySlug: "partnership-african-vaccine-manufacturing", storySlug: "africa-cdc-seguranca-sanitaria-capacidade-local", role: "mentions" },
+    { entitySlug: "ashesi-university", storySlug: "ashesi-educacao-lideranca-empreendedorismo-africa", role: "subject" },
+    { entitySlug: "ashesi-university", storySlug: "patrick-awuah", role: "subject" },
+    { entitySlug: "dangote-group", storySlug: "industria-africana-valor-acrescentado-producao-local", role: "subject" },
+    { entitySlug: "dangote-group", storySlug: "aliko-dangote", role: "subject" },
   ];
   for (const relation of entityStoryRelations) {
     const [entity] = await db.select({ id: schema.entities.id }).from(schema.entities)

@@ -8,7 +8,7 @@ Revista digital e grupo independente de pesquisa sobre pessoas, ideias e mercado
 - PostgreSQL (Supabase, Aiven ou outro fornecedor) com Drizzle ORM e migrações versionadas.
 - Better Auth para contas, sessões, verificação de e-mail e recuperação de palavra-passe.
 - Flutterwave para campanhas avulsas e assinatura Creator Plus (USD 5/mês).
-- Resend para e-mails transacionais.
+- Gmail SMTP com palavra-passe de aplicação ou Resend para e-mails transacionais.
 - Deploy em Vercel ou Docker, com saída Next.js `standalone`.
 
 ## Desenvolvimento local
@@ -31,11 +31,12 @@ Sem `DATABASE_URL`, as páginas públicas podem apresentar conteúdo de demonstr
 
 ## Contas e redação
 
-- O registo cria uma conta de utilizador; verificar o endereço de e-mail é obrigatório. Em desenvolvimento, os links de verificação e recuperação são impressos no terminal se o Resend não estiver configurado. Em produção, configure `RESEND_API_KEY` e `RESEND_FROM_EMAIL`.
+- O registo cria uma conta de utilizador; verificar o endereço de e-mail é obrigatório. Em desenvolvimento, os links de verificação e recuperação são impressos no terminal se nenhum fornecedor de e-mail estiver configurado. Configure `GOOGLE_SMTP_USER` e `GOOGLE_SMTP_APP_PASSWORD` para enviar por `smtp.gmail.com:587`, ou `RESEND_API_KEY` e `RESEND_FROM_EMAIL` como alternativa. Quando as credenciais Google estão configuradas, o Gmail tem prioridade. Para Gmail pessoal, a palavra-passe de aplicação requer a verificação em dois passos e deve ser guardada apenas em variáveis de ambiente; não use a palavra-passe normal da conta. O Google recomenda OAuth quando a aplicação o suporta e pode desativar palavras-passe de aplicação em contas geridas.
 - Criadores editam o perfil e submetem artigos ou biografias em `/painel`. As propostas ficam em revisão até a redação aprovar e publicar ou devolver ao autor. Em `/redacao`, editores reveem a fila; administradores também podem criar e publicar artigos e biografias diretamente, com referências e metadados SEO.
 - O plano gratuito não aceita ligações ou fontes nas propostas. Creator Plus permite referências verificáveis enquanto a assinatura estiver ativa.
 - Para criar um administrador: registe e verifique a conta, defina `ADMIN_EMAIL` com o endereço correspondente e execute `npm run db:seed`. O seed atualiza a função da conta existente; não promove automaticamente uma conta ainda não criada. Por omissão, publica apenas os artigos e perfis editoriais com fontes incluídos no projeto, incluindo as respetivas referências e metadados SEO. Para popular também um ambiente local de teste com exemplos demonstrativos, defina `SEED_DEMO_CONTENT=true` antes de executar `npm run db:seed`; o seed bloqueia expressamente esses exemplos em produção.
 - Comentários passam pela fila de moderação. Likes requerem conta; artigos, perfis e entidades publicados têm páginas públicas e metadados estruturados.
+- `/debates` reúne perguntas editoriais e encaminha cada conversa para os comentários moderados da reportagem correspondente. A leitura é pública; publicar comentários requer conta verificada.
 - Cada artigo ou biografia tem metadados SEO independentes: título, descrição e palavras-chave editáveis pela redação, além de canonical, Open Graph, Twitter e dados estruturados. Quando as palavras-chave editoriais não são informadas, a página usa sugestões próprias derivadas do título, tema e dados da biografia, nunca uma lista global partilhada. Palavras-chave ajudam a descrever a página, mas não garantem posições nos resultados de pesquisa.
 - As inscrições da newsletter podem ser canceladas pelo link no rodapé. O sistema envia uma ligação de cancelamento ao endereço inscrito.
 
@@ -58,7 +59,7 @@ npm run db:migrate
 
 ### Vercel
 
-Importe o repositório com o preset Next.js. Configure `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_EDITORIAL_EMAIL` e, conforme os recursos ativados, as variáveis `RESEND_*`, `FLW_*` e `ADMIN_EMAIL`. Para Aiven e Supabase, o CA público correspondente é incluído e selecionado automaticamente pelo hostname — não é necessário guardar o certificado numa variável do Vercel. Para outro servidor PostgreSQL com uma CA própria, configure o PEM em `DATABASE_CA_CERT`. Aplique migrações ao banco antes de direcionar tráfego para a versão nova. A URL pública deve usar HTTPS e corresponder aos domínios permitidos para autenticação.
+Importe o repositório com o preset Next.js. Configure `DATABASE_URL`, `BETTER_AUTH_SECRET`, `BETTER_AUTH_URL`, `NEXT_PUBLIC_SITE_URL`, `NEXT_PUBLIC_EDITORIAL_EMAIL` e, conforme os recursos ativados, `GOOGLE_SMTP_USER`/`GOOGLE_SMTP_APP_PASSWORD` ou `RESEND_*`, além de `FLW_*` e `ADMIN_EMAIL`. Para Aiven e Supabase, o CA público correspondente é incluído e selecionado automaticamente pelo hostname — não é necessário guardar o certificado numa variável do Vercel. Para outro servidor PostgreSQL com uma CA própria, configure o PEM em `DATABASE_CA_CERT`. Aplique migrações ao banco antes de direcionar tráfego para a versão nova. A URL pública deve usar HTTPS e corresponder aos domínios permitidos para autenticação.
 
 ### Docker
 

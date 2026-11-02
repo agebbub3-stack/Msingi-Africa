@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import type { Locale } from "@/lib/i18n";
 import { getSiteUrl } from "@/lib/site-url";
 
-export type SocialPreviewKind = "home" | "articles" | "biographies" | "about" | "plans" | "search" | "contact" | "authors" | "entities" | "profile" | "product" | "article" | "publish";
+export type SocialPreviewKind = "home" | "articles" | "biographies" | "about" | "plans" | "search" | "contact" | "authors" | "entities" | "debates" | "profile" | "product" | "article" | "publish";
 
 type SocialPreviewInput = {
   locale: Locale;

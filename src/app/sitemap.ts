@@ -6,7 +6,7 @@ export const dynamic = "force-dynamic";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const siteUrl = getSiteUrl();
-  const staticPages = ["", "/artigos", "/biografias", "/autores", "/entidades", "/sobre", "/contacto"];
+  const staticPages = ["", "/artigos", "/biografias", "/autores", "/entidades", "/debates", "/sobre", "/contacto"];
   const [articles, biographies, entities, authors] = await Promise.all([
     getPublishedArticles(),
     getPublishedBiographies(),

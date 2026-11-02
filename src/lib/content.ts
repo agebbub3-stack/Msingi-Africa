@@ -361,6 +361,203 @@ export const researchArticles: Article[] = [
       },
     ],
   },
+  {
+    slug: "afcfta-integracao-mercados-africanos",
+    title: "AfCFTA: transformar integração comercial em oportunidades locais",
+    standfirst:
+      "O acordo continental cria um quadro para aprofundar o comércio entre países africanos. A implementação depende de regras claras, logística, pagamentos e capacidade produtiva.",
+    category: "Mercados",
+    author: "Redação Kioo",
+    date: "2 nov. 2026",
+    readingTime: "6 min de leitura",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Edifícios comerciais numa cidade africana",
+    seoTitle: "AfCFTA: integração e comércio entre países africanos",
+    seoDescription:
+      "O que a AfCFTA pode mudar no comércio africano e quais obstáculos de logística, regras e financiamento ainda precisam de atenção.",
+    seoKeywords: ["AfCFTA", "comércio intra-africano", "mercado africano", "integração económica africana", "Zona de Comércio Livre Continental Africana"],
+    sources: [
+      { title: "African Continental Free Trade Area", publisher: "Secretariado da AfCFTA", url: "https://au-afcfta.org/" },
+    ],
+    body: [
+      {
+        text: "A Zona de Comércio Livre Continental Africana (AfCFTA) é um acordo de integração económica da União Africana. O seu objetivo é reduzir barreiras ao comércio entre países africanos e apoiar a circulação de bens, serviços e investimento. O portal oficial inclui áreas como comércio digital e proteção do investimento no âmbito da agenda do acordo.",
+      },
+      {
+        heading: "Um acordo não é ainda um mercado sem fronteiras",
+        text: "A existência de um quadro continental não elimina automaticamente diferenças entre alfândegas, documentação, normas de produto, regras de origem e procedimentos portuários. Para uma empresa que exporta, o custo real também depende de transporte previsível, acesso a divisas, pagamentos transfronteiriços e informação atualizada sobre os requisitos do país de destino.",
+      },
+      {
+        heading: "A escala continental começa em decisões locais",
+        text: "Pequenas e médias empresas precisam de saber onde encontrar compradores, como certificar produtos e que custos terão antes de investir numa expansão. Câmaras de comércio, associações setoriais e agências públicas podem tornar as regras mais compreensíveis, mas a qualidade da implementação varia de país para país e deve ser avaliada com dados nacionais.",
+      },
+      {
+        heading: "O que observar nos próximos passos",
+        text: "A AfCFTA identifica o comércio digital e o investimento como áreas de trabalho. O efeito prático dependerá de regras aplicáveis, infraestrutura, concorrência e mecanismos para resolver disputas. Uma leitura responsável distingue as metas e a arquitetura institucional do acordo dos resultados que ainda precisam de ser medidos.",
+      },
+      {
+        text: "A integração pode ampliar oportunidades, mas não garante por si só que os ganhos sejam distribuídos de forma equilibrada. Empresas, trabalhadores e governos terão de acompanhar quem consegue aceder a novos mercados, que setores enfrentam custos de adaptação e se o valor acrescentado permanece nas economias locais.",
+      },
+    ],
+  },
+  {
+    slug: "desert-to-power-energia-solar-sahel",
+    title: "Desert to Power: a ambição solar do Sahel e o trabalho que falta",
+    standfirst:
+      "A iniciativa do Banco Africano de Desenvolvimento estabelece um objetivo de 10 GW de energia solar até 2030. A meta é um plano de longo prazo, não capacidade já instalada.",
+    category: "Energia e clima",
+    author: "Redação Kioo",
+    date: "2 nov. 2026",
+    readingTime: "5 min de leitura",
+    image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Painéis solares sob luz intensa",
+    seoTitle: "Desert to Power: energia solar e desenvolvimento no Sahel",
+    seoDescription:
+      "A iniciativa Desert to Power do Banco Africano de Desenvolvimento visa mobilizar 10 GW de capacidade solar no Sahel até 2030.",
+    seoKeywords: ["Desert to Power", "energia solar no Sahel", "Banco Africano de Desenvolvimento", "eletricidade em África", "energias renováveis africanas"],
+    sources: [
+      { title: "Desert to Power Initiative", publisher: "Banco Africano de Desenvolvimento", url: "https://www.afdb.org/en/topics-and-sectors/initiatives-partnerships/desert-power-initiative" },
+    ],
+    body: [
+      {
+        text: "O Banco Africano de Desenvolvimento descreve a iniciativa Desert to Power como um esforço para aproveitar o potencial solar dos países do Sahel. O objetivo anunciado é mobilizar 10 gigawatts de capacidade de geração solar até 2030, através de projetos públicos e privados, ligados ou não à rede.",
+      },
+      {
+        heading: "Uma meta que depende de sistemas completos",
+        text: "Painéis e centrais são apenas parte da infraestrutura. A eletricidade precisa de chegar a utilizadores através de redes, minirredes ou soluções descentralizadas que possam ser mantidas. Também são necessárias regras de contratação, financiamento sustentável, armazenamento, gestão da rede e capacidade técnica local.",
+      },
+      {
+        heading: "O que a meta não significa",
+        text: "A meta de 10 GW é um objetivo para 2030 apresentado pelo banco, não uma afirmação de que essa capacidade já esteja construída ou operacional. A página institucional agrega diferentes tipos de projetos; para acompanhar a execução, é preciso consultar atualizações por país, financiamento aprovado, obras concluídas e energia efetivamente fornecida.",
+      },
+      {
+        heading: "Benefícios e salvaguardas",
+        text: "Projetos solares podem contribuir para ampliar a oferta de energia, mas a sua qualidade depende de custos, fiabilidade e adequação às necessidades das comunidades. A avaliação deve considerar uso do solo, consulta local, contratação e formação, manutenção dos equipamentos e o preço final para famílias e empresas.",
+      },
+      {
+        text: "A transição energética no Sahel não se resume a escolher uma tecnologia. O desafio é transformar potencial e investimento em serviços confiáveis, sem confundir anúncios, metas e resultados. O Banco Africano de Desenvolvimento é a fonte da meta aqui citada; esta análise não representa uma auditoria independente do portefólio.",
+      },
+    ],
+  },
+  {
+    slug: "africa-cdc-seguranca-sanitaria-capacidade-local",
+    title: "Segurança sanitária em África começa com capacidade pública local",
+    standfirst:
+      "A Africa CDC destaca vigilância, instituições de saúde e resposta coordenada. A preparação duradoura exige financiamento, confiança comunitária e transparência.",
+    category: "Saúde",
+    author: "Redação Kioo",
+    date: "2 nov. 2026",
+    readingTime: "5 min de leitura",
+    image: "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Profissionais de saúde num ambiente clínico",
+    seoTitle: "Africa CDC e segurança sanitária em África",
+    seoDescription:
+      "Uma análise sobre vigilância, capacidade das instituições de saúde e cooperação continental com base no mandato público da Africa CDC.",
+    seoKeywords: ["Africa CDC", "saúde pública em África", "segurança sanitária africana", "preparação para epidemias", "sistemas de saúde africanos"],
+    sources: [
+      { title: "Africa Centres for Disease Control and Prevention", publisher: "Africa CDC", url: "https://africacdc.org/" },
+      { title: "Partnerships for African Vaccine Manufacturing", publisher: "Africa CDC", url: "https://africacdc.org/event/partnerships-for-african-vaccine-manufacturing-pavm/" },
+    ],
+    body: [
+      {
+        text: "A Africa CDC é a agência de saúde pública da União Africana. A instituição descreve o seu trabalho como reforço da capacidade dos serviços e instituições de saúde para detetar e responder a ameaças, com intervenções orientadas por dados e colaboração entre países.",
+      },
+      {
+        heading: "Preparação que funciona entre crises",
+        text: "Vigilância epidemiológica, laboratórios, equipas de resposta e comunicação pública precisam de funcionar antes de uma emergência. Quando estas capacidades dependem apenas de financiamento temporário, podem perder continuidade entre surtos. Investir em sistemas de saúde inclui formação, manutenção, dados utilizáveis e condições para que profissionais permaneçam nos serviços.",
+      },
+      {
+        heading: "Produção regional e acesso",
+        text: "A Africa CDC também apresenta a Parceria para a Produção de Vacinas em África (PAVM) no seu trabalho institucional. O objetivo de desenvolver capacidade de produção regional é uma questão industrial e de saúde pública: requer qualidade regulatória, pesquisa, investimento previsível, compras sustentáveis e cadeias de fornecimento. A existência de uma iniciativa não prova, por si só, que esses obstáculos estejam resolvidos.",
+      },
+      {
+        heading: "Confiança e responsabilidade",
+        text: "Uma resposta eficaz depende de informação clara, participação das comunidades e confiança nos serviços. A transparência sobre financiamento, resultados e limitações ajuda a distinguir dados confirmados de projeções ou declarações institucionais. As necessidades e os riscos variam por país, pelo que uma iniciativa continental não substitui orientações das autoridades de saúde locais.",
+      },
+      {
+        text: "Esta análise descreve o mandato e as prioridades publicadas pela Africa CDC; não é aconselhamento médico nem um boletim epidemiológico. Para alertas e recomendações atuais, consulte a Africa CDC e as autoridades de saúde do seu país.",
+      },
+    ],
+  },
+  {
+    slug: "ashesi-educacao-lideranca-empreendedorismo-africa",
+    title: "Ashesi e a aposta na formação de líderes empreendedores africanos",
+    standfirst:
+      "A universidade ganesa apresenta ética, empreendedorismo e liderança como pilares da sua missão. O desafio é transformar a ambição educativa em acesso e resultados sustentáveis.",
+    category: "Educação e tecnologia",
+    author: "Redação Kioo",
+    date: "2 nov. 2026",
+    readingTime: "5 min de leitura",
+    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Estudantes num campus universitário",
+    seoTitle: "Ashesi University: educação, liderança e inovação em África",
+    seoDescription:
+      "O modelo de educação da Ashesi University, no Gana, destaca liderança ética e empreendedorismo, com Patrick Awuah como fundador.",
+    seoKeywords: ["Ashesi University", "educação superior no Gana", "Patrick Awuah", "empreendedorismo africano", "liderança ética em África"],
+    sources: [
+      { title: "About Ashesi", publisher: "Ashesi University Foundation", url: "https://ashesi.org/about/" },
+    ],
+    body: [
+      {
+        text: "A Ashesi University, no Gana, apresenta a formação de líderes éticos e empreendedores como parte da sua missão. A página institucional da Ashesi Foundation identifica Patrick Awuah como fundador e presidente da fundação e associa o trabalho da organização ao apoio à missão educativa da universidade.",
+      },
+      {
+        heading: "Da formação à capacidade de resolver problemas",
+        text: "A ideia de combinar conhecimento técnico, ética e iniciativa empresarial responde a uma pergunta prática: como preparar estudantes para criar valor em contextos económicos e sociais diversos? O currículo, a experiência no campus, as ligações com empregadores e a capacidade de pagar os estudos influenciam tanto a experiência como as oportunidades após a graduação.",
+      },
+      {
+        heading: "O que é preciso medir",
+        text: "A ambição institucional deve ser acompanhada por indicadores verificáveis: acesso de estudantes de diferentes origens, conclusão dos cursos, emprego e empreendedorismo após a formação, qualidade de ensino e sustentabilidade financeira. Uma narrativa de inovação não substitui evidência sobre esses resultados.",
+      },
+      {
+        heading: "Uma conversa sobre replicação",
+        text: "Modelos educativos não são transferidos automaticamente de um país para outro. A escala depende de professores, acreditação, financiamento, infraestrutura e prioridades locais. A experiência da Ashesi pode contribuir para o debate sobre ensino superior africano, desde que seja analisada no seu contexto e sem presumir que existe uma fórmula única para o continente.",
+      },
+      {
+        text: "A fonte utilizada é institucional e descreve a missão e a liderança da fundação. A Kioo Africa não realizou uma avaliação independente dos resultados académicos da Ashesi; dados de impacto devem ser consultados nas publicações oficiais e em estudos independentes.",
+      },
+    ],
+  },
+  {
+    slug: "industria-africana-valor-acrescentado-producao-local",
+    title: "Produção local em África: emprego, escala e perguntas difíceis",
+    standfirst:
+      "O discurso sobre industrialização destaca valor acrescentado e empregos. A experiência de conglomerados regionais também levanta questões sobre concorrência, custos e impacto.",
+    category: "Mercados",
+    author: "Redação Kioo",
+    date: "2 nov. 2026",
+    readingTime: "6 min de leitura",
+    image: "https://images.unsplash.com/photo-1567789884554-0b844b597180?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Instalações industriais de produção",
+    seoTitle: "Industrialização africana: produção local e valor acrescentado",
+    seoDescription:
+      "O que a produção local pode significar para o emprego e as cadeias de valor, e que dados ajudam a avaliar os seus resultados.",
+    seoKeywords: ["industrialização em África", "produção local africana", "valor acrescentado", "emprego industrial", "Dangote Group"],
+    sources: [
+      { title: "About Dangote Industries Limited", publisher: "Dangote Group", url: "https://www.dangote.com/about-us/" },
+      { title: "African Continental Free Trade Area", publisher: "Secretariado da AfCFTA", url: "https://au-afcfta.org/" },
+    ],
+    body: [
+      {
+        text: "Produzir localmente bens que antes eram importados pode criar competências, fornecedores e empregos, mas o efeito depende do setor, do custo de produção e do acesso a mercados. O Dangote Group descreve a sua estratégia como orientada para produção local de bens essenciais e operações industriais em vários setores. Trata-se de uma posição da própria empresa, não de uma avaliação independente do impacto.",
+      },
+      {
+        heading: "Escala empresarial e cadeias de valor",
+        text: "Operações industriais de grande escala podem exigir energia estável, transporte, financiamento de longo prazo e fornecedores capazes de cumprir padrões consistentes. A capacidade de adquirir matérias-primas localmente e desenvolver fornecedores pode distribuir parte do valor pela economia; também pode haver dependência de importações, concentração de mercado ou custos que afetam consumidores.",
+      },
+      {
+        heading: "O mercado continental como oportunidade",
+        text: "A AfCFTA procura reduzir barreiras ao comércio entre países e pode alargar o mercado potencial de empresas africanas. Para transformar esse potencial em vendas, continuam a importar regras de origem, alfândegas, logística, pagamentos e normas técnicas. Uma fábrica instalada não significa automaticamente que os produtos circulem facilmente pelo continente.",
+      },
+      {
+        heading: "Como avaliar o impacto",
+        text: "Uma análise completa pergunta quantos empregos foram criados e com que condições, que proporção dos insumos é adquirida localmente, que impostos são pagos, como evoluem preços e concorrência e quais são os custos ambientais. As declarações corporativas e as metas públicas são pontos de partida; a verificação pede dados comparáveis e fontes independentes.",
+      },
+      {
+        text: "Industrializar não é apenas construir fábricas. É ligar produção, competências, infraestrutura, concorrência e responsabilidade ambiental a resultados mensuráveis. Este artigo resume uma perspetiva empresarial e o enquadramento da AfCFTA, sem apresentar alegações promocionais como factos verificados.",
+      },
+    ],
+  },
 ];
 
 const softedgePartnershipDisclosure =
@@ -997,6 +1194,141 @@ export const biographies: Biography[] = [
         publisher: "Agência Internacional de Energia",
         url: "https://www.iea.org/reports/africa-energy-outlook-2022",
       },
+    ],
+  },
+  {
+    slug: "ngozi-okonjo-iweala",
+    name: "Ngozi Okonjo-Iweala",
+    monogram: "NO",
+    country: "Nigéria",
+    field: "Economia e comércio internacional",
+    role: "Economista e dirigente internacional",
+    summary:
+      "Economista nigeriana com uma carreira que liga finanças públicas, desenvolvimento e comércio internacional.",
+    accent: "gold",
+    organization: "Organização Mundial do Comércio",
+    organizationUrl: "https://www.wto.org/english/thewto_e/dg_e/dg_e.htm",
+    seoTitle: "Ngozi Okonjo-Iweala: economia e liderança global",
+    seoDescription:
+      "Perfil de Ngozi Okonjo-Iweala, economista nigeriana cuja trajetória inclui a liderança da Organização Mundial do Comércio.",
+    seoKeywords: ["Ngozi Okonjo-Iweala", "economistas africanas", "comércio internacional", "Nigéria", "Organização Mundial do Comércio"],
+    sameAs: ["https://www.wto.org/english/thewto_e/dg_e/dg_e.htm"],
+    body: [
+      "Ngozi Okonjo-Iweala é uma economista nigeriana cuja carreira passou por políticas públicas, desenvolvimento e comércio internacional. A Organização Mundial do Comércio regista que assumiu o cargo de diretora-geral em março de 2021, tornando-se a primeira mulher e a primeira pessoa africana a ocupar a função.",
+      "A sua trajetória é relevante para conversas sobre representação africana em instituições multilaterais e sobre a ligação entre comércio, financiamento e desenvolvimento. O perfil institucional da OMC reúne informação sobre o mandato e a carreira; cargos e datas devem ser lidos conforme a atualização mais recente da própria organização.",
+      "Mais do que resumir uma carreira a um cargo, este perfil destaca a circulação entre instituições nacionais e globais. Para avaliar o impacto de uma dirigente, é importante distinguir a sua biografia das decisões tomadas por uma organização coletiva e considerar os resultados concretos das políticas adotadas.",
+      "As fontes consultadas são institucionais. Este texto não atribui à economista resultados económicos que dependem de muitos atores e não substitui uma análise das decisões específicas tomadas durante cada mandato.",
+    ],
+    sources: [
+      { title: "Director-General: Ngozi Okonjo-Iweala", publisher: "Organização Mundial do Comércio", url: "https://www.wto.org/english/thewto_e/dg_e/dg_e.htm" },
+    ],
+  },
+  {
+    slug: "aliko-dangote",
+    name: "Aliko Dangote",
+    monogram: "AD",
+    country: "Nigéria",
+    field: "Indústria e negócios",
+    role: "Fundador do Dangote Group",
+    summary:
+      "Empresário nigeriano associado à expansão de operações industriais em setores como cimento, alimentos e energia.",
+    accent: "clay",
+    organization: "Dangote Group",
+    organizationUrl: "https://www.dangote.com/about-us/",
+    relatedArticleSlugs: ["industria-africana-valor-acrescentado-producao-local"],
+    seoTitle: "Aliko Dangote: indústria e produção local em África",
+    seoDescription:
+      "Perfil de Aliko Dangote e da estratégia industrial do grupo que fundou, com distinção entre declarações empresariais e resultados independentes.",
+    seoKeywords: ["Aliko Dangote", "Dangote Group", "empresários africanos", "indústria na Nigéria", "produção local em África"],
+    sameAs: ["https://www.dangote.com/about-us/"],
+    body: [
+      "Aliko Dangote é um empresário nigeriano e fundador do Dangote Group. A página institucional do grupo descreve uma empresa diversificada, com atividades em setores como cimento, alimentos, fertilizantes, energia e petroquímica, e apresenta a produção local como parte da sua estratégia.",
+      "O próprio grupo situa o início da carreira comercial de Dangote em 1978 e associa o seu crescimento à passagem do comércio para a produção industrial. Estes dados biográficos e a descrição da estratégia provêm da empresa; não são uma auditoria independente das operações ou dos seus impactos.",
+      "A escala industrial levanta questões económicas importantes: que fornecedores locais participam, que empregos são criados, como a concorrência evolui e que efeitos os custos de produção têm nos consumidores. As respostas variam por setor e país e exigem dados além das comunicações corporativas.",
+      "O caso de Dangote é útil para discutir industrialização africana sem presumir que dimensão empresarial equivale automaticamente a desenvolvimento inclusivo. A análise deve acompanhar produtividade, condições de trabalho, impostos, impactos ambientais e distribuição do valor ao longo das cadeias de fornecimento.",
+    ],
+    sources: [
+      { title: "About Dangote Industries Limited", publisher: "Dangote Group", url: "https://www.dangote.com/about-us/" },
+    ],
+  },
+  {
+    slug: "vera-songwe",
+    name: "Vera Songwe",
+    monogram: "VS",
+    country: "Camarões",
+    field: "Economia e financiamento climático",
+    role: "Economista e especialista em desenvolvimento",
+    summary:
+      "Economista camaronesa cuja carreira inclui funções no Banco Mundial, na IFC e na Comissão Económica das Nações Unidas para África.",
+    accent: "sage",
+    organization: "Brookings Institution",
+    organizationUrl: "https://www.brookings.edu/people/vera-songwe/",
+    seoTitle: "Vera Songwe: economia e financiamento para África",
+    seoDescription:
+      "Perfil da economista Vera Songwe, com foco na sua experiência em desenvolvimento, política fiscal e financiamento sustentável.",
+    seoKeywords: ["Vera Songwe", "economistas africanas", "financiamento climático", "Comissão Económica para África", "desenvolvimento africano"],
+    sameAs: ["https://www.brookings.edu/people/vera-songwe/", "https://x.com/SongweVera"],
+    body: [
+      "Vera Songwe é uma economista camaronesa e investigadora não residente da Africa Growth Initiative da Brookings Institution. O seu perfil institucional descreve uma carreira que inclui a presidência do conselho da Liquidity and Sustainability Facility e a co-liderança da Food System Economics Commission.",
+      "Antes dessas funções, Songwe foi subsecretária-geral das Nações Unidas e secretária executiva da Comissão Económica das Nações Unidas para África. Trabalhou também no Banco Mundial e na International Finance Corporation em funções ligadas a desenvolvimento, política económica e operações em países africanos.",
+      "As áreas de trabalho que a Brookings associa à sua trajetória incluem política fiscal, mecanismos de financiamento, agricultura, energia e governação económica. São temas interligados: decisões sobre dívida e liquidez influenciam o espaço disponível para investimento público, enquanto agricultura e energia afetam emprego e resiliência.",
+      "Este retrato utiliza o perfil profissional publicado pela Brookings, que pode ser atualizado ao longo do tempo. A descrição de cargos não constitui uma avaliação independente das instituições ou das políticas às quais a economista esteve associada.",
+    ],
+    sources: [
+      { title: "Vera Songwe", publisher: "Brookings Institution", url: "https://www.brookings.edu/people/vera-songwe/" },
+    ],
+  },
+  {
+    slug: "patrick-awuah",
+    name: "Patrick Awuah",
+    monogram: "PA",
+    country: "Gana",
+    field: "Educação e empreendedorismo",
+    role: "Fundador da Ashesi University",
+    summary:
+      "Empreendedor e educador ganês associado à criação da Ashesi University e à formação de líderes éticos e empreendedores.",
+    accent: "gold",
+    organization: "Ashesi University",
+    organizationUrl: "https://ashesi.org/about/",
+    relatedArticleSlugs: ["ashesi-educacao-lideranca-empreendedorismo-africa"],
+    seoTitle: "Patrick Awuah: educação e liderança no Gana",
+    seoDescription:
+      "Conheça Patrick Awuah, fundador da Ashesi University, e a missão educativa que associa liderança ética e empreendedorismo.",
+    seoKeywords: ["Patrick Awuah", "Ashesi University", "educação no Gana", "empreendedorismo africano", "liderança ética"],
+    sameAs: ["https://ashesi.org/about/"],
+    body: [
+      "Patrick Awuah é um educador e empreendedor ganês associado à fundação da Ashesi University. A página da Ashesi Foundation identifica-o como fundador e presidente da fundação e apresenta o trabalho da organização como apoio à missão da universidade de formar líderes éticos e empreendedores.",
+      "A experiência da Ashesi é frequentemente ligada a debates sobre ensino superior, formação de competências e inovação no continente. A própria instituição define a sua missão; uma avaliação do impacto exige informação adicional sobre acesso, qualidade académica, conclusão dos cursos e oportunidades dos graduados.",
+      "A trajetória de Awuah permite discutir a relação entre iniciativa individual e instituições duradouras. Criar uma universidade envolve mais do que uma ideia: requer acreditação, docentes, financiamento, governação e confiança de estudantes e famílias.",
+      "Este perfil distingue a apresentação institucional da Ashesi de uma medição independente dos resultados. A fonte pode atualizar os cargos e a estrutura da fundação, pelo que a informação deve ser lida na data de consulta.",
+    ],
+    sources: [
+      { title: "About Ashesi", publisher: "Ashesi University Foundation", url: "https://ashesi.org/about/" },
+    ],
+  },
+  {
+    slug: "abdulrazak-gurnah",
+    name: "Abdulrazak Gurnah",
+    monogram: "AG",
+    country: "Tanzânia",
+    field: "Literatura e cultura",
+    role: "Escritor e laureado com o Nobel de Literatura",
+    summary:
+      "Escritor nascido em Zanzibar cuja obra explora colonialismo, deslocação e a experiência de viver entre culturas.",
+    accent: "clay",
+    seoTitle: "Abdulrazak Gurnah: literatura, memória e deslocação",
+    seoDescription:
+      "Perfil do escritor Abdulrazak Gurnah, laureado com o Nobel de Literatura de 2021 e nascido em Zanzibar, na Tanzânia.",
+    seoKeywords: ["Abdulrazak Gurnah", "Nobel de Literatura 2021", "literatura africana", "Zanzibar", "escritores da Tanzânia"],
+    sameAs: ["https://www.nobelprize.org/prizes/literature/2021/gurnah/facts/"],
+    body: [
+      "Abdulrazak Gurnah é um escritor nascido em Zanzibar, na Tanzânia, e laureado com o Nobel de Literatura de 2021. O Comité Nobel atribuiu-lhe o prémio pelo tratamento dos efeitos do colonialismo e da experiência de refugiados entre culturas e continentes.",
+      "Segundo a biografia publicada pelo Nobel Prize, Gurnah cresceu em Zanzibar e deixou a ilha na década de 1960, num contexto de perseguição de cidadãos de origem árabe. Mais tarde estabeleceu-se em Inglaterra. A experiência de deslocação e a história da África Oriental aparecem no enquadramento que o Nobel oferece para a sua obra.",
+      "A literatura de Gurnah convida a observar como memória, migração e colonialismo atravessam vidas individuais. A sua relevância vai além de representar uma região: os romances trabalham a complexidade de identidades e experiências que não cabem numa narrativa única sobre África.",
+      "Este perfil resume a informação biográfica e a motivação do prémio apresentadas pelo Nobel Prize. Para compreender a obra, é importante ler os próprios livros e considerar análises literárias, em vez de tratar o prémio como substituto de crítica ou interpretação.",
+    ],
+    sources: [
+      { title: "Abdulrazak Gurnah — Facts", publisher: "Nobel Prize", url: "https://www.nobelprize.org/prizes/literature/2021/gurnah/facts/" },
     ],
   },
 ];

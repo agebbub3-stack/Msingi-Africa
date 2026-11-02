@@ -8,6 +8,8 @@ const translations = {
     exploreHeading: "IDEIAS QUE MOVEM ÁFRICA",
     articles: "Artigos e análise",
     articlesDescription: "Ideias, mercados e tendências africanas.",
+    debates: "Fórum de debates",
+    debatesDescription: "Converse sobre ideias e desafios do continente.",
     biographies: "Biografias",
     biographiesDescription: "Pessoas a transformar o continente.",
     entities: "Entidades",
@@ -128,6 +130,8 @@ const translations = {
     exploreHeading: "IDEAS THAT MOVE AFRICA",
     articles: "Articles & analysis",
     articlesDescription: "African ideas, markets and emerging trends.",
+    debates: "Discussion forum",
+    debatesDescription: "Discuss ideas and challenges across the continent.",
     biographies: "Biographies",
     biographiesDescription: "People transforming the continent.",
     entities: "Organisations",
@@ -259,6 +263,7 @@ export function localizeCategory(category: string, locale: Locale) {
     "Energia e clima": "Energy & climate",
     "Energia limpa e agricultura": "Clean energy & agriculture",
     "Economia criativa": "Creative economy",
+    Saúde: "Health",
     "Media & cultura": "Media & culture",
     "Saúde e logística": "Healthcare & logistics",
     "Tecnologia e pagamentos": "Technology & payments",
@@ -273,10 +278,12 @@ export function localizeCountry(country: string, locale: Locale) {
   if (locale === "pt") return country;
   const countries: Record<string, string> = {
     "África do Sul": "South Africa",
+    "Gana": "Ghana",
     "Camarões": "Cameroon",
     "Etiópia": "Ethiopia",
     "Quénia": "Kenya",
     "Nigéria": "Nigeria",
+    "Tanzânia": "Tanzania",
     "Uganda": "Uganda",
   };
   return countries[country] ?? country;

@@ -6,6 +6,7 @@ import {
   ChevronDown,
   Landmark,
   Menu,
+  MessageCircle,
   Search,
   UserRound,
   UsersRound,
@@ -23,6 +24,7 @@ const discoveryLinks = [
   { title: "articles", description: "articlesDescription", href: "/artigos", icon: BookOpenText },
   { title: "biographies", description: "biographiesDescription", href: "/biografias", icon: UsersRound },
   { title: "entities", description: "entitiesDescription", href: "/entidades", icon: Landmark },
+  { title: "debates", description: "debatesDescription", href: "/debates", icon: MessageCircle },
   { title: "authors", description: "authorsDescription", href: "/autores", icon: UserRound },
 ] as const;
 
