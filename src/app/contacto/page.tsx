@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ContactForm } from "@/components/contact-form";
 import { getLocale } from "@/lib/locale.server";
 import { createPageMetadata } from "@/lib/page-metadata";
+import { KIOO_FACEBOOK_URL } from "@/lib/social-links";
 
 export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
@@ -45,6 +46,13 @@ export default async function ContactPage() {
           <div className="contact-context-item">
             <span>03</span>
             <div><h3>{en ? "Partnerships" : "Parcerias"}</h3><p>{en ? "Describe the organisation and your goals so we can direct your enquiry." : "Descreva a organização e o objetivo para encaminharmos a conversa."}</p></div>
+          </div>
+          <div className="contact-context-item">
+            <span>04</span>
+            <div>
+              <h3>{en ? "Follow Kioo Africa Angola" : "Siga a Kioo Africa Angola"}</h3>
+              <p><a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">Facebook <span aria-hidden="true">↗</span></a></p>
+            </div>
           </div>
         </aside>
         <ContactForm locale={locale} />

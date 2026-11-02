@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Brand } from "@/components/brand";
 import { translate, type Locale } from "@/lib/i18n";
 import { Newsletter } from "@/components/newsletter";
+import { KIOO_FACEBOOK_URL } from "@/lib/social-links";
 
 export function SiteFooter({ locale }: { locale: Locale }) {
   return (
@@ -31,6 +32,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             <Link href="/contacto">{translate(locale, "contactEditorial")} <ArrowUpRight size={13} /></Link>
             <Link href="/newsletter/cancelar">{translate(locale, "cancelNewsletter")}</Link>
             <Link href="/sobre#principios">{translate(locale, "editorialPrinciples")}</Link>
+            <a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">Facebook · Kioo Africa Angola <ArrowUpRight size={13} /></a>
           </div>
         </div>
         <div className="footer-newsletter">

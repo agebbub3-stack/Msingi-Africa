@@ -8,6 +8,7 @@ import { translate } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale.server";
 import { createPageMetadata } from "@/lib/page-metadata";
 import { getSiteUrl } from "@/lib/site-url";
+import { KIOO_FACEBOOK_URL } from "@/lib/social-links";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -78,6 +79,7 @@ export default async function RootLayout({
           name: "Kioo Africa",
           slogan: "Pessoas, ideias e mercados africanos.",
           url: siteUrl.origin,
+          sameAs: [KIOO_FACEBOOK_URL],
           logo: new URL("/brand-mark.svg", siteUrl).toString(),
           description: locale === "en"
             ? "Independent African editorial and research publication covering business, markets, innovation, biographies and ideas."
