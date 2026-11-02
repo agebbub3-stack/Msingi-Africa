@@ -40,7 +40,10 @@ export function createPageMetadata({
   return {
     title,
     description,
-    alternates: { canonical: canonicalUrl },
+    alternates: {
+      canonical: canonicalUrl,
+      types: { "application/rss+xml": new URL("/feed.xml", siteUrl).toString() },
+    },
     openGraph: {
       type: "website",
       title,
