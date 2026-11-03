@@ -30,8 +30,8 @@ export async function generateMetadata(): Promise<Metadata> {
     ? "Kioo Africa | African Markets, Business & Biographies"
     : "Kioo Africa | Mercados, negócios e biografias africanas";
   const description = locale === "en"
-    ? "Kioo Africa is an independent African editorial publication covering markets, business, technology, culture and biographies through research and journalism."
-    : "A Kioo Africa é uma publicação editorial africana independente sobre mercados, negócios, tecnologia, cultura e biografias, com jornalismo e pesquisa.";
+    ? "Kioo Africa is an independent African editorial publication covering markets, business, technology, culture and biographies through research and journalism. Its official Facebook presence includes Kioo Africa Angola."
+    : "A Kioo Africa é uma publicação editorial africana independente sobre mercados, negócios, tecnologia, cultura e biografias, com jornalismo e pesquisa. A sua presença oficial no Facebook inclui a página Kioo Africa Angola.";
   const verification: NonNullable<Metadata["verification"]> = {};
   if (process.env.GOOGLE_SITE_VERIFICATION) {
     verification.google = process.env.GOOGLE_SITE_VERIFICATION;
@@ -86,8 +86,8 @@ export default async function RootLayout({
             ? "Kioo Africa is an independent digital editorial initiative covering African markets, business, technology, culture, research and biographies. Its official Facebook pages are Kioo Africa and Kioo Africa Angola."
             : "A Kioo Africa é uma iniciativa editorial digital independente sobre mercados africanos, negócios, tecnologia, cultura, pesquisa e biografias. As suas páginas oficiais no Facebook são Kioo Africa e Kioo Africa Angola.",
           disambiguatingDescription: locale === "en"
-            ? "An independent African digital editorial publication covering markets and public-interest stories, distinct from similarly named glass manufacturers and other organizations."
-            : "Uma publicação editorial digital africana independente sobre mercados e temas de interesse público, distinta de fabricantes de vidro e outras organizações com nomes semelhantes.",
+            ? "An independent African digital editorial publication covering markets and public-interest stories, distinct from similarly named fashion brands, glass manufacturers and other organizations."
+            : "Uma publicação editorial digital africana independente sobre mercados e temas de interesse público, distinta de marcas de moda, fabricantes de vidro e outras organizações com nomes semelhantes.",
           publishingPrinciples: new URL("/sobre#principios", siteUrl).toString(),
           contactPoint: {
             "@type": "ContactPoint",

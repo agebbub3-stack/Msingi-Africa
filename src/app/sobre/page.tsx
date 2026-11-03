@@ -15,8 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
     eyebrow: locale === "en" ? "INDEPENDENT · AFRICAN-ROOTED" : "INDEPENDENTE · COM RAÍZES EM ÁFRICA",
     title: locale === "en" ? "About Kioo Africa" : "Kioo Africa | Quem somos",
     description: locale === "en"
-      ? "Kioo Africa is an independent digital editorial initiative covering African markets, technology, culture, research and biographies. Its official Facebook page is Kioo Africa Angola."
-      : "A Kioo Africa é uma iniciativa editorial digital independente sobre mercados africanos, tecnologia, cultura, pesquisa e biografias. A página oficial no Facebook é Kioo Africa Angola.",
+      ? "Kioo Africa is an independent digital editorial initiative covering African markets, technology, culture, research and biographies. Its official Facebook pages are Kioo Africa and Kioo Africa Angola."
+      : "A Kioo Africa é uma iniciativa editorial digital independente sobre mercados africanos, tecnologia, cultura, pesquisa e biografias. As suas páginas oficiais no Facebook são Kioo Africa e Kioo Africa Angola.",
   });
 }
 
