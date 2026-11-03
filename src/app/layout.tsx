@@ -55,7 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
       ? ["Kioo Africa Angola", "African journalism", "African markets", "business in Africa", "African innovation", "African biographies"]
       : ["Kioo Africa Angola", "jornalismo africano", "mercados africanos", "negócios em África", "inovação africana", "biografias africanas"],
     ...(Object.keys(verification).length > 0 ? { verification } : {}),
-    icons: { icon: [{ url: "/brand-mark.svg", type: "image/svg+xml" }] },
+    icons: { icon: [{ url: "/favicon.png", type: "image/png", sizes: "512x512" }] },
   };
 }
 
