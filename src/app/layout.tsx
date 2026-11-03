@@ -8,7 +8,7 @@ import { translate } from "@/lib/i18n";
 import { getLocale } from "@/lib/locale.server";
 import { createPageMetadata } from "@/lib/page-metadata";
 import { getSiteUrl } from "@/lib/site-url";
-import { KIOO_FACEBOOK_URL } from "@/lib/social-links";
+import { KIOO_ANGOLA_FACEBOOK_URL, KIOO_FACEBOOK_URL } from "@/lib/social-links";
 import "./globals.css";
 
 const dmSans = DM_Sans({
@@ -80,11 +80,11 @@ export default async function RootLayout({
           alternateName: ["Kioo Africa Angola", "Kioo"],
           slogan: "Pessoas, ideias e mercados africanos.",
           url: siteUrl.origin,
-          sameAs: [KIOO_FACEBOOK_URL],
+          sameAs: [KIOO_FACEBOOK_URL, KIOO_ANGOLA_FACEBOOK_URL],
           logo: new URL("/favicon.png", siteUrl).toString(),
           description: locale === "en"
-            ? "Kioo Africa is an independent digital editorial initiative covering African markets, business, technology, culture, research and biographies. Its official Facebook page is named Kioo Africa Angola."
-            : "A Kioo Africa é uma iniciativa editorial digital independente sobre mercados africanos, negócios, tecnologia, cultura, pesquisa e biografias. A sua página oficial no Facebook chama-se Kioo Africa Angola.",
+            ? "Kioo Africa is an independent digital editorial initiative covering African markets, business, technology, culture, research and biographies. Its official Facebook pages are Kioo Africa and Kioo Africa Angola."
+            : "A Kioo Africa é uma iniciativa editorial digital independente sobre mercados africanos, negócios, tecnologia, cultura, pesquisa e biografias. As suas páginas oficiais no Facebook são Kioo Africa e Kioo Africa Angola.",
           disambiguatingDescription: locale === "en"
             ? "An independent African digital editorial publication covering markets and public-interest stories, distinct from similarly named glass manufacturers and other organizations."
             : "Uma publicação editorial digital africana independente sobre mercados e temas de interesse público, distinta de fabricantes de vidro e outras organizações com nomes semelhantes.",

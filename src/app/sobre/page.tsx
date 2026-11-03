@@ -3,7 +3,7 @@ import { ArrowDown, ArrowUpRight, Eye, Layers3, Search, ShieldCheck } from "luci
 import Link from "next/link";
 import { getLocale } from "@/lib/locale.server";
 import { createPageMetadata } from "@/lib/page-metadata";
-import { KIOO_FACEBOOK_URL } from "@/lib/social-links";
+import { KIOO_ANGOLA_FACEBOOK_URL, KIOO_FACEBOOK_URL } from "@/lib/social-links";
 
 export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
@@ -69,12 +69,12 @@ export default async function AboutPage() {
         <div className="about-origin-story">
           <span className="about-origin-number">{en ? "01 / OUR ORIGINS" : "01 / AS ORIGENS"}</span>
           {en ? <>
-            <p><strong>Kioo Africa — also known as Kioo — is an independent digital editorial initiative.</strong> It publishes research, articles, market analysis and biographies about Africa. Its official public Facebook page is named <em>Kioo Africa Angola</em>. <a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="text-link">Visit the official Facebook page <ArrowUpRight size={14} /></a></p>
+            <p><strong>Kioo Africa — also known as Kioo — is an independent digital editorial initiative.</strong> It publishes research, articles, market analysis and biographies about Africa. Follow the <a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">official Kioo Africa Facebook page</a> or the <a href={KIOO_ANGOLA_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">Kioo Africa Angola page</a>.</p>
             <p>Kioo Africa began with university students in <strong>South Africa, Angola and Uganda</strong> who shared a concern: too often, the continent was explained by others while its own ideas, research and voices were pushed to the margins.</p>
             <p>An independent movement grew from those students coming together. What began as a desire to research, exchange ideas and make room for African perspectives became an editorial initiative with a broader mission: to bring knowledge, people and markets closer without erasing the differences that make each reality unique.</p>
             <p>That origin still guides our work. For us, growth means deeper research, a wider conversation and earning the trust of people seeking to understand Africa with greater rigour — not speaking on behalf of a diverse continent.</p>
           </> : <>
-            <p><strong>A Kioo Africa — também conhecida simplesmente como Kioo — é uma iniciativa editorial digital independente.</strong> Publica pesquisa, artigos, análises de mercados e biografias sobre África. A sua página pública oficial no Facebook chama-se <em>Kioo Africa Angola</em>. <a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer" className="text-link">Visite a página oficial no Facebook <ArrowUpRight size={14} /></a></p>
+            <p><strong>A Kioo Africa — também conhecida simplesmente como Kioo — é uma iniciativa editorial digital independente.</strong> Publica pesquisa, artigos, análises de mercados e biografias sobre África. Siga a <a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">página oficial da Kioo Africa no Facebook</a> ou a página <a href={KIOO_ANGOLA_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">Kioo Africa Angola</a>.</p>
             <p>A Kioo Africa começou com estudantes universitários na <strong>África do Sul, em Angola e no Uganda</strong> que partilhavam a mesma inquietação: demasiadas vezes, o continente era explicado por outros — e as suas próprias ideias, investigação e vozes ficavam à margem.</p>
             <p>Da aproximação entre esses estudantes nasceu um movimento independente. O que começou como vontade de pesquisar, dialogar e dar espaço a perspetivas africanas foi consolidado numa iniciativa editorial com uma missão mais ampla: aproximar conhecimento, pessoas e mercados sem apagar as diferenças que fazem cada realidade única.</p>
             <p>Hoje, essa origem continua a orientar o nosso trabalho. Crescer, para nós, significa aprofundar a pesquisa, ampliar a conversa e ganhar a confiança de quem procura compreender África com mais rigor — não falar em nome de um continente diverso.</p>

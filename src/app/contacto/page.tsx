@@ -3,7 +3,7 @@ import { ContactForm } from "@/components/contact-form";
 import { JsonLd } from "@/components/json-ld";
 import { getLocale } from "@/lib/locale.server";
 import { createPageMetadata } from "@/lib/page-metadata";
-import { KIOO_FACEBOOK_URL } from "@/lib/social-links";
+import { KIOO_ANGOLA_FACEBOOK_URL, KIOO_FACEBOOK_URL } from "@/lib/social-links";
 import { getSiteUrl } from "@/lib/site-url";
 
 export const dynamic = "force-dynamic";
@@ -62,8 +62,9 @@ export default async function ContactPage() {
           <div className="contact-context-item">
             <span>04</span>
             <div>
-              <h3>{en ? "Follow Kioo Africa Angola" : "Siga a Kioo Africa Angola"}</h3>
-              <p><a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer" aria-label={en ? "Official Kioo Africa Angola Facebook page" : "Página oficial da Kioo Africa Angola no Facebook"}>{en ? "Official Facebook page" : "Página oficial no Facebook"} <span aria-hidden="true">↗</span></a></p>
+              <h3>{en ? "Follow Kioo Africa on Facebook" : "Siga a Kioo Africa no Facebook"}</h3>
+              <p><a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">{en ? "Kioo Africa · Official page" : "Kioo Africa · Página oficial"} <span aria-hidden="true">↗</span></a></p>
+              <p><a href={KIOO_ANGOLA_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">{en ? "Kioo Africa Angola · Official page" : "Kioo Africa Angola · Página oficial"} <span aria-hidden="true">↗</span></a></p>
             </div>
           </div>
         </aside>
