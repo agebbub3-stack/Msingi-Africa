@@ -27,11 +27,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const siteUrl = getSiteUrl();
   const title = locale === "en"
-    ? "Kioo Africa | African Business, Markets & Biographies"
-    : "Kioo Africa | Negócios, mercados e biografias africanas";
+    ? "Kioo Africa Angola | African Markets, Business & Biographies"
+    : "Kioo Africa Angola | Mercados e biografias africanas";
   const description = locale === "en"
-    ? "Independent African journalism and research on business, markets, innovation and the people shaping the continent."
-    : "Jornalismo e pesquisa independente sobre negócios, mercados, inovação e as pessoas que estão a transformar África.";
+    ? "Kioo Africa Angola is an independent editorial publication covering African markets, business, technology and biographies through research and context."
+    : "A Kioo Africa Angola é uma iniciativa editorial independente sobre mercados africanos, negócios, tecnologia e biografias, com jornalismo e pesquisa.";
   const verification: NonNullable<Metadata["verification"]> = {};
   if (process.env.GOOGLE_SITE_VERIFICATION) {
     verification.google = process.env.GOOGLE_SITE_VERIFICATION;
@@ -49,11 +49,11 @@ export async function generateMetadata(): Promise<Metadata> {
       eyebrow: locale === "en" ? "PEOPLE · IDEAS · MARKETS" : "PESSOAS · IDEIAS · MERCADOS",
     }),
     metadataBase: siteUrl,
-    applicationName: "Kioo Africa",
-    title: { default: title, template: "%s — Kioo Africa" },
+    applicationName: "Kioo Africa Angola",
+    title: { default: title, template: "%s — Kioo Africa Angola" },
     keywords: locale === "en"
-      ? ["African journalism", "African markets", "business in Africa", "African innovation", "African biographies"]
-      : ["jornalismo africano", "mercados africanos", "negócios em África", "inovação africana", "biografias africanas"],
+      ? ["Kioo Africa Angola", "African journalism", "African markets", "business in Africa", "African innovation", "African biographies"]
+      : ["Kioo Africa Angola", "jornalismo africano", "mercados africanos", "negócios em África", "inovação africana", "biografias africanas"],
     ...(Object.keys(verification).length > 0 ? { verification } : {}),
     icons: { icon: [{ url: "/brand-mark.svg", type: "image/svg+xml" }] },
   };
@@ -89,13 +89,26 @@ export default async function RootLayout({
             ? "An independent African business and markets publication, not an entertainment or lifestyle directory."
             : "Uma publicação independente sobre negócios e mercados africanos, não um diretório de entretenimento ou estilo de vida.",
           publishingPrinciples: new URL("/sobre#principios", siteUrl).toString(),
-          areaServed: { "@type": "Continent", name: "África" },
+          contactPoint: {
+            "@type": "ContactPoint",
+            contactType: locale === "en" ? "Editorial enquiries" : "Contactos editoriais",
+            url: new URL("/contacto", siteUrl).toString(),
+            availableLanguage: ["Portuguese", "English"],
+          },
+          knowsAbout: locale === "en"
+            ? ["African markets", "African business", "African technology", "African biographies", "African research"]
+            : ["Mercados africanos", "Negócios africanos", "Tecnologia em África", "Biografias africanas", "Investigação africana"],
+          areaServed: [
+            { "@type": "Continent", name: "Africa" },
+            { "@type": "Country", name: "Angola" },
+          ],
         }} />
         <JsonLd data={{
           "@context": "https://schema.org",
           "@type": "WebSite",
           "@id": `${siteUrl.origin}#website`,
-          name: "Kioo Africa",
+          name: "Kioo Africa Angola",
+          alternateName: "Kioo Africa",
           url: siteUrl.origin,
           inLanguage: locale === "en" ? "en" : ["pt-AO", "pt-PT"],
           publisher: { "@id": `${siteUrl.origin}#organization` },

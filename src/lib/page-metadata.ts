@@ -49,7 +49,7 @@ export function createPageMetadata({
       title,
       description,
       url: canonicalUrl,
-      siteName: "Kioo Africa",
+      siteName: "Kioo Africa Angola",
       locale: locale === "en" ? "en_GB" : "pt_AO",
       images: [{ url: imageUrl, width: 1200, height: 630, alt: title }],
     },

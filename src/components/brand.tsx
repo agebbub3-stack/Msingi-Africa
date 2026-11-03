@@ -5,7 +5,7 @@ export function Brand({ light = false }: { light?: boolean }) {
     <Link
       href="/"
       className={`brand${light ? " brand-light" : ""}`}
-      aria-label="Kioo Africa — página inicial"
+      aria-label="Kioo Africa Angola — página inicial"
     >
       <span className="brand-symbol" aria-hidden="true">
         <svg viewBox="0 0 48 48" fill="none">
@@ -15,7 +15,7 @@ export function Brand({ light = false }: { light?: boolean }) {
       </span>
       <span className="brand-copy">
         <span className="brand-name">kioo</span>
-        <span className="brand-descriptor">AFRICA · CONTEXTO</span>
+        <span className="brand-descriptor">AFRICA · ANGOLA</span>
       </span>
     </Link>
   );
