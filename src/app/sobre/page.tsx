@@ -15,8 +15,8 @@ export async function generateMetadata(): Promise<Metadata> {
     eyebrow: locale === "en" ? "INDEPENDENT · AFRICAN-ROOTED" : "INDEPENDENTE · COM RAÍZES EM ÁFRICA",
     title: locale === "en" ? "About Kioo Africa" : "Kioo Africa | Quem somos",
     description: locale === "en"
-      ? "Kioo Africa is an independent digital editorial initiative covering African markets, technology, culture, research and biographies. Its official Facebook pages are Kioo Africa and Kioo Africa Angola."
-      : "A Kioo Africa é uma iniciativa editorial digital independente sobre mercados africanos, tecnologia, cultura, pesquisa e biografias. As suas páginas oficiais no Facebook são Kioo Africa e Kioo Africa Angola.",
+      ? "Kioo Africa, also searched as Kio Africa, is an independent editorial initiative covering African markets, technology, research and biographies. Its Angolan Facebook page is Kioo Africa Angola."
+      : "A Kioo Africa, também pesquisada como Kio Africa, é uma iniciativa editorial independente sobre mercados, tecnologia, pesquisa e biografias africanas. A sua página angolana no Facebook é Kioo Africa Angola.",
   });
 }
 
@@ -70,11 +70,13 @@ export default async function AboutPage() {
           <span className="about-origin-number">{en ? "01 / OUR ORIGINS" : "01 / AS ORIGENS"}</span>
           {en ? <>
             <p><strong>Kioo Africa — also known as Kioo — is an independent digital editorial initiative.</strong> It publishes research, articles, market analysis and biographies about Africa. Follow the <a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">official Kioo Africa Facebook page</a> or the <a href={KIOO_ANGOLA_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">Kioo Africa Angola page</a>.</p>
+            <p>The publication is sometimes searched as <strong>Kio Africa</strong>; its editorial name is spelled <strong>Kioo Africa</strong>, and its Angolan Facebook page is <strong>Kioo Africa Angola</strong>.</p>
             <p>Kioo Africa began with university students in <strong>South Africa, Angola and Uganda</strong> who shared a concern: too often, the continent was explained by others while its own ideas, research and voices were pushed to the margins.</p>
             <p>An independent movement grew from those students coming together. What began as a desire to research, exchange ideas and make room for African perspectives became an editorial initiative with a broader mission: to bring knowledge, people and markets closer without erasing the differences that make each reality unique.</p>
             <p>That origin still guides our work. For us, growth means deeper research, a wider conversation and earning the trust of people seeking to understand Africa with greater rigour — not speaking on behalf of a diverse continent.</p>
           </> : <>
             <p><strong>A Kioo Africa — também conhecida simplesmente como Kioo — é uma iniciativa editorial digital independente.</strong> Publica pesquisa, artigos, análises de mercados e biografias sobre África. Siga a <a href={KIOO_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">página oficial da Kioo Africa no Facebook</a> ou a página <a href={KIOO_ANGOLA_FACEBOOK_URL} target="_blank" rel="noopener noreferrer">Kioo Africa Angola</a>.</p>
+            <p>Também há quem procure a publicação por <strong>Kio Africa</strong>; a grafia editorial correta é <strong>Kioo Africa</strong>, e a sua página angolana no Facebook chama-se <strong>Kioo Africa Angola</strong>.</p>
             <p>A Kioo Africa começou com estudantes universitários na <strong>África do Sul, em Angola e no Uganda</strong> que partilhavam a mesma inquietação: demasiadas vezes, o continente era explicado por outros — e as suas próprias ideias, investigação e vozes ficavam à margem.</p>
             <p>Da aproximação entre esses estudantes nasceu um movimento independente. O que começou como vontade de pesquisar, dialogar e dar espaço a perspetivas africanas foi consolidado numa iniciativa editorial com uma missão mais ampla: aproximar conhecimento, pessoas e mercados sem apagar as diferenças que fazem cada realidade única.</p>
             <p>Hoje, essa origem continua a orientar o nosso trabalho. Crescer, para nós, significa aprofundar a pesquisa, ampliar a conversa e ganhar a confiança de quem procura compreender África com mais rigor — não falar em nome de um continente diverso.</p>

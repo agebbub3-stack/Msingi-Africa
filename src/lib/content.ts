@@ -583,7 +583,7 @@ const softedgeFeature: Article = {
   partnerLogoUrl: "/images/partners/softedge-logo.jpeg",
   seoTitle: "SoftEdge Corporation e AKIRA IA: tecnologia angolana",
   seoDescription:
-    "Conheça Isaac Quarenta, a SoftEdge Corporation e a AKIRA IA, assistente angolana descrita nas fontes oficiais como focada no português.",
+    "Conheça a SoftEdge Corporation, Isaac Quarenta e a equipa divulgada pela empresa: José Lopes, Stefânio Costa e Tiago Rodrigues.",
   seoKeywords: [
     "SoftEdge Corporation",
     "SoftEdge Corporation Angola",
@@ -592,6 +592,9 @@ const softedgeFeature: Article = {
     "IA angolana",
     "Isaac Quarenta",
     "Isaac Nascimento Quarenta SoftEdge",
+    "José Lopes SoftEdge",
+    "Stefânio Costa SoftEdge",
+    "Tiago Rodrigues SoftEdge",
     "tecnologia angolana",
     "software em Angola",
     "assistente de inteligência artificial em português",
@@ -622,6 +625,10 @@ const softedgeFeature: Article = {
     {
       heading: "O que é a SoftEdge Corporation?",
       text: "Segundo a sua página institucional, a SoftEdge desenvolve aplicações web e móveis, sistemas empresariais, integrações e soluções de inteligência artificial. O site identifica Isaac Nascimento Quarenta como fundador e CEO. A empresa também apresenta uma cronologia própria de atividade desde 2023; indicadores promocionais publicados no site não são reproduzidos aqui porque não foi possível confirmá-los de forma independente.",
+    },
+    {
+      heading: "Quem integra a equipa da SoftEdge?",
+      text: "Na página institucional consultada, a SoftEdge apresenta Isaac Quarenta como fundador e CEO e lista José Lopes como CTO, Stefânio Costa como Lead Developer e Tiago Rodrigues em DevOps & Security. A fonte não identifica os três últimos como cofundadores; por isso, o Kioo mantém as funções que a própria empresa publica, sem lhes atribuir esse título.",
     },
     {
       heading: "O que é a AKIRA IA?",

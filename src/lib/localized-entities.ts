@@ -8,7 +8,7 @@ const englishDescriptions: Record<string, string> = {
   andela: "Global network connecting technology professionals with opportunities and company teams.",
   flutterwave: "Financial technology company focused on payments for businesses operating in African markets.",
   sunculture: "Climate technology company combining solar power, water pumping and irrigation for farmers.",
-  "softedge-corporation": "Angolan technology company whose official site describes work in software, digital products and artificial intelligence. Kioo coverage profiles the company, its founder and AKIRA.",
+  "softedge-corporation": "Angolan technology company. Its official site identifies Isaac Quarenta as founder and lists José Lopes, Stefânio Costa and Tiago Rodrigues in technical team roles.",
   akira: "AI assistant that SoftEdge describes as developed in Angola and focused on Portuguese-language use. Its public product page lists document and image analysis, web search and task organisation.",
 };
 

@@ -28,15 +28,15 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       : localizedEntity.name;
   const seoDescription = entity.slug === "softedge-corporation"
     ? isEnglish
-      ? "Meet SoftEdge Corporation, an Angolan software and AI company. Read sourced coverage of founder Isaac Quarenta and its AKIRA assistant."
-      : "Conheça a SoftEdge Corporation, empresa angolana de software e IA, e as fontes sobre Isaac Quarenta e a assistente AKIRA."
+      ? "Meet SoftEdge Corporation and the team listed by the company: Isaac Quarenta, José Lopes, Stefânio Costa and Tiago Rodrigues."
+      : "Conheça a SoftEdge Corporation e a equipa divulgada pela empresa: Isaac Quarenta, José Lopes, Stefânio Costa e Tiago Rodrigues."
     : entity.slug === "akira"
       ? isEnglish
         ? "Learn about AKIRA, the artificial intelligence assistant SoftEdge describes as developed in Angola and focused on Portuguese."
         : "Conheça a AKIRA IA, assistente da SoftEdge descrita como criada em Angola e focada na língua portuguesa."
       : localizedEntity.description;
   const seoKeywords = entity.slug === "softedge-corporation"
-    ? ["SoftEdge Corporation", "SoftEdge Corporation Angola", "SoftEdge Angola", "Isaac Quarenta", "AKIRA IA", "software angolano"]
+    ? ["SoftEdge Corporation", "SoftEdge Corporation Angola", "SoftEdge Angola", "Isaac Quarenta", "José Lopes SoftEdge", "Stefânio Costa SoftEdge", "Tiago Rodrigues SoftEdge", "AKIRA IA", "software angolano"]
     : entity.slug === "akira"
       ? ["AKIRA IA", "AKIRA AI", "AKIRA SoftEdge", "inteligência artificial em Angola", "assistente de IA em português"]
       : [localizedEntity.name];

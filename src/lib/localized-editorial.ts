@@ -20,7 +20,8 @@ const englishArticles: Record<string, ArticleCopy> = {
     title: "SoftEdge Corporation and AKIRA: artificial intelligence built in Angola",
     standfirst: "From software engineering to the AKIRA assistant, the Luanda-based company presents digital products focused on Portuguese. Here is what official sources say — and what still needs to be assessed.",
     imageAlt: "Official AKIRA logo, an artificial intelligence assistant by SoftEdge",
-    seoKeywords: ["SoftEdge Corporation", "AKIRA AI", "artificial intelligence in Angola", "Angolan AI", "Isaac Quarenta", "technology in Angola"],
+    seoDescription: "Meet SoftEdge Corporation, Isaac Quarenta and the team listed by the company: José Lopes, Stefânio Costa and Tiago Rodrigues.",
+    seoKeywords: ["SoftEdge Corporation", "AKIRA AI", "artificial intelligence in Angola", "Angolan AI", "Isaac Quarenta", "José Lopes SoftEdge", "Stefânio Costa SoftEdge", "Tiago Rodrigues SoftEdge", "technology in Angola"],
   },
   "isaac-nascimento-quarenta": {
     title: "Isaac Nascimento Quarenta",
@@ -304,6 +305,10 @@ When companies invest in local talent, the benefits can cross sectors: more capa
 ## What is SoftEdge Corporation?
 
 According to its company page, SoftEdge develops web and mobile applications, business systems, integrations and artificial intelligence solutions. Its website identifies Isaac Nascimento Quarenta as founder and CEO. The company also publishes its own timeline of activity since 2023; promotional figures on the site are not repeated here because they could not be independently confirmed.
+
+## Who is listed on the SoftEdge team?
+
+The company page identifies Isaac Quarenta as founder and CEO, and lists José Lopes as CTO, Stefânio Costa as Lead Developer, and Tiago Rodrigues in DevOps & Security. The source does not describe the latter three as co-founders, so this article uses the roles published by SoftEdge rather than assigning them that title.
 
 ## What is AKIRA AI?
 

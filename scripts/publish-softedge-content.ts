@@ -90,7 +90,7 @@ const entityRows: (typeof schema.entities.$inferInsert)[] = [
     slug: "softedge-corporation",
     type: "company",
     name: "SoftEdge Corporation",
-    description: "Empresa angolana de tecnologia focada em desenvolvimento de software, produtos digitais e soluções de inteligência artificial.",
+    description: "Empresa angolana de tecnologia. A sua página institucional identifica Isaac Quarenta como fundador e lista José Lopes, Stefânio Costa e Tiago Rodrigues em funções técnicas da equipa.",
     countryCode: "AO",
     websiteUrl: "https://softedge-corporation.up.railway.app/",
     imageUrl: "/images/partners/softedge-logo.jpeg",

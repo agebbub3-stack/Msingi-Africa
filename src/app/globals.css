@@ -1833,6 +1833,65 @@ main { overflow: clip; }
   .scroll-reveal-ready[data-scroll-reveal-timeline="view"] .scroll-reveal-item { animation: none; }
 }
 
+.hero-visual { isolation: isolate; }
+.hero-visual::after {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at 76% 24%, rgba(245, 190, 132, .14), transparent 38%),
+    radial-gradient(ellipse at 5% 18%, rgba(105, 156, 121, .1), transparent 32%),
+    linear-gradient(90deg, transparent 72%, rgba(9, 19, 15, .16));
+  content: "";
+}
+.hero-feature-layout { z-index: 2; perspective: 1400px; }
+.hero-slide-content h1 { text-shadow: 0 7px 32px rgba(0, 0, 0, .2); }
+.hero-story-choice {
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .11);
+  transition: background .2s ease, border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+}
+.hero-story-choice-active {
+  box-shadow: 0 15px 34px rgba(0, 0, 0, .2), inset 0 1px 0 rgba(255, 255, 255, .16);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hero-story-rail { transform-style: preserve-3d; }
+  .hero-story-choice:hover {
+    transform: translateX(-4px) translateZ(8px) rotateY(-1deg);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, .2);
+  }
+}
+
+@media (max-width: 760px) {
+  .primary-navigation {
+    top: calc(100% - 1px);
+    max-height: calc(100vh - 68px);
+    max-height: calc(100dvh - 68px);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-bottom: max(16px, env(safe-area-inset-bottom));
+    border-radius: 0 0 20px 20px;
+    scrollbar-color: rgba(118, 130, 117, .55) transparent;
+    scrollbar-width: thin;
+  }
+  .nav-explore-panel {
+    max-height: min(390px, max(160px, calc(100dvh - 250px)));
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    border: 1px solid rgba(222, 220, 210, .75);
+    border-radius: 14px;
+    background: linear-gradient(155deg, rgba(255, 254, 250, .96), rgba(239, 240, 232, .94));
+  }
+  .nav-explore-link { min-height: 60px; border-radius: 11px; }
+  .nav-explore-search { min-height: 44px; margin-top: 5px; border-radius: 11px; }
+  .primary-navigation > .nav-link { min-height: 52px; }
+  .primary-navigation > .nav-cta { min-height: 48px; }
+  .language-switcher-trigger { min-height: 44px; }
+}
+html[data-theme="dark"] .nav-explore-panel {
+  background: linear-gradient(155deg, rgba(32, 42, 35, .98), rgba(22, 30, 25, .98));
+}
+
 /* Explore menu and editorial-card refinements. */
 .nav-explore { position: relative; height: 100%; }
 .nav-explore-trigger {

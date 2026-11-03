@@ -27,11 +27,11 @@ export async function generateMetadata(): Promise<Metadata> {
   const locale = await getLocale();
   const siteUrl = getSiteUrl();
   const title = locale === "en"
-    ? "Kioo Africa | African Markets, Business & Biographies"
-    : "Kioo Africa | Mercados, negócios e biografias africanas";
+    ? "Kioo Africa | African Markets, Research & Biographies"
+    : "Kioo Africa Angola | Jornalismo e pesquisa em África";
   const description = locale === "en"
-    ? "Kioo Africa is an independent African editorial publication covering markets, business, technology, culture and biographies through research and journalism. Its official Facebook presence includes Kioo Africa Angola."
-    : "A Kioo Africa é uma publicação editorial africana independente sobre mercados, negócios, tecnologia, cultura e biografias, com jornalismo e pesquisa. A sua presença oficial no Facebook inclui a página Kioo Africa Angola.";
+    ? "Kioo Africa is an independent African editorial publication covering markets, business, technology, culture and biographies through research and journalism. Its Angolan Facebook presence is Kioo Africa Angola."
+    : "A Kioo Africa é uma publicação editorial independente, com presença em Angola e cobertura pan-africana sobre mercados, negócios, tecnologia, cultura e biografias. Conheça a página Kioo Africa Angola.";
   const verification: NonNullable<Metadata["verification"]> = {};
   if (process.env.GOOGLE_SITE_VERIFICATION) {
     verification.google = process.env.GOOGLE_SITE_VERIFICATION;
@@ -52,10 +52,15 @@ export async function generateMetadata(): Promise<Metadata> {
     applicationName: "Kioo Africa",
     title: { default: title, template: "%s — Kioo Africa" },
     keywords: locale === "en"
-      ? ["Kioo Africa", "African journalism", "African markets", "business in Africa", "African innovation", "African biographies"]
-      : ["Kioo Africa", "jornalismo africano", "mercados africanos", "negócios em África", "inovação africana", "biografias africanas"],
+      ? ["Kioo Africa", "Kio Africa", "Kioo Africa Angola", "African journalism", "African markets", "business in Africa", "African innovation", "African biographies"]
+      : ["Kioo Africa", "Kio Africa", "Kioo Africa Angola", "jornalismo africano", "mercados africanos", "negócios em África", "inovação africana", "biografias africanas"],
     ...(Object.keys(verification).length > 0 ? { verification } : {}),
-    icons: { icon: [{ url: "/favicon.ico", type: "image/x-icon" }] },
+    icons: {
+      icon: [
+        { url: "/favicon.png", sizes: "512x512", type: "image/png" },
+        { url: "/favicon.ico", type: "image/x-icon" },
+      ],
+    },
   };
 }
 
@@ -79,6 +84,7 @@ export default async function RootLayout({
           name: "Kioo Africa",
           alternateName: ["Kioo Africa Angola", "Kioo"],
           slogan: "Pessoas, ideias e mercados africanos.",
+          keywords: ["Kioo Africa", "Kio Africa", "Kioo Africa Angola"],
           url: siteUrl.origin,
           sameAs: [KIOO_FACEBOOK_URL, KIOO_ANGOLA_FACEBOOK_URL],
           logo: new URL("/favicon.png", siteUrl).toString(),
