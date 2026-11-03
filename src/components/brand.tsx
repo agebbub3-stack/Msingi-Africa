@@ -5,7 +5,7 @@ export function Brand({ light = false }: { light?: boolean }) {
     <Link
       href="/"
       className={`brand${light ? " brand-light" : ""}`}
-      aria-label="Kioo Africa Angola — página inicial"
+      aria-label="Kioo Africa — página inicial"
     >
       <span className="brand-symbol" aria-hidden="true">
         <svg viewBox="0 0 48 48" fill="none">

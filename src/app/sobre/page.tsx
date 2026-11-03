@@ -12,10 +12,10 @@ export async function generateMetadata(): Promise<Metadata> {
     kind: "about",
     path: "/sobre",
     eyebrow: locale === "en" ? "INDEPENDENT · AFRICAN-ROOTED" : "INDEPENDENTE · COM RAÍZES EM ÁFRICA",
-    title: locale === "en" ? "About Kioo Africa" : "Quem somos",
+    title: locale === "en" ? "About Kioo Africa" : "Kioo Africa | Quem somos",
     description: locale === "en"
-      ? "Meet Kioo Africa, an independent editorial initiative rooted in Angola, South Africa and Uganda, committed to rigorous research and journalism."
-      : "Conheça a Kioo Africa, uma iniciativa editorial independente com raízes em Angola, África do Sul e Uganda, dedicada a pesquisa e jornalismo rigorosos.",
+      ? "Kioo Africa is an independent digital editorial initiative covering African markets, technology, culture, research and biographies. Its official Facebook page is Kioo Africa Angola."
+      : "A Kioo Africa é uma iniciativa editorial digital independente sobre mercados africanos, tecnologia, cultura, pesquisa e biografias. A página oficial no Facebook é Kioo Africa Angola.",
   });
 }
 
@@ -68,11 +68,11 @@ export default async function AboutPage() {
         <div className="about-origin-story">
           <span className="about-origin-number">{en ? "01 / OUR ORIGINS" : "01 / AS ORIGENS"}</span>
           {en ? <>
-            <p>Kioo Africa began with university students in <strong>South Africa, Angola and Uganda</strong>. In different contexts, they shared the same concern: too often, the continent was explained by others while its own ideas, research and voices were pushed to the margins.</p>
+            <p><strong>Kioo Africa is an independent digital editorial initiative</strong> covering African markets, business, technology, culture, research and biographies. It began with university students in <strong>South Africa, Angola and Uganda</strong> who shared a concern: too often, the continent was explained by others while its own ideas, research and voices were pushed to the margins.</p>
             <p>An independent movement grew from those students coming together. What began as a desire to research, exchange ideas and make room for African perspectives became an editorial initiative with a broader mission: to bring knowledge, people and markets closer without erasing the differences that make each reality unique.</p>
             <p>That origin still guides our work. For us, growth means deeper research, a wider conversation and earning the trust of people seeking to understand Africa with greater rigour — not speaking on behalf of a diverse continent.</p>
           </> : <>
-            <p>A história da Kioo Africa começa com estudantes universitários na <strong>África do Sul, em Angola e no Uganda</strong>. Em contextos diferentes, partilhavam a mesma inquietação: demasiadas vezes, o continente era explicado por outros — e as suas próprias ideias, investigação e vozes ficavam à margem.</p>
+            <p><strong>A Kioo Africa é uma iniciativa editorial digital independente</strong> sobre mercados africanos, negócios, tecnologia, cultura, pesquisa e biografias. A sua história começa com estudantes universitários na <strong>África do Sul, em Angola e no Uganda</strong> que partilhavam a mesma inquietação: demasiadas vezes, o continente era explicado por outros — e as suas próprias ideias, investigação e vozes ficavam à margem.</p>
             <p>Da aproximação entre esses estudantes nasceu um movimento independente. O que começou como vontade de pesquisar, dialogar e dar espaço a perspetivas africanas foi consolidado numa iniciativa editorial com uma missão mais ampla: aproximar conhecimento, pessoas e mercados sem apagar as diferenças que fazem cada realidade única.</p>
             <p>Hoje, essa origem continua a orientar o nosso trabalho. Crescer, para nós, significa aprofundar a pesquisa, ampliar a conversa e ganhar a confiança de quem procura compreender África com mais rigor — não falar em nome de um continente diverso.</p>
           </>}
