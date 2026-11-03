@@ -55,7 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
       ? ["Kioo Africa", "African journalism", "African markets", "business in Africa", "African innovation", "African biographies"]
       : ["Kioo Africa", "jornalismo africano", "mercados africanos", "negócios em África", "inovação africana", "biografias africanas"],
     ...(Object.keys(verification).length > 0 ? { verification } : {}),
-    icons: { icon: [{ url: "/favicon.png", type: "image/png", sizes: "512x512" }] },
+    icons: { icon: [{ url: "/favicon.ico", type: "image/x-icon" }] },
   };
 }
 
@@ -77,7 +77,7 @@ export default async function RootLayout({
           "@type": "NewsMediaOrganization",
           "@id": `${siteUrl.origin}#organization`,
           name: "Kioo Africa",
-          alternateName: "Kioo Africa Angola",
+          alternateName: ["Kioo Africa Angola", "Kioo"],
           slogan: "Pessoas, ideias e mercados africanos.",
           url: siteUrl.origin,
           sameAs: [KIOO_FACEBOOK_URL],
@@ -108,8 +108,8 @@ export default async function RootLayout({
           "@type": "WebSite",
           "@id": `${siteUrl.origin}#website`,
           name: "Kioo Africa",
-          alternateName: "Kioo Africa Angola",
-          url: siteUrl.origin,
+          alternateName: ["Kioo Africa Angola", "Kioo"],
+          url: new URL("/", siteUrl).toString(),
           inLanguage: locale === "en" ? "en" : ["pt-AO", "pt-PT"],
           publisher: { "@id": `${siteUrl.origin}#organization` },
           potentialAction: {
