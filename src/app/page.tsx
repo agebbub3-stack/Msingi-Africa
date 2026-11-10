@@ -27,16 +27,17 @@ export default async function HomePage() {
   const visibleArticles = locale === "en"
     ? publishedArticles.filter((article) => hasContentForLocale(article, locale))
     : publishedArticles;
+  const homepageArticles = visibleArticles.filter((article) => article.slug !== "softedge-ia-angolana-akira");
   const visibleBiographies = locale === "en"
     ? biographies.filter((profile) => hasContentForLocale(profile, locale))
     : biographies;
-  const [lead, ...latestArticles] = visibleArticles;
+  const [lead, ...latestArticles] = homepageArticles;
   const digitalEconomyArticle = visibleArticles.find(
     (article) => article.slug === "inclusao-digital-africa-uso-internet-movel",
   );
   const gsmaSource = digitalEconomyArticle?.sources?.find((source) => source.publisher === "GSMA");
   const carouselStories = [
-    ...visibleArticles.slice(0, 3).map((article) => {
+    ...homepageArticles.slice(0, 3).map((article) => {
       const localizedArticle = localizeArticle(article, locale);
       return {
         href: `/artigos/${article.slug}`,
@@ -44,9 +45,8 @@ export default async function HomePage() {
         description: localizedArticle.standfirst,
         image: article.image,
         imageAlt: localizedArticle.imageAlt,
-        ...(article.slug === "softedge-ia-angolana-akira" ? { imageTreatment: "partner-logo" as const } : {}),
         label: article.partnerName
-          ? `${locale === "en" ? "PARTNERSHIP FEATURE" : "PARCERIA DIVULGADA"} · ${localizeCategory(article.category, locale)}`
+          ? `${locale === "en" ? "SPONSORED" : "PATROCINADO"} · ${localizeCategory(article.category, locale)}`
           : localizeCategory(article.category, locale),
         byline: localizedArticle.author,
         date: localizedArticle.date,
@@ -73,11 +73,10 @@ export default async function HomePage() {
 
   return (
     <>
-      <div className="home-scroll-progress" aria-hidden="true"><span /></div>
       <section className="home-hero">
         <div className="hero-topline">
           <span className="eyebrow"><span className="eyebrow-dot" /> {translate(locale, "watchContinent")}</span>
-          <span className="hero-edition">VOL. 01 <span>—</span> {translate(locale, "edition")} 026</span>
+          <span className="hero-edition">{locale === "en" ? "AFRICA · ANGOLA · INDEPENDENT JOURNALISM" : "ÁFRICA · ANGOLA · JORNALISMO INDEPENDENTE"}</span>
         </div>
         <HomeHeroCarousel locale={locale} items={carouselStories.length > 0 ? carouselStories : [{
             href: "/artigos",
@@ -99,14 +98,13 @@ export default async function HomePage() {
       <ScrollReveal
         className="featured-section section-pad"
         id="destaque"
-        selector=".section-heading, .lead-article, .briefing"
       >
         <div className="section-heading">
           <div>
             <span className="section-kicker">
-              {lead?.partnerName
-                ? (locale === "en" ? "PARTNERSHIP HIGHLIGHT" : "DESTAQUE DE PARCERIA")
-                : translate(locale, "editorsPick")} <span>✳</span>
+              {lead?.isSponsored
+                ? (locale === "en" ? "SPONSORED STORY" : "CONTEÚDO PATROCINADO")
+                : translate(locale, "editorsPick")}
             </span>
             <h2>{locale === "en" ? <>The continent<br className="mobile-break" /> in <em>context.</em></> : <>O continente<br className="mobile-break" /> em <em>contexto.</em></>}</h2>
           </div>
@@ -117,7 +115,6 @@ export default async function HomePage() {
           <aside className="briefing">
             <div className="briefing-top">
               <span className="briefing-overline">{translate(locale, "startingPoint")}</span>
-              <span className="briefing-symbol">✳</span>
             </div>
             <h3>{locale === "en" ? <>Context changes<br />everything.</> : <>O contexto muda<br />tudo.</>}</h3>
             <p>{translate(locale, "contextBriefing")}</p>
@@ -131,11 +128,10 @@ export default async function HomePage() {
         <ScrollReveal
           className="market-lens section-pad"
           aria-labelledby="market-lens-title"
-          selector=".market-lens-heading, .market-metric, .market-source"
         >
           <div className="market-lens-heading">
             <div>
-              <span className="section-kicker">{translate(locale, "dataInContext")} <span>✳</span> GSMA · 2025</span>
+              <span className="section-kicker">{translate(locale, "dataInContext")} · GSMA · 2025</span>
               <h2 id="market-lens-title">{locale === "en" ? <>The digital economy<br /><em>beyond the signal.</em></> : <>A economia digital<br />para lá do <em>sinal.</em></>}</h2>
               <p>{translate(locale, "mobileAccessContext")}</p>
             </div>
@@ -171,7 +167,6 @@ export default async function HomePage() {
 
       <ScrollReveal
         className="latest-section section-pad"
-        selector=".section-heading, .article-card, .latest-bottom"
       >
         <div className="section-heading section-heading-dark">
           <div>
@@ -188,11 +183,10 @@ export default async function HomePage() {
 
       <ScrollReveal
         className="people-section section-pad"
-        selector=".section-heading, .profile-card"
       >
         <div className="section-heading">
           <div>
-            <span className="section-kicker">{translate(locale, "peopleChangingTheGame")} <span>✳</span></span>
+            <span className="section-kicker">{translate(locale, "peopleChangingTheGame")}</span>
             <h2>{locale === "en" ? <>Ideas with a<br className="mobile-break" /> <em>face and a story.</em></> : <>Ideias com<br className="mobile-break" /> <em>rosto e história.</em></>}</h2>
           </div>
           <Link className="text-link heading-link" href="/biografias">{translate(locale, "allBiographies")} <ArrowRight size={15} /></Link>
@@ -204,16 +198,14 @@ export default async function HomePage() {
 
       <ScrollReveal
         className="contribute-band"
-        selector=".contribute-copy, .contribute-note"
       >
-        <div className="contribute-orbit" aria-hidden="true"><span>✳</span></div>
         <div className="contribute-copy">
           <span className="section-kicker">{translate(locale, "bestIdeasTogether")}</span>
           <h2>{locale === "en" ? <>Have a story<br />that needs <em>room?</em></> : <>Tem uma história<br />que precisa <em>de espaço?</em></>}</h2>
           <p>{translate(locale, "seekingVoices")}</p>
           <Link className="button button-light" href="/publicar">{translate(locale, "shareIdea")} <ArrowUpRight size={16} /></Link>
         </div>
-        <div className="contribute-note"><span>✳</span> {translate(locale, "newsroomListens")}</div>
+        <div className="contribute-note">{translate(locale, "newsroomListens")}</div>
       </ScrollReveal>
     </>
   );

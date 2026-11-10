@@ -1,9 +1,9 @@
 "use client";
 
-import { ArrowLeft, ArrowRight, ArrowUpRight, Pause, Play } from "lucide-react";
+import { ArrowLeft, ArrowRight, ArrowUpRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { translate, type Locale } from "@/lib/i18n";
 
 export type HomeHeroSlide = {
@@ -15,31 +15,16 @@ export type HomeHeroSlide = {
   label: string;
   byline: string;
   date: string;
-  imageTreatment?: "partner-logo";
   isOriginalLanguage?: boolean;
 };
 
 export function HomeHeroCarousel({ items, locale }: { items: HomeHeroSlide[]; locale: Locale }) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
-  const shouldPause = isPaused;
-
-  useEffect(() => {
-    if (items.length < 2 || shouldPause) return;
-    const motionPreference = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (motionPreference.matches) return;
-
-    const interval = window.setInterval(() => {
-      if (document.visibilityState === "visible") {
-        setActiveIndex((index) => (index + 1) % items.length);
-      }
-    }, 7500);
-    return () => window.clearInterval(interval);
-  }, [activeIndex, items.length, shouldPause]);
 
   if (items.length === 0) return null;
 
-  const activeItem = items[activeIndex];
+  const selectedIndex = activeIndex % items.length;
+  const activeItem = items[selectedIndex];
   const previous = () => setActiveIndex((index) => (index - 1 + items.length) % items.length);
   const next = () => setActiveIndex((index) => (index + 1) % items.length);
 
@@ -53,7 +38,7 @@ export function HomeHeroCarousel({ items, locale }: { items: HomeHeroSlide[]; lo
         if (event.key === "ArrowRight") next();
       }}
     >
-      <div className={`hero-slide${activeItem.imageTreatment === "partner-logo" ? " hero-slide-partner-logo" : ""}`}>
+      <div className="hero-slide">
         <Image
           key={activeItem.image}
           src={activeItem.image}
@@ -66,7 +51,7 @@ export function HomeHeroCarousel({ items, locale }: { items: HomeHeroSlide[]; lo
         <div className="hero-slide-shade" />
       </div>
       <div className="hero-feature-layout">
-        <div className="hero-slide-content" key={activeItem.href}>
+        <div className="hero-slide-content" key={activeItem.href} aria-live="polite" aria-atomic="true">
           <div className="hero-slide-kickers">
             <span className="hero-slide-edition">{locale === "en"
               ? (activeItem.isOriginalLanguage ? "ORIGINAL LANGUAGE" : "ENGLISH EDITION")
@@ -87,32 +72,20 @@ export function HomeHeroCarousel({ items, locale }: { items: HomeHeroSlide[]; lo
             <button
               type="button"
               key={item.href}
-              className={`hero-story-choice${index === activeIndex ? " hero-story-choice-active" : ""}`}
+              className={`hero-story-choice${index === selectedIndex ? " hero-story-choice-active" : ""}`}
               onClick={() => setActiveIndex(index)}
-              aria-current={index === activeIndex ? "true" : undefined}
+              aria-current={index === selectedIndex ? "true" : undefined}
               aria-label={`${translate(locale, "chooseStory")}: ${item.title}`}
             >
               <span>{item.label}</span>
               <strong>{item.title}</strong>
-              <i className={shouldPause ? "hero-carousel-progress-paused" : ""} aria-hidden="true" />
             </button>
           ))}
           {items.length > 1 && (
             <div className="hero-carousel-controls" aria-label={translate(locale, "storiesNavigation")}>
               <span className="hero-carousel-count">
-                {String(activeIndex + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
+                {String(selectedIndex + 1).padStart(2, "0")} / {String(items.length).padStart(2, "0")}
               </span>
-              <div className="hero-carousel-progress" aria-hidden="true">
-                <span key={activeIndex} className={shouldPause ? "hero-carousel-progress-paused" : ""} />
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsPaused((paused) => !paused)}
-                aria-label={translate(locale, isPaused ? "resumeCarousel" : "pauseCarousel")}
-                aria-pressed={isPaused}
-              >
-                {isPaused ? <Play size={14} /> : <Pause size={14} />}
-              </button>
               <button type="button" onClick={previous} aria-label={translate(locale, "previousStory")}>
                 <ArrowLeft size={16} />
               </button>

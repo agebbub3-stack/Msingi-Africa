@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowLeft, ArrowUpRight, MapPin } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, ExternalLink, MapPin, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -87,6 +87,24 @@ export default async function BiographyPage({ params }: Props) {
     relatedArticleSlugs.has(item.slug) && hasContentForLocale(item, locale),
   );
   const portrait = editorialProfile?.portrait;
+  const profileLinks = [
+    ...(editorialProfile?.organizationUrl
+      ? [{ href: editorialProfile.organizationUrl, label: en ? "Official website" : "Site oficial" }]
+      : []),
+    ...(editorialProfile?.contactUrl
+      ? [{ href: editorialProfile.contactUrl, label: en ? "Contact" : "Contacto" }]
+      : []),
+    ...[...new Set(editorialProfile?.sameAs ?? [])]
+      .filter((url) => url !== editorialProfile?.organizationUrl && url !== editorialProfile?.contactUrl)
+      .map((url) => {
+        const host = new URL(url).hostname.replace(/^www\./, "");
+        const label = host === "github.com" ? "GitHub"
+          : host === "x.com" ? "X"
+            : host === "linkedin.com" ? "LinkedIn"
+              : en ? "Public profile" : "Perfil público";
+        return { href: url, label };
+      }),
+  ];
   const seo = getStorySeo(localizedProfile);
   const initialComments = profile.id
     ? await getApprovedArticleComments(profile.id)
@@ -151,12 +169,10 @@ export default async function BiographyPage({ params }: Props) {
           </figure>
         ) : (
           <div className={`person-art profile-${editorialProfile?.accent ?? "sage"}`}>
-            <span className="profile-orbit orbit-one" />
-            <span className="profile-orbit orbit-two" />
             <span className="person-monogram">
               {editorialProfile?.monogram ?? profile.title.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase()}
             </span>
-            {profile.partnerName && profile.partnerLogoUrl && (
+            {profile.isSponsored && profile.partnerName && profile.partnerLogoUrl && (
               <span className="profile-partner-mark">
                 <Image src={profile.partnerLogoUrl} alt="" width={24} height={24} />
                 <span>{en ? "PARTNERSHIP" : "PARCERIA"} · {profile.partnerName}</span>
@@ -172,7 +188,15 @@ export default async function BiographyPage({ params }: Props) {
           <p className="person-role">{localizedProfile.personRole ?? (en ? "A story in perspective" : "Uma história em perspetiva")}</p>
           <p className="person-summary">{localizedProfile.standfirst}</p>
           <div className="person-tags"><span><MapPin size={14} /> {localizedProfile.personCountry ?? (en ? "Africa" : "África")}</span><span>{localizeCategory(localizedProfile.personField ?? localizedProfile.category, locale)}</span></div>
-          <div className="person-quote"><span>“</span><p>{en ? "A story that invites us to look again at what is possible." : "Uma história que nos ajuda a olhar de novo para o que é possível."}</p></div>
+          {profileLinks.length > 0 && (
+            <nav className="person-links" aria-label={en ? "Public links" : "Ligações públicas"}>
+              {profileLinks.map(({ href, label }) => (
+                <a key={href} href={href} target="_blank" rel="noopener noreferrer">
+                  {label} <ExternalLink size={13} aria-hidden="true" />
+                </a>
+              ))}
+            </nav>
+          )}
         </div>
       </section>
       <section className="person-story">
@@ -190,11 +214,11 @@ export default async function BiographyPage({ params }: Props) {
               ))}</ol>
             </section>
           )}
-          <div className={`story-disclosure${profile.isSponsored ? " disclosure-sponsored" : ""}`}><span>✳</span><p>{profile.isSponsored
+          <div className={`story-disclosure${profile.isSponsored ? " disclosure-sponsored" : ""}`}><ShieldCheck size={16} aria-hidden="true" /><p>{profile.isSponsored
             ? localizedProfile.sponsorDisclosure ?? (en ? "This profile contains a disclosed partnership." : "Este perfil identifica uma parceria.")
             : en
-              ? "This profile has been reviewed by the newsroom. Biographical coverage is not for sale. "
-              : "Este perfil foi revisto pela redação. A publicação biográfica não está à venda. "}
+              ? "This editorial profile is based on the references listed above. "
+              : "Este perfil editorial baseia-se nas referências indicadas acima. "}
             <Link href="/sobre#principios">{en ? "Read our principles." : "Conheça os nossos princípios."}</Link>
           </p></div>
         </div>

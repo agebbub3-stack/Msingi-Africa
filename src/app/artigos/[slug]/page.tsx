@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ArrowLeft, ArrowUpRight, Clock3 } from "lucide-react";
+import { ArrowLeft, ArrowUpRight, Clock3, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -174,9 +174,7 @@ export default async function ArticlePage({ params }: Props) {
       <div className="story-breadcrumb"><Link href="/artigos"><ArrowLeft size={14} /> {en ? "All articles" : "Todos os artigos"}</Link><span> / </span><span>{localizeCategory(article.category, locale)}</span></div>
       <header className="story-header">
         <span className="category-label">{article.isSponsored
-          ? article.partnerName
-            ? (en ? "Disclosed partnership" : "Parceria divulgada")
-            : (en ? "Sponsored" : "Patrocinado")
+          ? (en ? "Sponsored content" : "Conteúdo patrocinado")
           : localizeCategory(article.category, locale)}</span>
         <h1>{displayArticle.title}</h1>
         <p className="story-standfirst">{displayArticle.standfirst}</p>
@@ -188,8 +186,8 @@ export default async function ArticlePage({ params }: Props) {
               ? (en ? "Biographical profile" : "Perfil biográfico")
               : article.isSponsored
               ? (en
-                ? `Disclosed partnership${article.partnerName ? ` · ${article.partnerName}` : ""}`
-                : `Parceria divulgada${article.partnerName ? ` · ${article.partnerName}` : ""}`)
+                ? `Sponsored content${article.partnerName ? ` · ${article.partnerName}` : ""}`
+                : `Conteúdo patrocinado${article.partnerName ? ` · ${article.partnerName}` : ""}`)
                 : (en ? "Kioo Africa Editorial" : "Redação Kioo Africa")}</span>
           </div>
           <span className="byline-divider" />
@@ -203,7 +201,7 @@ export default async function ArticlePage({ params }: Props) {
           <div className="story-partner-mark">
             <Image src={article.partnerLogoUrl} alt="" width={38} height={38} />
             <span>
-              <small>{en ? "DISCLOSED PARTNERSHIP" : "PARCERIA IDENTIFICADA"}</small>
+              <small>{en ? "SPONSORED CONTENT" : "CONTEÚDO PATROCINADO"}</small>
               <strong>{article.partnerName}</strong>
             </span>
           </div>
@@ -228,7 +226,7 @@ export default async function ArticlePage({ params }: Props) {
             </section>
           )}
           <div className={`story-disclosure${article.isSponsored ? " disclosure-sponsored" : ""}`}>
-            <span>✳</span>
+            <ShieldCheck size={16} aria-hidden="true" />
             <p>{article.isSponsored
                 ? article.sponsorDisclosure ?? (en
                   ? "Sponsored content. This commercial partnership is clearly labelled and does not determine editorial coverage."

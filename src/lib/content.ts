@@ -33,6 +33,65 @@ export type Article = {
 
 export const researchArticles: Article[] = [
   {
+    slug: "angola-crescimento-economico-emprego-2026",
+    title: "Angola cresce em 2026, mas o emprego continua a ser o teste decisivo",
+    standfirst:
+      "O Banco Africano de Desenvolvimento reportou uma aceleração da atividade no primeiro semestre. Os dados de emprego, informalidade e pobreza mostram por que crescimento e melhoria das condições de vida não são a mesma medida.",
+    category: "Angola",
+    author: "Redação Kioo",
+    date: "1 nov. 2026",
+    readingTime: "7 min de leitura",
+    image: "https://images.unsplash.com/photo-1519501025264-65ba15a82390?auto=format&fit=crop&w=1400&q=85",
+    imageAlt: "Edifícios comerciais numa cidade africana",
+    seoTitle: "Angola em 2026: crescimento, emprego e diversificação",
+    seoDescription:
+      "Uma leitura dos dados de 2026 sobre o crescimento, a inflação, o emprego jovem e a diversificação da economia angolana, com fontes do BAD e do Banco Mundial.",
+    seoKeywords: [
+      "economia de Angola 2026",
+      "crescimento económico Angola",
+      "emprego jovem Angola",
+      "diversificação económica Angola",
+      "Banco Africano de Desenvolvimento",
+      "Banco Mundial Angola",
+    ],
+    sources: [
+      {
+        title: "Angola Economic Outlook",
+        publisher: "Banco Africano de Desenvolvimento",
+        url: "https://www.afdb.org/en/countries/southern-africa/angola/angola-economic-outlook",
+      },
+      {
+        title: "Angola: Overview",
+        publisher: "Banco Mundial",
+        url: "https://www.worldbank.org/en/country/angola/overview",
+      },
+    ],
+    body: [
+      {
+        text: "A economia angolana acelerou no primeiro semestre de 2026, mas os indicadores não contam todos a mesma história. O Banco Africano de Desenvolvimento (BAD) reportou crescimento real acumulado de 7,15% no semestre, enquanto pobreza, emprego jovem e informalidade continuam a limitar a distribuição dos ganhos.",
+      },
+      {
+        heading: "Uma aceleração concentrada em atividades não petrolíferas",
+        text: "No balanço atualizado a 5 de outubro de 2026, o BAD atribui o crescimento do primeiro semestre sobretudo ao setor não petrolífero, que avançou 9,24%, e também à recuperação de 5,64% da atividade petrolífera. A instituição reporta variações homólogas trimestrais diferentes: 5,32% no primeiro trimestre e 8,74% no segundo. São medidas e períodos distintos, por isso não devem ser confundidos com a taxa acumulada do semestre.",
+      },
+      {
+        heading: "A inflação mais baixa não resolve, por si só, a pressão sobre os agregados",
+        text: "O BAD regista inflação de 8,78% em agosto de 2026, abaixo dos 28,2% de 2024. A descida pode aliviar a pressão sobre o poder de compra, mas não significa que os preços tenham regressado aos níveis anteriores, nem descreve o custo de vida de todas as famílias. A instituição também aponta diferenças entre a expansão da atividade e a experiência dos consumidores.",
+      },
+      {
+        heading: "Emprego: crescimento sem formalização suficiente",
+        text: "Segundo as estimativas do BAD, o desemprego jovem era de 43,3% e o emprego informal representava 78,6% do total em 2025. Estes indicadores referem-se a grupos e períodos específicos. O Banco Mundial, por sua vez, reporta uma taxa de desemprego geral de 21,5% no segundo trimestre de 2026. A taxa geral e a taxa jovem não são diretamente comparáveis, mas ambas ajudam a mostrar por que a criação de trabalho estável é central para avaliar a recuperação.",
+      },
+      {
+        heading: "A diversificação ainda é um processo, não um resultado garantido",
+        text: "O Banco Mundial estima que o petróleo representa cerca de 20% do PIB, 60% das receitas fiscais e 95% das exportações de Angola. A expansão de atividades não petrolíferas é relevante, mas a dependência das exportações e das receitas públicas torna o país vulnerável a oscilações externas. Agricultura, indústria, comércio e logística podem contribuir para diversificar a economia; os resultados dependem de investimento, produtividade, infraestrutura e emprego.",
+      },
+      {
+        text: "Os números deste artigo são dados e estimativas publicados pelo BAD e pelo Banco Mundial, não uma pesquisa própria da Kioo Africa. As metodologias, datas de referência e revisões podem diferir. Para avaliar o impacto da recuperação, importa acompanhar não apenas o PIB e a inflação, mas também rendimentos, empregos formais, desigualdades regionais e acesso a serviços.",
+      },
+    ],
+  },
+  {
     slug: "inclusao-digital-africa-uso-internet-movel",
     title: "A próxima fronteira digital africana é transformar cobertura em uso",
     standfirst:
@@ -561,9 +620,6 @@ export const researchArticles: Article[] = [
   },
 ];
 
-const softedgePartnershipDisclosure =
-  "Parceria identificada: segundo o Kioo, a SoftEdge colaborou no desenvolvimento de software no âmbito do plano gratuito; não se declara compra de pacote premium.";
-
 const softedgeFeature: Article = {
   slug: "softedge-ia-angolana-akira",
   title: "SoftEdge Corporation e AKIRA: inteligência artificial criada em Angola",
@@ -576,14 +632,9 @@ const softedgeFeature: Article = {
   image: "/images/partners/akira-web.png",
   imageAlt: "Logótipo oficial da AKIRA, assistente de inteligência artificial da SoftEdge",
   kind: "article",
-  isFeatured: true,
-  isSponsored: true,
-  sponsorDisclosure: softedgePartnershipDisclosure,
-  partnerName: "SoftEdge Corporation",
-  partnerLogoUrl: "/images/partners/softedge-logo.jpeg",
   seoTitle: "SoftEdge Corporation e AKIRA IA: tecnologia angolana",
   seoDescription:
-    "Conheça a SoftEdge Corporation, Isaac Quarenta e a equipa divulgada pela empresa: José Lopes, Stefânio Costa e Tiago Rodrigues.",
+    "Uma análise editorial da SoftEdge Corporation e da AKIRA, com informações atribuídas às fontes públicas da empresa e ressalvas sobre o que não foi verificado de forma independente.",
   seoKeywords: [
     "SoftEdge Corporation",
     "SoftEdge Corporation Angola",
@@ -642,16 +693,12 @@ const softedgeFeature: Article = {
       heading: "O que avaliar antes de usar uma assistente de IA",
       text: "Empresas e utilizadores devem verificar que dados são enviados, como são armazenados, quem pode aceder-lhes e que controlos existem para os apagar. Também é prudente confirmar respostas importantes em fontes independentes e não enviar documentos confidenciais sem compreender as condições do serviço. Estas são recomendações gerais para ferramentas de IA; não são afirmações sobre práticas específicas da AKIRA.",
     },
-    {
-      heading: "O que se sabe sobre a parceria entre a SoftEdge e o Kioo?",
-      text: "O Kioo Africa informa que a SoftEdge colaborou no desenvolvimento de software para o grupo no âmbito de um plano gratuito. Por transparência, este perfil é identificado como conteúdo de parceria. A publicação não apresenta essa colaboração como compra do pacote premium nem atribui um valor monetário ao acordo.",
-    },
   ],
 };
 
 export const articles: Article[] = [
-  softedgeFeature,
   ...researchArticles,
+  softedgeFeature,
   {
     slug: "capital-africano-novas-rotas",
     title: "O capital africano está a encontrar novas rotas",
@@ -858,17 +905,12 @@ export const biographies: Biography[] = [
     field: "Tecnologia",
     role: "Empreendedor tecnológico e fundador da SoftEdge Corporation",
     summary:
-      "Programador angolano e fundador da SoftEdge Corporation, Isaac Quarenta acompanha o desenvolvimento de software e da AKIRA, assistente de inteligência artificial criada em Angola.",
+      "Perfil editorial de um empreendedor tecnológico angolano, baseado em fontes públicas da empresa e nos perfis profissionais disponíveis.",
     accent: "gold",
     organization: "SoftEdge Corporation",
     organizationUrl: "https://softedge-corporation.up.railway.app/",
     spotlight:
-      "Fundou a SoftEdge Corporation em Luanda e lidera a empresa que apresenta a AKIRA, uma assistente de inteligência artificial em português.",
-    isFeatured: true,
-    isSponsored: true,
-    sponsorDisclosure: softedgePartnershipDisclosure,
-    partnerName: "SoftEdge Corporation",
-    partnerLogoUrl: "/images/partners/softedge-logo.jpeg",
+      "O seu percurso público liga desenvolvimento de software e liderança empresarial em Angola.",
     relatedArticleSlugs: ["softedge-ia-angolana-akira"],
     seoTitle: "Isaac Quarenta: SoftEdge Corporation e AKIRA IA",
     seoDescription:
@@ -892,10 +934,10 @@ export const biographies: Biography[] = [
     ],
     body: [
       "## Quem é Isaac Quarenta?\n\nIsaac Nascimento Quarenta, conhecido profissionalmente como Isaac Quarenta, é um empreendedor tecnológico angolano e fundador da SoftEdge Corporation. O site da empresa, sediada em Luanda, identifica-o como fundador e CEO. No seu perfil público do GitHub, apresenta-se como programador full-stack e estudante de Ciência da Computação em Angola.",
-      "## Origem e formação\n\nSegundo informação biográfica fornecida pelo próprio Isaac à redação, nasceu em Luanda, Angola, a 21 de março de 2007. Não foi localizada uma fonte pública independente que confirme essa data. O perfil do GitHub descreve a sua formação como estudante de Ciência da Computação e o seu trabalho como desenvolvimento de aplicações modernas, escaláveis e de fácil manutenção.",
+      "## Percurso e formação\n\nNo seu perfil público do GitHub, Isaac descreve-se como programador full-stack e estudante de Ciência da Computação em Angola. Esta informação é autobiográfica; não foi localizada uma fonte independente para confirmar detalhes adicionais sobre a sua formação ou percurso profissional.",
       "## SoftEdge Corporation\n\nA SoftEdge descreve-se como uma empresa angolana de tecnologia fundada em Luanda em 2023, com atividade em software, produtos digitais e soluções de inteligência artificial. Nas páginas institucionais, apresenta serviços de desenvolvimento web e móvel, sistemas empresariais, integrações e consultoria digital. A cronologia e as métricas divulgadas no site são declarações da própria empresa; este perfil não as trata como indicadores verificados por terceiros.",
       "## AKIRA e inteligência artificial em português\n\nEntre os projetos associados a Isaac, a SoftEdge destaca a AKIRA, uma assistente de inteligência artificial criada em Angola. A página do produto anuncia conversação em português, análise de documentos e imagens, geração de imagens, pesquisa na web e organização de tarefas com histórico de conversas. Estas capacidades são descritas pela empresa e pelo site da AKIRA, sem uma avaliação técnica independente da redação.",
-      "## Presença pública e percurso\n\nIsaac mantém um perfil no GitHub com informação sobre o seu trabalho de programação e um perfil no X identificado com a SoftEdge. A sua trajetória pública liga desenvolvimento de software, liderança empresarial e criação de um produto de IA. Como se trata de um percurso em desenvolvimento, este retrato distingue informação autobiográfica, declarações da empresa e funcionalidades anunciadas do que ainda exigiria confirmação independente.",
+      "## Presença pública e percurso\n\nOs perfis públicos de Isaac no GitHub e no X permitem acompanhar a sua atividade profissional e empresarial. Este retrato distingue informação autobiográfica, declarações da empresa e funcionalidades anunciadas do que ainda exigiria confirmação independente.",
     ],
     sources: [
       {
@@ -1338,6 +1380,41 @@ export const biographies: Biography[] = [
     ],
     sources: [
       { title: "Abdulrazak Gurnah — Facts", publisher: "Nobel Prize", url: "https://www.nobelprize.org/prizes/literature/2021/gurnah/facts/" },
+    ],
+  },
+  {
+    slug: "jose-eduardo-agualusa",
+    name: "José Eduardo Agualusa",
+    monogram: "JA",
+    country: "Angola",
+    field: "Literatura e cultura",
+    role: "Escritor angolano",
+    summary:
+      "A sua ficção aproxima memória, história e vida urbana; em A General Theory of Oblivion, Luanda é parte central do universo narrativo.",
+    accent: "clay",
+    relatedArticleSlugs: [],
+    seoTitle: "José Eduardo Agualusa: literatura e memória de Angola",
+    seoDescription:
+      "Perfil editorial do escritor angolano José Eduardo Agualusa, com referências à sua obra A General Theory of Oblivion e à história de Luanda.",
+    seoKeywords: [
+      "José Eduardo Agualusa",
+      "escritores angolanos",
+      "literatura angolana",
+      "A General Theory of Oblivion",
+      "Teoria Geral do Esquecimento",
+      "Luanda na literatura",
+    ],
+    body: [
+      "José Eduardo Agualusa é um escritor angolano que publica ficção em língua portuguesa. Entre as suas obras, A General Theory of Oblivion (Teoria Geral do Esquecimento) acompanha personagens numa Luanda marcada pela independência e pelas transformações das décadas seguintes.",
+      "A página do International Dublin Literary Award dedicada ao romance descreve a cidade como parte fundamental da narrativa e apresenta as ligações entre memória individual e história angolana. A obra recebeu o prémio em 2017, segundo o registo do galardão.",
+      "A ficção de Agualusa oferece uma entrada literária — não um relato documental — para pensar memória, identidade e mudança social. Ler o romance em contexto permite distinguir a construção narrativa das fontes históricas usadas para compreender o período.",
+    ],
+    sources: [
+      {
+        title: "A General Theory of Oblivion",
+        publisher: "International Dublin Literary Award",
+        url: "https://dublinliteraryaward.ie/the-library/books/a-general-theory-of-oblivion/",
+      },
     ],
   },
 ];

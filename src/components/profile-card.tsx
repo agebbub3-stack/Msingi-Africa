@@ -23,16 +23,12 @@ export function ProfileCard({ profile, locale = "en" }: { profile: Biography; lo
             className="profile-art-image"
           />
         ) : (
-          <>
-            <span className="profile-orbit orbit-one" />
-            <span className="profile-orbit orbit-two" />
-            <span className={`profile-monogram${localizedProfile.monogram.length > 2 ? " profile-monogram-long" : ""}`}>{localizedProfile.monogram}</span>
-          </>
+          <span className={`profile-monogram${localizedProfile.monogram.length > 2 ? " profile-monogram-long" : ""}`}>{localizedProfile.monogram}</span>
         )}
-        {localizedProfile.partnerName && localizedProfile.partnerLogoUrl && (
+        {localizedProfile.isSponsored && localizedProfile.partnerName && localizedProfile.partnerLogoUrl && (
           <span className="profile-partner-mark">
             <Image src={localizedProfile.partnerLogoUrl} alt="" width={24} height={24} />
-            <span>{locale === "en" ? "PARTNERSHIP" : "PARCERIA"} · {localizedProfile.partnerName}</span>
+            <span>{locale === "en" ? "SPONSORED" : "PATROCINADO"} · {localizedProfile.partnerName}</span>
           </span>
         )}
         <span className="profile-art-caption">{locale === "en" ? "PEOPLE · IDEAS · IMPACT" : "PESSOAS · IDEIAS · IMPACTO"}</span>
@@ -40,11 +36,7 @@ export function ProfileCard({ profile, locale = "en" }: { profile: Biography; lo
         <span className="profile-art-arrow"><ArrowUpRight size={17} /></span>
       </Link>
       <div className="profile-card-copy">
-        {localizedProfile.isSponsored && (
-          <p className="profile-partnership-label">
-            {locale === "en" ? "DISCLOSED PARTNERSHIP" : "PARCERIA IDENTIFICADA"}
-          </p>
-        )}
+        {localizedProfile.isSponsored && <p className="profile-partnership-label">{locale === "en" ? "SPONSORED PROFILE" : "PERFIL PATROCINADO"}</p>}
         {localizedProfile.portrait && (
           <p className="portrait-credit">
             {translate(locale, "photoCredit")} <a href={localizedProfile.portrait.sourceUrl} target="_blank" rel="noopener noreferrer">{localizedProfile.portrait.credit}</a>

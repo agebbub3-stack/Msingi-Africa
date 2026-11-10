@@ -60,7 +60,6 @@ export function ArticlesArchive({ articles, locale = "en" }: { articles: Article
           </div>
         ) : (
           <div className="empty-search">
-            <span>✳</span>
             <h2>{translate(locale, "emptyArticleSearch")}</h2>
             <p>{translate(locale, "tryAnotherSearch")}</p>
             <button className="button button-dark" onClick={() => { setActiveTopic(""); setQuery(""); }}>
@@ -69,7 +68,6 @@ export function ArticlesArchive({ articles, locale = "en" }: { articles: Article
           </div>
         )}
         <div className="archive-invite">
-          <span>✳</span>
           <div>
             <h2>{locale === "en" ? "A perspective we have not heard yet?" : "Perspetiva que ainda não lemos?"}</h2>
             <p>{locale === "en" ? "The best conversations also begin with a good question." : "As melhores conversas também começam com uma boa pergunta."}</p>

@@ -49,9 +49,6 @@ export default async function AboutPage() {
           </div>
         </div>
         <div className="about-origin-visual" aria-hidden="true">
-          <div className="about-origin-orbit about-origin-orbit-outer" />
-          <div className="about-origin-orbit about-origin-orbit-inner" />
-          <span className="about-origin-star">✳</span>
           <span className="about-origin-mark">K</span>
           <span className="about-origin-visual-caption">{en ? <>ONE CONTINENT<br />MANY PERSPECTIVES</> : <>UM CONTINENTE<br />MUITAS PERSPETIVAS</>}</span>
         </div>
@@ -100,7 +97,7 @@ export default async function AboutPage() {
       <section className="about-principles section-pad" id="principios">
         <div className="section-heading"><div><span className="section-kicker">{en ? "OUR RESPONSIBILITY" : "A NOSSA RESPONSABILIDADE"}</span><h2>{en ? <>The method is<br /><em>part of the story.</em></> : <>O método é<br /><em>parte da história.</em></>}</h2></div><span className="principle-side-note">{en ? <>OUR PRINCIPLES<br />DO NOT CHANGE WITH THE SUBJECT.</> : <>OS PRINCÍPIOS NÃO<br />MUDAM COM O TEMA.</>}</span></div>
         <div className="principle-list">{principles.map((principle) => <article className="principle-row" key={principle.number}><span className="principle-icon">{principle.icon}</span><span className="principle-number">{principle.number}</span><div><h3>{principle.title}</h3><p>{principle.text}</p></div><ArrowUpRight className="principle-arrow" size={18} /></article>)}</div>
-        <div className="funding-note"><span>✳</span><p><strong>{en ? "How we are funded." : "Como nos sustentamos."}</strong> {en
+        <div className="funding-note"><ShieldCheck size={16} aria-hidden="true" /><p><strong>{en ? "How we are funded." : "Como nos sustentamos."}</strong> {en
           ? "Readers, advertising and clearly labelled partnerships may fund our work. Funding never determines story selection, research findings or inclusion in an editorial biography."
           : "Leitores, publicidade e parcerias identificadas podem financiar a operação. O financiamento nunca determina a seleção das histórias, o resultado da pesquisa ou a inclusão de uma pessoa numa biografia editorial."}</p></div>
       </section>

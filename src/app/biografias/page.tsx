@@ -31,7 +31,7 @@ export default async function BiographiesPage() {
   return (
     <>
       <section className="bio-masthead">
-        <span className="section-kicker">{en ? "PEOPLE MAKING THINGS HAPPEN" : "PESSOAS QUE FAZEM ACONTECER"} <span>✳</span></span>
+        <span className="section-kicker">{en ? "PEOPLE MAKING THINGS HAPPEN" : "PESSOAS QUE FAZEM ACONTECER"}</span>
         <div className="bio-masthead-layout">
           <div>
             <h1>{en ? <>Impact<br />has <em>many names.</em></> : <>O impacto<br />tem <em>muitos nomes.</em></>}</h1>
@@ -43,7 +43,7 @@ export default async function BiographiesPage() {
         </div>
       </section>
       <section className="people-section section-pad bio-archive">
-        <div className="archive-label-row">        <span>{en ? "FEATURED" : "EM DESTAQUE"}</span><span>{String(visibleBiographies.length).padStart(2, "0")} {en ? "JOURNEYS" : "PERCURSOS"}</span></div>
+        <div className="archive-label-row"><span>{en ? "EDITORIAL PROFILES" : "PERFIS EDITORIAIS"}</span><span>{String(visibleBiographies.length).padStart(2, "0")} {en ? "JOURNEYS" : "PERCURSOS"}</span></div>
         <div className="profile-grid">
           {visibleBiographies.map((profile) => <ProfileCard key={profile.slug} profile={profile} locale={locale} />)}
         </div>

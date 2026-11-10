@@ -34,13 +34,11 @@ export function ArticleCard({
             sizes={featured ? "(max-width: 760px) 100vw, 58vw" : "(max-width: 760px) 100vw, 33vw"}
           />
           <span className="article-image-category">{localizeCategory(localizedArticle.category, locale)}</span>
-          {localizedArticle.isSponsored && <span className="article-image-sponsored">{localizedArticle.partnerName
-            ? (locale === "en" ? "Partnership" : "Parceria")
-            : (locale === "en" ? "Sponsored" : "Patrocinado")}</span>}
+          {localizedArticle.isSponsored && <span className="article-image-sponsored">{locale === "en" ? "Sponsored" : "Patrocinado"}</span>}
           {localizedArticle.partnerName && localizedArticle.partnerLogoUrl && (
             <span className="article-image-partner">
               <Image src={localizedArticle.partnerLogoUrl} alt="" width={24} height={24} />
-              <span>{locale === "en" ? "PARTNERSHIP FEATURE" : "DESTAQUE DE PARCERIA"} · {localizedArticle.partnerName}</span>
+              <span>{locale === "en" ? "SPONSORED CONTENT" : "CONTEÚDO PATROCINADO"} · {localizedArticle.partnerName}</span>
             </span>
           )}
           <span className="image-arrow" aria-hidden="true">

@@ -91,7 +91,6 @@ export default async function EntitiesPage() {
                 ? "An editorial selection of people whose journeys help us understand the continent's markets and ideas in motion. It is neither a ranking nor a purchasable distinction."
                 : "Uma seleção editorial de pessoas cujas trajetórias ajudam a compreender os mercados e as ideias em movimento no continente. Não é um ranking, nem uma distinção comprável."}</p>
             </div>
-            <span className="african-lights-mark" aria-hidden="true">✳</span>
           </div>
           <div className="african-lights-grid">
             {featuredPeople.map((person, index) => {

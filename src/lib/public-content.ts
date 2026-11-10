@@ -4,6 +4,25 @@ import { articles as sampleArticles, biographies, imageForCategory } from "@/lib
 import type { Article, Biography } from "@/lib/content";
 import { getSiteUrl } from "@/lib/site-url";
 
+const nonCommercialEditorialSlugs = new Set([
+  "softedge-ia-angolana-akira",
+  "isaac-nascimento-quarenta",
+]);
+
+function moveIsaacProfileOutOfFeaturedPosition(profiles: Biography[]) {
+  return [
+    ...profiles.filter((profile) => profile.slug !== "isaac-nascimento-quarenta"),
+    ...profiles.filter((profile) => profile.slug === "isaac-nascimento-quarenta"),
+  ];
+}
+
+function moveSoftEdgeArticleOutOfFeaturedPosition(articles: Article[]) {
+  return [
+    ...articles.filter((article) => article.slug !== "softedge-ia-angolana-akira"),
+    ...articles.filter((article) => article.slug === "softedge-ia-angolana-akira"),
+  ];
+}
+
 function formatPublishedDate(date: Date | null) {
   if (!date) return "";
   return new Intl.DateTimeFormat("pt-PT", {
@@ -144,11 +163,12 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
 
   return rows.map((row): Article => {
     const biography = row.kind === "biography" ? biographies.find((item) => item.slug === row.slug) : undefined;
-    const partner = partnersByArticle.get(row.id) ?? (
+    const isCommerciallySponsored = row.isSponsored && !nonCommercialEditorialSlugs.has(row.slug);
+    const partner = isCommerciallySponsored ? partnersByArticle.get(row.id) ?? (
       biography?.partnerName
         ? { name: biography.partnerName, imageUrl: biography.partnerLogoUrl ?? null }
         : undefined
-    );
+    ) : undefined;
     return {
       id: row.id,
       slug: row.slug,
@@ -162,7 +182,7 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
       locale: row.locale,
       author: row.authorName,
       authorSlug: row.authorSlug,
-      isFeatured: row.isFeatured,
+      isFeatured: row.isFeatured && !nonCommercialEditorialSlugs.has(row.slug),
       date: formatPublishedDate(row.publishedAt),
       publishedAt: row.publishedAt?.toISOString() ?? null,
       modifiedAt: row.modifiedAt.toISOString(),
@@ -174,8 +194,8 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
           : row.title
       ),
       markdown: row.bodyMarkdown,
-      isSponsored: row.isSponsored,
-      sponsorDisclosure: row.sponsorDisclosure,
+      isSponsored: isCommerciallySponsored,
+      sponsorDisclosure: isCommerciallySponsored ? row.sponsorDisclosure : null,
       partnerName: partner?.name ?? null,
       partnerLogoUrl: partner?.imageUrl ?? null,
       seoTitle: row.seoTitle,
@@ -188,8 +208,8 @@ async function getFromDatabase(slug?: string, kind?: "article" | "biography", se
 }
 
 export async function getPublishedArticles() {
-  if (!process.env.DATABASE_URL) return sampleArticles;
-  return getFromDatabase();
+  if (!process.env.DATABASE_URL) return moveSoftEdgeArticleOutOfFeaturedPosition(sampleArticles);
+  return moveSoftEdgeArticleOutOfFeaturedPosition(await getFromDatabase());
 }
 
 export async function getPublishedArticle(slug: string, kind: "article" | "biography" = "article") {
@@ -249,7 +269,7 @@ export async function getApprovedArticleComments(articleId: string) {
 }
 
 export async function getPublishedBiographies() {
-  if (!process.env.DATABASE_URL) return biographies;
+  if (!process.env.DATABASE_URL) return moveIsaacProfileOutOfFeaturedPosition(biographies);
   const { db } = await import("@/lib/db");
   const { articles, user } = await import("@/lib/db/schema");
   const rows = await db
@@ -271,8 +291,9 @@ export async function getPublishedBiographies() {
     .where(and(eq(articles.kind, "biography"), eq(articles.status, "published"), eq(articles.noIndex, false)))
     .orderBy(desc(articles.isFeatured), desc(articles.publishedAt))
     .limit(100);
-  return rows.map((row): Biography => {
+  const profiles = rows.map((row): Biography => {
     const editorialProfile = biographies.find((profile) => profile.slug === row.slug);
+    const isCommerciallySponsored = row.isSponsored && !nonCommercialEditorialSlugs.has(row.slug);
     return {
       ...editorialProfile,
       slug: row.slug,
@@ -281,11 +302,11 @@ export async function getPublishedBiographies() {
       field: row.field,
       country: row.country ?? "África",
       role: row.role ?? "Perfil publicado pela comunidade",
-      isFeatured: row.isFeatured,
-      isSponsored: row.isSponsored,
-      sponsorDisclosure: row.sponsorDisclosure,
-      partnerName: editorialProfile?.partnerName,
-      partnerLogoUrl: editorialProfile?.partnerLogoUrl,
+      isFeatured: row.isFeatured && !nonCommercialEditorialSlugs.has(row.slug),
+      isSponsored: isCommerciallySponsored,
+      sponsorDisclosure: isCommerciallySponsored ? row.sponsorDisclosure : null,
+      partnerName: isCommerciallySponsored ? editorialProfile?.partnerName : null,
+      partnerLogoUrl: isCommerciallySponsored ? editorialProfile?.partnerLogoUrl : null,
       monogram: editorialProfile?.monogram ?? row.name.split(/\s+/).slice(0, 2).map((part) => part[0]).join("").toUpperCase(),
       accent: editorialProfile?.accent ?? "sage",
       body: row.bodyMarkdown.split(/\n{2,}/).filter(Boolean),
@@ -294,6 +315,7 @@ export async function getPublishedBiographies() {
       locale: row.locale,
     };
   });
+  return moveIsaacProfileOutOfFeaturedPosition(profiles);
 }
 
 export async function searchPublishedArticles(query: string) {

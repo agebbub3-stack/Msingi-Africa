@@ -12,7 +12,7 @@ config({ path: ".env.local" });
 config();
 
 if (!process.env.DATABASE_URL) {
-  throw new Error("DATABASE_URL is required to publish the SoftEdge partnership content.");
+  throw new Error("DATABASE_URL is required to update the SoftEdge editorial content.");
 }
 
 const databaseUrl = getPostgresConnectionUrl(process.env.DATABASE_URL);
@@ -24,15 +24,14 @@ const pool = new Pool({
 });
 const db = drizzle(pool, { schema });
 const editorId = "msingi-editorial";
-const partnerArticleSlug = "softedge-ia-angolana-akira";
+const softedgeArticleSlug = "softedge-ia-angolana-akira";
 const isaacProfileSlug = "isaac-nascimento-quarenta";
-const partnerArticle = editorialArticles.find((article) => article.slug === partnerArticleSlug);
+const softedgeArticle = editorialArticles.find((article) => article.slug === softedgeArticleSlug);
 const isaacProfile = biographies.find((profile) => profile.slug === isaacProfileSlug);
 
-if (!partnerArticle || !isaacProfile) {
-  throw new Error("The SoftEdge article and Isaac biography must exist in the editorial content source.");
+if (!softedgeArticle || !isaacProfile) {
+  throw new Error("The SoftEdge article and Isaac profile must exist in the editorial content source.");
 }
-const partnerArticleCoverImage = partnerArticle.image;
 
 function readingMinutes(content: string) {
   return Math.max(1, Math.ceil(content.trim().split(/\s+/).length / 220));
@@ -53,10 +52,10 @@ const biographyStory = {
   author: "Redação Kioo",
   date: "",
   readingTime: "5 min de leitura",
-  image: isaacProfile.partnerLogoUrl ?? imageForCategory.Tecnologia,
-  imageAlt: `${isaacProfile.partnerName ?? "SoftEdge Corporation"} logo, partnership profile`,
+  image: imageForCategory.Tecnologia,
+  imageAlt: "Editorial profile of Angolan technology entrepreneur Isaac Nascimento Quarenta",
   kind: "biography" as const,
-  isFeatured: isaacProfile.isFeatured,
+  isFeatured: false,
   isSponsored: isaacProfile.isSponsored,
   sponsorDisclosure: isaacProfile.sponsorDisclosure,
   partnerName: isaacProfile.partnerName,
@@ -71,8 +70,8 @@ const biographyStory = {
   sources: isaacProfile.sources ?? [],
 };
 
-const partnershipStories = [
-  { story: partnerArticle, kind: "article" as const, seoTitle: partnerArticle.seoTitle },
+const editorialStories = [
+  { story: softedgeArticle, kind: "article" as const, seoTitle: softedgeArticle.seoTitle },
   { story: biographyStory, kind: "biography" as const, seoTitle: biographyStory.seoTitle },
 ];
 
@@ -193,8 +192,8 @@ async function ensureEntity(transaction: Parameters<Parameters<typeof db.transac
 
 async function publishStory(
   transaction: Parameters<Parameters<typeof db.transaction>[0]>[0],
-  story: typeof partnershipStories[number]["story"],
-  kind: typeof partnershipStories[number]["kind"],
+  story: typeof editorialStories[number]["story"],
+  kind: typeof editorialStories[number]["kind"],
   seoTitle: string | null | undefined,
   authorId: string,
 ) {
@@ -253,7 +252,7 @@ async function publishStory(
           isSponsored: existing.isSponsored,
           sponsorDisclosure: existing.sponsorDisclosure,
         },
-        note: "Updated the disclosed SoftEdge partnership feature.",
+        note: "Updated the SoftEdge article and Isaac profile as neutral editorial coverage.",
       });
     }
 
@@ -303,16 +302,16 @@ async function publish() {
     }
 
     const savedStories = [];
-    for (const { story, kind, seoTitle } of partnershipStories) {
+    for (const { story, kind, seoTitle } of editorialStories) {
       savedStories.push(await publishStory(transaction, story, kind, seoTitle, editor.id));
     }
 
     const relations = [
-      { storySlug: partnerArticleSlug, entitySlug: "msingi-africa", role: "publisher" },
+      { storySlug: softedgeArticleSlug, entitySlug: "msingi-africa", role: "publisher" },
       { storySlug: isaacProfileSlug, entitySlug: "msingi-africa", role: "publisher" },
-      { storySlug: partnerArticleSlug, entitySlug: "softedge-corporation", role: "partner" },
-      { storySlug: isaacProfileSlug, entitySlug: "softedge-corporation", role: "partner" },
-      { storySlug: partnerArticleSlug, entitySlug: "akira", role: "subject" },
+      { storySlug: softedgeArticleSlug, entitySlug: "softedge-corporation", role: "subject" },
+      { storySlug: isaacProfileSlug, entitySlug: "softedge-corporation", role: "subject" },
+      { storySlug: softedgeArticleSlug, entitySlug: "akira", role: "subject" },
     ];
 
     for (const relation of relations) {
@@ -343,23 +342,22 @@ async function publish() {
     sponsorDisclosure: schema.articles.sponsorDisclosure,
     submittedWithPlan: schema.articles.submittedWithPlan,
   }).from(schema.articles)
-    .where(inArray(schema.articles.slug, [partnerArticleSlug, isaacProfileSlug]));
+    .where(inArray(schema.articles.slug, [softedgeArticleSlug, isaacProfileSlug]));
   if (
     publishedRows.length !== 2
     || publishedRows.some((story) =>
       story.status !== "published"
-      || !story.isFeatured
-      || !story.isSponsored
-      || !story.sponsorDisclosure
-      || (story.slug === partnerArticleSlug && story.coverImageUrl !== partnerArticleCoverImage)
-      || story.submittedWithPlan !== "free")
+      || story.isFeatured
+      || story.isSponsored
+      || Boolean(story.sponsorDisclosure)
+      || story.submittedWithPlan !== "editorial")
   ) {
-    throw new Error("Post-publication verification failed for the featured partnership records or AKIRA article cover.");
+    throw new Error("Post-publication verification failed for the neutral SoftEdge article and Isaac profile.");
   }
 
   const sourceRows = await db.select({ id: schema.articleSources.id }).from(schema.articleSources)
     .where(inArray(schema.articleSources.articleId, publishedRows.map((story) => story.id)));
-  const expectedSourceCount = partnershipStories.reduce(
+  const expectedSourceCount = editorialStories.reduce(
     (total, { story }) => total + (story.sources?.length ?? 0),
     0,
   );
@@ -376,7 +374,7 @@ async function publish() {
     throw new Error("Post-publication verification found missing company, product or publisher relationships.");
   }
 
-  console.info(`Published and linked partnership stories: ${publishedSlugs.join(", ")}.`);
+  console.info(`Published and linked neutral editorial stories: ${publishedSlugs.join(", ")}.`);
   try {
     const siteUrl = new URL(process.env.INDEXNOW_SITE_URL?.trim() || "https://kioo-africa.vercel.app");
     const indexing = await submitIndexNow(
@@ -400,7 +398,7 @@ async function publish() {
 
 publish()
   .catch((error: unknown) => {
-    console.error("SoftEdge partnership publication failed.", error);
+    console.error("SoftEdge editorial content update failed.", error);
     process.exitCode = 1;
   })
   .finally(async () => {

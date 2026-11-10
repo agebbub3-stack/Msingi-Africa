@@ -9,6 +9,7 @@ type ArticleCopy = Pick<Article, "title" | "standfirst" | "imageAlt"> & {
   seoKeywords?: string[];
 };
 type BiographyCopy = Pick<Biography, "role" | "summary" | "spotlight"> & {
+  name?: string;
   portraitAlt?: string;
   seoTitle?: string;
   seoDescription?: string;
@@ -20,17 +21,25 @@ const englishArticles: Record<string, ArticleCopy> = {
     title: "SoftEdge Corporation and AKIRA: artificial intelligence built in Angola",
     standfirst: "From software engineering to the AKIRA assistant, the Luanda-based company presents digital products focused on Portuguese. Here is what official sources say — and what still needs to be assessed.",
     imageAlt: "Official AKIRA logo, an artificial intelligence assistant by SoftEdge",
-    seoDescription: "Meet SoftEdge Corporation, Isaac Quarenta and the team listed by the company: José Lopes, Stefânio Costa and Tiago Rodrigues.",
+    seoDescription: "An editorial overview of SoftEdge Corporation and AKIRA, with information attributed to public company sources and clear limits on what has not been independently verified.",
     seoKeywords: ["SoftEdge Corporation", "AKIRA AI", "artificial intelligence in Angola", "Angolan AI", "Isaac Quarenta", "José Lopes SoftEdge", "Stefânio Costa SoftEdge", "Tiago Rodrigues SoftEdge", "technology in Angola"],
   },
   "isaac-nascimento-quarenta": {
     title: "Isaac Nascimento Quarenta",
-    standfirst: "A profile of the Angolan technology entrepreneur behind SoftEdge Corporation and the AKIRA AI assistant, based on public company and personal sources.",
-    imageAlt: "SoftEdge Corporation logo, shown as a disclosed partner mark",
+    standfirst: "An editorial profile of the Angolan technology entrepreneur, based on public company and personal sources.",
+    imageAlt: "Editorial profile of Angolan technology entrepreneur Isaac Nascimento Quarenta",
     personRole: "Technology entrepreneur and founder of SoftEdge Corporation",
-    seoTitle: "Who is Isaac Quarenta? Biography, SoftEdge and AKIRA AI",
-    seoDescription: "Meet Isaac Nascimento Quarenta, the Angolan entrepreneur behind SoftEdge Corporation and AKIRA, based on official company and public profiles.",
+    seoTitle: "Isaac Nascimento Quarenta: an Angolan technology profile",
+    seoDescription: "An editorial profile of Isaac Nascimento Quarenta, based on public professional and company sources, with unverified details clearly distinguished.",
     seoKeywords: ["Isaac Quarenta", "Isaac Nascimento Quarenta", "SoftEdge Corporation", "AKIRA AI", "Angolan entrepreneur", "Who is Isaac Quarenta"],
+  },
+  "angola-crescimento-economico-emprego-2026": {
+    title: "Angola is growing in 2026, but jobs remain the decisive test",
+    standfirst: "The African Development Bank reported faster economic activity in the first half of the year. Employment, informality and poverty data show why growth and better living conditions are not the same measure.",
+    imageAlt: "Commercial buildings in an African city",
+    seoTitle: "Angola in 2026: growth, employment and diversification",
+    seoDescription: "A reading of 2026 data on Angola's growth, inflation, youth employment and economic diversification, with sources from the African Development Bank and World Bank.",
+    seoKeywords: ["Angola economy 2026", "Angola economic growth", "youth employment Angola", "Angola economic diversification", "African Development Bank", "World Bank Angola"],
   },
   "inclusao-digital-africa-uso-internet-movel": {
     title: "Africa's next digital frontier is turning coverage into usage",
@@ -170,6 +179,25 @@ const englishArticles: Record<string, ArticleCopy> = {
 };
 
 const englishArticleBodies: Record<string, string> = {
+  "angola-crescimento-economico-emprego-2026": `Angola's economy accelerated in the first half of 2026, but the indicators do not tell the same story. The African Development Bank (AfDB) reported real growth of 7.15% over the six-month period, while poverty, youth employment and informality continue to limit how widely the gains are shared.
+
+## Acceleration concentrated in non-oil activity
+
+In an update published on 5 October 2026, AfDB attributed first-half growth mainly to the non-oil sector, which expanded by 9.24%, alongside a 5.64% recovery in oil activity. The institution reported different year-on-year quarterly rates: 5.32% in the first quarter and 8.74% in the second. These are different measures and periods, and should not be confused with the cumulative first-half rate.
+
+## Lower inflation does not by itself ease pressure on households
+
+AfDB recorded inflation at 8.78% in August 2026, down from 28.2% in 2024. The decline may ease pressure on purchasing power, but it does not mean prices have returned to earlier levels or describe the cost of living for every household. The institution also points to differences between economic activity and consumers' lived experience.
+
+## Employment: growth without enough formal jobs
+
+AfDB estimates youth unemployment at 43.3% and informal work at 78.6% of total employment in 2025. These indicators refer to specific groups and periods. The World Bank, by comparison, reports an overall unemployment rate of 21.5% in the second quarter of 2026. The overall and youth rates are not directly comparable, but both help explain why stable job creation matters when assessing the recovery.
+
+## Diversification remains a process, not a guaranteed outcome
+
+The World Bank estimates that oil accounts for around 20% of Angola's GDP, 60% of government revenue and 95% of exports. Growth in non-oil activity matters, but reliance on exports and public revenue leaves the country vulnerable to external shocks. Agriculture, industry, trade and logistics may contribute to diversification; outcomes depend on investment, productivity, infrastructure and jobs.
+
+The figures in this article are data and estimates published by AfDB and the World Bank, not original research by Kioo Africa. Methodologies, reference dates and revisions may differ. Assessing the recovery requires tracking not only GDP and inflation but also incomes, formal employment, regional inequality and access to services.`,
   "inclusao-digital-africa-uso-internet-movel": `Expanding mobile networks is often presented as synonymous with digital inclusion. But coverage does not guarantee that someone has a compatible device, can afford access, or can find useful services and content in a language and context they understand.
 
 ## The gap between signal and use
@@ -320,18 +348,14 @@ A Portuguese-language interface may make an initial interaction with AI tools ea
 
 ## What should people assess before using an AI assistant?
 
-Businesses and users should check what data is sent, how it is stored, who can access it and what controls are available to delete it. It is also sensible to confirm important answers against independent sources and avoid sending confidential documents without understanding the service terms. These are general recommendations for AI tools, not claims about AKIRA's specific practices.
-
-## What is known about the Kioo–SoftEdge partnership?
-
-Kioo Africa says SoftEdge collaborated on software development for the group under a complimentary plan. This profile is therefore identified as a partnership feature. The publication does not present the collaboration as a purchase of a premium package or assign it a monetary value.`,
+Businesses and users should check what data is sent, how it is stored, who can access it and what controls are available to delete it. It is also sensible to confirm important answers against independent sources and avoid sending confidential documents without understanding the service terms. These are general recommendations for AI tools, not claims about AKIRA's specific practices.`,
   "isaac-nascimento-quarenta": `## Who is Isaac Quarenta?
 
 Isaac Nascimento Quarenta, professionally known as Isaac Quarenta, is an Angolan technology entrepreneur and the founder of SoftEdge Corporation. The company's website, based in Luanda, identifies him as founder and CEO. On his public GitHub profile, he describes himself as a full-stack developer and Computer Science student in Angola.
 
-## Background and education
+## Career and education
 
-Biographical information supplied by Isaac to the newsroom states that he was born in Luanda, Angola, on 21 March 2007. No independent public source confirming this date was located. His GitHub profile describes his education as Computer Science studies and his work as building modern, scalable and maintainable applications.
+On his public GitHub profile, Isaac describes himself as a full-stack developer and Computer Science student in Angola. This is autobiographical information; no independent source was located to confirm further details about his education or professional history.
 
 ## SoftEdge Corporation
 
@@ -343,7 +367,7 @@ Among the projects associated with Isaac, SoftEdge highlights AKIRA, an artifici
 
 ## Public presence and professional journey
 
-Isaac maintains a GitHub profile with information about his development work and an X profile associated with SoftEdge. His public journey brings together software development, business leadership and the creation of an AI product. As this is an evolving career, this profile distinguishes autobiographical information, company statements and advertised product features from claims that would require independent confirmation.`,
+Isaac's public GitHub and X profiles provide information about his professional and company activity. This profile distinguishes autobiographical information, company statements and advertised product features from claims that would require independent confirmation.`,
   "afcfta-integracao-mercados-africanos": `The African Continental Free Trade Area (AfCFTA) is an African Union economic integration agreement. Its goal is to reduce barriers to trade between African countries and support the movement of goods, services and investment. The official portal includes areas such as digital trade and investment protection within the agreement's agenda.
 
 ## An agreement is not yet a borderless market
@@ -422,6 +446,8 @@ Industrialisation is not just about building factories. It connects production, 
 };
 
 const englishSourceLabels: Record<string, string> = {
+  "Banco Africano de Desenvolvimento": "African Development Bank",
+  "Banco Mundial": "World Bank",
   "Quem somos — SoftEdge Corporation": "About us — SoftEdge Corporation",
   "AKIRA: a IA oficial da SoftEdge": "AKIRA: SoftEdge's official AI",
   "AKIRA — assistente de inteligência artificial": "AKIRA — artificial intelligence assistant",
@@ -431,7 +457,6 @@ const englishSourceLabels: Record<string, string> = {
   "Angola: visão geral económica": "Angola: economic overview",
   "UNESCO destaca o potencial de crescimento da indústria cinematográfica africana": "UNESCO highlights the growth potential of Africa's film industry",
   "Relatório sobre a indústria cinematográfica em África": "Report on Africa's film industry",
-  "Banco Africano de Desenvolvimento": "African Development Bank",
   "Organização Mundial do Comércio": "World Trade Organization",
   "Ficheiro: Bethlehem Tilahun Alemu, fundadora da soleRebels": "Bethlehem Tilahun Alemu, founder of soleRebels",
   "Ficheiro: Mo Abudu": "Mo Abudu",
@@ -470,9 +495,16 @@ const englishSourceLabels: Record<string, string> = {
 
 const englishBiographies: Record<string, BiographyCopy> = {
   "isaac-nascimento-quarenta": {
+    name: "Isaac Nascimento Quarenta",
     role: "Technology entrepreneur and founder of SoftEdge Corporation",
-    summary: "Angolan developer and founder of SoftEdge Corporation, Isaac Quarenta works on software development and AKIRA, an artificial intelligence assistant created in Angola.",
-    spotlight: "He founded SoftEdge Corporation in Luanda and leads the company behind AKIRA, an artificial intelligence assistant in Portuguese.",
+    summary: "An editorial profile of an Angolan technology entrepreneur, based on public company and personal sources.",
+    spotlight: "His public work connects software development and company leadership in Angola.",
+  },
+  "jose-eduardo-agualusa": {
+    name: "José Eduardo Agualusa",
+    role: "Angolan writer",
+    summary: "His fiction brings memory, history and urban life together; in A General Theory of Oblivion, Luanda is central to the narrative.",
+    spotlight: "The International Dublin Literary Award's account of his novel places Luanda and Angola's history at the centre of its literary context.",
   },
   "nelly-cheboi": {
     role: "Founder of TechLit Africa",
@@ -556,6 +588,11 @@ const englishBiographies: Record<string, BiographyCopy> = {
 };
 
 const englishBiographyBodies: Record<string, string[]> = {
+  "jose-eduardo-agualusa": [
+    "José Eduardo Agualusa is an Angolan writer who publishes fiction in Portuguese. Among his works, A General Theory of Oblivion follows characters in Luanda against the backdrop of independence and the changes of the following decades.",
+    "The International Dublin Literary Award's page for the novel describes the city as central to the story and connects individual memory with Angolan history. The novel received the award in 2017, according to the prize record.",
+    "Agualusa's fiction offers a literary entry point—not documentary reporting—for thinking about memory, identity and social change. Reading the novel in context helps distinguish its narrative construction from the historical sources used to understand the period.",
+  ],
   "nelly-cheboi": [
     "Nelly Cheboi is a Kenyan software engineer and founder of TechLit Africa, a non-profit that introduces digital skills in rural schools. Her work connects education, technology and the belief that access to digital tools can expand opportunities for young people.",
     "In a 2023 report, CNN described TechLit Africa's work with refurbished computers and students in Mogotio, Kenya. The report also recorded that Cheboi was named CNN Hero of the Year for 2022. These details refer to the period covered by the report, not an update on the programme's current scale.",
@@ -659,6 +696,7 @@ export function localizeArticle(article: Article, locale: Locale): Article {
     ...article,
     ...articleCopy,
     ...(biographyCopy ? {
+      title: biographyCopy.name ?? articleCopy?.title ?? article.title,
       standfirst: biographyCopy.summary,
       personRole: biographyCopy.role,
       seoTitle: biographyCopy.seoTitle ?? articleCopy?.seoTitle,
@@ -671,10 +709,11 @@ export function localizeArticle(article: Article, locale: Locale): Article {
     } : {}),
     ...(englishBiographyBodies[article.slug] ? { markdown: englishBiographyBodies[article.slug].join("\n\n") } : {}),
     ...(englishArticleBodies[article.slug] ? { markdown: englishArticleBodies[article.slug] } : {}),
-    ...(article.partnerName
+    ...(article.isSponsored
       ? {
-          sponsorDisclosure:
-            "Partnership disclosed: according to Kioo Africa, SoftEdge contributed to software development for the group under its complimentary plan. This is not presented as a paid premium package.",
+          sponsorDisclosure: article.partnerName
+            ? `Sponsored content from ${article.partnerName}. The sponsor does not determine independent editorial coverage.`
+            : "Sponsored content is paid promotion and is clearly identified. It does not determine independent editorial coverage.",
         }
       : {}),
     ...(article.sources
