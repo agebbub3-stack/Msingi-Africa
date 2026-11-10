@@ -54,6 +54,11 @@ export function ArticlesArchive({ articles, locale = "en" }: { articles: Article
           </div>
           <label className="search-field"><Search size={16} /><span className="sr-only">{locale === "en" ? "Search articles" : "Pesquisar artigos"}</span><input type="search" placeholder={translate(locale, "searchPlaceholder")} value={query} onChange={(event) => setQuery(event.target.value)} /></label>
         </div>
+        <p className="archive-results-count" aria-live="polite">
+          {locale === "en"
+            ? `${filteredArticles.length} ${filteredArticles.length === 1 ? "story" : "stories"}`
+            : `${filteredArticles.length} ${filteredArticles.length === 1 ? "artigo" : "artigos"}`}
+        </p>
         {filteredArticles.length > 0 ? (
           <div className="article-grid archive-grid">
             {filteredArticles.map((article) => <ArticleCard key={article.slug} article={article} locale={locale} />)}

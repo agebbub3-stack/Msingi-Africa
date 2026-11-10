@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { ArrowUpRight } from "lucide-react";
 import Link from "next/link";
-import { ProfileCard } from "@/components/profile-card";
+import { BiographiesArchive } from "@/components/biographies-archive";
 import { getPublishedBiographies } from "@/lib/public-content";
 import { getLocale } from "@/lib/locale.server";
 import { createPageMetadata } from "@/lib/page-metadata";
@@ -43,10 +43,7 @@ export default async function BiographiesPage() {
         </div>
       </section>
       <section className="people-section section-pad bio-archive">
-        <div className="archive-label-row"><span>{en ? "EDITORIAL PROFILES" : "PERFIS EDITORIAIS"}</span><span>{String(visibleBiographies.length).padStart(2, "0")} {en ? "JOURNEYS" : "PERCURSOS"}</span></div>
-        <div className="profile-grid">
-          {visibleBiographies.map((profile) => <ProfileCard key={profile.slug} profile={profile} locale={locale} />)}
-        </div>
+        <BiographiesArchive profiles={visibleBiographies} locale={locale} />
         <div className="bio-suggest">
           <div>
             <span className="section-kicker">{en ? "A VOICE THAT DESERVES TO BE HEARD?" : "UMA VOZ QUE MERECE SER OUVIDA?"}</span>

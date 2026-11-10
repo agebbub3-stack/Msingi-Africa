@@ -548,7 +548,7 @@ export const researchArticles: Article[] = [
     author: "Redação Kioo",
     date: "2 nov. 2026",
     readingTime: "5 min de leitura",
-    image: "https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1400&q=85",
+    image: "https://images.unsplash.com/photo-1523580494863-6f3031224c94?auto=format&fit=crop&w=1400&q=85",
     imageAlt: "Estudantes num campus universitário",
     seoTitle: "Ashesi University: educação, liderança e inovação em África",
     seoDescription:
