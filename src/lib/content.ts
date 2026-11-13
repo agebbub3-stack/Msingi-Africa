@@ -903,18 +903,18 @@ export const biographies: Biography[] = [
     monogram: "INQ",
     country: "Angola",
     field: "Tecnologia",
-    role: "Empreendedor tecnológico e fundador da SoftEdge Corporation",
+    role: "Empreendedor tecnológico e cofundador da SoftEdge Corporation",
     summary:
-      "Perfil editorial de um empreendedor tecnológico angolano, baseado em fontes públicas da empresa e nos perfis profissionais disponíveis.",
+      "Empreendedor angolano que aposta em tecnologia criada no país, com produtos digitais em português e soluções pensadas para desafios do quotidiano.",
     accent: "gold",
     organization: "SoftEdge Corporation",
     organizationUrl: "https://softedge-corporation.up.railway.app/",
     spotlight:
-      "O seu percurso público liga desenvolvimento de software e liderança empresarial em Angola.",
+      "Com a SoftEdge e a AKIRA, ajuda a aproximar o desenvolvimento tecnológico de Angola das necessidades de pessoas e negócios locais.",
     relatedArticleSlugs: ["softedge-ia-angolana-akira"],
-    seoTitle: "Isaac Quarenta: SoftEdge Corporation e AKIRA IA",
+    seoTitle: "Isaac Quarenta: SoftEdge e criação da AKIRA",
     seoDescription:
-      "Quem é Isaac Nascimento Quarenta? Perfil do empreendedor angolano associado à SoftEdge Corporation e à AKIRA IA, baseado em fontes públicas.",
+      "Perfil de Isaac Nascimento Quarenta, empreendedor angolano que lidera a SoftEdge e está associado ao desenvolvimento da assistente de IA AKIRA.",
     seoKeywords: [
       "Isaac Quarenta",
       "Isaac Nascimento Quarenta",
@@ -922,7 +922,7 @@ export const biographies: Biography[] = [
       "quem é Isaac Quarenta",
       "SoftEdge Corporation",
       "SoftEdge Corporation Angola",
-      "fundador da SoftEdge Corporation",
+      "cofundador da SoftEdge Corporation",
       "AKIRA IA",
       "empreendedor angolano",
       "programador angolano",
@@ -933,11 +933,10 @@ export const biographies: Biography[] = [
       "https://x.com/IQuarenta98960",
     ],
     body: [
-      "## Quem é Isaac Quarenta?\n\nIsaac Nascimento Quarenta, conhecido profissionalmente como Isaac Quarenta, é um empreendedor tecnológico angolano e fundador da SoftEdge Corporation. O site da empresa, sediada em Luanda, identifica-o como fundador e CEO. No seu perfil público do GitHub, apresenta-se como programador full-stack e estudante de Ciência da Computação em Angola.",
-      "## Percurso e formação\n\nNo seu perfil público do GitHub, Isaac descreve-se como programador full-stack e estudante de Ciência da Computação em Angola. Esta informação é autobiográfica; não foi localizada uma fonte independente para confirmar detalhes adicionais sobre a sua formação ou percurso profissional.",
-      "## SoftEdge Corporation\n\nA SoftEdge descreve-se como uma empresa angolana de tecnologia fundada em Luanda em 2023, com atividade em software, produtos digitais e soluções de inteligência artificial. Nas páginas institucionais, apresenta serviços de desenvolvimento web e móvel, sistemas empresariais, integrações e consultoria digital. A cronologia e as métricas divulgadas no site são declarações da própria empresa; este perfil não as trata como indicadores verificados por terceiros.",
-      "## AKIRA e inteligência artificial em português\n\nEntre os projetos associados a Isaac, a SoftEdge destaca a AKIRA, uma assistente de inteligência artificial criada em Angola. A página do produto anuncia conversação em português, análise de documentos e imagens, geração de imagens, pesquisa na web e organização de tarefas com histórico de conversas. Estas capacidades são descritas pela empresa e pelo site da AKIRA, sem uma avaliação técnica independente da redação.",
-      "## Presença pública e percurso\n\nOs perfis públicos de Isaac no GitHub e no X permitem acompanhar a sua atividade profissional e empresarial. Este retrato distingue informação autobiográfica, declarações da empresa e funcionalidades anunciadas do que ainda exigiria confirmação independente.",
+      "## Um percurso ligado à tecnologia angolana\n\nIsaac Nascimento Quarenta é um empreendedor tecnológico angolano e cofundador e CEO da SoftEdge Corporation, empresa criada em Luanda. O seu percurso junta programação, liderança e criação de produtos digitais: em vez de se limitar a acompanhar a transformação tecnológica, participa na construção de ferramentas a partir de Angola.",
+      "## Tecnologia que começa perto das pessoas\n\nCom a SoftEdge, Isaac impulsiona projetos de desenvolvimento web e móvel, sistemas para empresas e inteligência artificial. A aposta em criar soluções localmente ajuda a ampliar a presença de equipas angolanas num setor muitas vezes associado a produtos importados. É uma mudança que se constrói também nos detalhes: serviços digitais concebidos por profissionais do país, para necessidades de organizações e utilizadores que trabalham em português.",
+      "## AKIRA: inteligência artificial em português\n\nUm dos projetos ligados a esse percurso é a AKIRA, assistente de inteligência artificial desenvolvida pela SoftEdge. A experiência em português e ferramentas para conversar, pesquisar na web e trabalhar com documentos e imagens aproximam capacidades digitais recentes de tarefas correntes de estudo e trabalho. Mais do que uma demonstração de tecnologia, a iniciativa aponta para a possibilidade de criar e adaptar produtos digitais no contexto angolano.",
+      "## O impacto começa em iniciativas concretas\n\nA trajetória de Isaac é a de um empreendedor que procura transformar competências de programação em produtos e numa empresa tecnológica angolana. A SoftEdge e a AKIRA contribuem para dar visibilidade à capacidade local de conceber tecnologia, desenvolver equipas e explorar novas formas de resolver problemas do dia a dia. Essa transformação não acontece de uma só vez: ganha forma quando ferramentas criadas no país se tornam úteis para pessoas, negócios e comunidades.",
     ],
     sources: [
       {
@@ -946,7 +945,7 @@ export const biographies: Biography[] = [
         url: "https://softedge-corporation.up.railway.app/sobre",
       },
       {
-        title: "Perfil e descrição profissional de Isaac Quarenta",
+        title: "Isaac Quarenta — perfil profissional",
         publisher: "GitHub",
         url: "https://github.com/isaac-quarenta",
       },
@@ -954,6 +953,16 @@ export const biographies: Biography[] = [
         title: "Isaac Quarenta no X",
         publisher: "X",
         url: "https://x.com/IQuarenta98960",
+      },
+      {
+        title: "Sobre a AKIRA, a SoftEdge e Isaac Quarenta",
+        publisher: "AKIRA",
+        url: "https://akira-ia.onrender.com/sobre",
+      },
+      {
+        title: "AKIRA UI — repositório público",
+        publisher: "GitHub",
+        url: "https://github.com/Cachinde/Akira-IA",
       },
       {
         title: "AKIRA — assistente de inteligência artificial",

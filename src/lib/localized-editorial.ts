@@ -26,11 +26,11 @@ const englishArticles: Record<string, ArticleCopy> = {
   },
   "isaac-nascimento-quarenta": {
     title: "Isaac Nascimento Quarenta",
-    standfirst: "An editorial profile of the Angolan technology entrepreneur, based on public company and personal sources.",
+    standfirst: "The Angolan entrepreneur is building technology locally, with Portuguese-language digital products and solutions shaped around everyday needs.",
     imageAlt: "Editorial profile of Angolan technology entrepreneur Isaac Nascimento Quarenta",
-    personRole: "Technology entrepreneur and founder of SoftEdge Corporation",
-    seoTitle: "Isaac Nascimento Quarenta: an Angolan technology profile",
-    seoDescription: "An editorial profile of Isaac Nascimento Quarenta, based on public professional and company sources, with unverified details clearly distinguished.",
+    personRole: "Technology entrepreneur and co-founder of SoftEdge Corporation",
+    seoTitle: "Isaac Quarenta: building technology in Angola",
+    seoDescription: "A profile of Angolan entrepreneur Isaac Nascimento Quarenta and his work building local digital products through SoftEdge and AKIRA.",
     seoKeywords: ["Isaac Quarenta", "Isaac Nascimento Quarenta", "SoftEdge Corporation", "AKIRA AI", "Angolan entrepreneur", "Who is Isaac Quarenta"],
   },
   "angola-crescimento-economico-emprego-2026": {
@@ -452,7 +452,9 @@ const englishSourceLabels: Record<string, string> = {
   "AKIRA: a IA oficial da SoftEdge": "AKIRA: SoftEdge's official AI",
   "AKIRA — assistente de inteligência artificial": "AKIRA — artificial intelligence assistant",
   "Quem somos — Isaac Nascimento Quarenta": "About us — Isaac Nascimento Quarenta",
-  "Perfil e descrição profissional de Isaac Quarenta": "Isaac Quarenta's profile and professional description",
+  "Isaac Quarenta — perfil profissional": "Isaac Quarenta — professional profile",
+  "Sobre a AKIRA, a SoftEdge e Isaac Quarenta": "About AKIRA, SoftEdge and Isaac Quarenta",
+  "AKIRA UI — repositório público": "AKIRA UI — public repository",
   "Isaac Quarenta no X": "Isaac Quarenta on X",
   "Angola: visão geral económica": "Angola: economic overview",
   "UNESCO destaca o potencial de crescimento da indústria cinematográfica africana": "UNESCO highlights the growth potential of Africa's film industry",
@@ -496,9 +498,12 @@ const englishSourceLabels: Record<string, string> = {
 const englishBiographies: Record<string, BiographyCopy> = {
   "isaac-nascimento-quarenta": {
     name: "Isaac Nascimento Quarenta",
-    role: "Technology entrepreneur and founder of SoftEdge Corporation",
-    summary: "An editorial profile of an Angolan technology entrepreneur, based on public company and personal sources.",
-    spotlight: "His public work connects software development and company leadership in Angola.",
+    role: "Technology entrepreneur and co-founder of SoftEdge Corporation",
+    summary: "An Angolan entrepreneur building technology locally, with Portuguese-language digital products and solutions shaped around everyday needs.",
+    spotlight: "Through SoftEdge and AKIRA, he is bringing technology development in Angola closer to the needs of local people and businesses.",
+    seoTitle: "Isaac Quarenta: building technology in Angola",
+    seoDescription: "A profile of Angolan entrepreneur Isaac Nascimento Quarenta and his work building local digital products through SoftEdge and AKIRA.",
+    seoKeywords: ["Isaac Quarenta", "Isaac Nascimento Quarenta", "SoftEdge Corporation", "AKIRA AI", "Angolan entrepreneur", "Angolan technology"],
   },
   "jose-eduardo-agualusa": {
     name: "José Eduardo Agualusa",
@@ -588,6 +593,12 @@ const englishBiographies: Record<string, BiographyCopy> = {
 };
 
 const englishBiographyBodies: Record<string, string[]> = {
+  "isaac-nascimento-quarenta": [
+    "## A career connected to Angolan technology\n\nIsaac Nascimento Quarenta is an Angolan technology entrepreneur and co-founder and CEO of SoftEdge Corporation, a company established in Luanda. His work brings together programming, leadership and digital product creation: rather than simply following technological change, he takes part in building tools from Angola.",
+    "## Technology that starts close to people\n\nThrough SoftEdge, Isaac drives projects in web and mobile development, business systems and artificial intelligence. Building solutions locally helps expand the presence of Angolan teams in a sector often associated with imported products. Change also happens in the details: digital services designed by professionals in the country for organisations and users working in Portuguese.",
+    "## AKIRA: artificial intelligence in Portuguese\n\nOne project connected to this journey is AKIRA, an artificial intelligence assistant developed by SoftEdge. Its Portuguese-language experience and tools for conversation, web search and working with documents and images bring recent digital capabilities closer to everyday study and work. Beyond demonstrating technology, the initiative points to the possibility of creating and adapting digital products in the Angolan context.",
+    "## Impact begins with concrete initiatives\n\nIsaac's journey is that of an entrepreneur seeking to turn programming skills into products and an Angolan technology company. SoftEdge and AKIRA help make local capacity more visible: the ability to design technology, develop teams and explore new ways of addressing everyday problems. This transformation does not happen all at once; it takes shape as tools created in the country become useful to people, businesses and communities.",
+  ],
   "jose-eduardo-agualusa": [
     "José Eduardo Agualusa is an Angolan writer who publishes fiction in Portuguese. Among his works, A General Theory of Oblivion follows characters in Luanda against the backdrop of independence and the changes of the following decades.",
     "The International Dublin Literary Award's page for the novel describes the city as central to the story and connects individual memory with Angolan history. The novel received the award in 2017, according to the prize record.",
